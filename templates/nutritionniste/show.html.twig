@@ -1,0 +1,38 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Coach{% endblock %}
+
+{% block body %}
+    <h1>Coach</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ nutritionniste.id }}</td>
+            </tr>
+            <tr>
+                <th>nom</th>
+                <td>{{ nutritionniste.nom }}</td>
+            </tr>
+            <tr>
+                <th>prenom</th>
+                <td>{{ nutritionniste.prenom }}</td>
+            </tr>
+            <tr>
+                <th>email</th>
+                <td>{{ nutritionniste.email }}</td>
+            </tr>
+            
+            <tr>
+                <th>Password</th>
+                <td>{{ nutritionniste.password }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+   <a href="{{path('modifierCoach',{'id':nutritionniste.id})}}" > edit</a>
+<a href="{{path('deleteCoach',{'id':nutritionniste.id})}}" > delete</a> 
+
+    
+{% endblock %}

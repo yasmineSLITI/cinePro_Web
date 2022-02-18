@@ -1,0 +1,22 @@
+{% extends 'base-back.html.twig' %}
+{% block body %}
+<h1> liste student  </h1> 
+
+
+<td><a href="/ajouterCoach"> Ajouter Coach</a> </td>
+
+<table border=5>
+{% for coach in coachs %}
+{% if coach.role == "coach" %}
+<tr>
+<td> {{coach.id}} </td>
+<td> {{coach.email}}  </td>
+<td> {{coach.nom}}  </td>
+<td><a href="{{ path('showCoach', {'id': coach.id}) }}">show</a> </td>
+<td> <a href="{{path('modifierCoach',{'id':coach.id})}}" > edit</a>
+<td><a href="{{path('deleteCoach',{'id':coach.id})}}" > delete</a> </td>
+</tr>
+{% endif %}
+{% endfor %}
+</table>
+{% endblock %}

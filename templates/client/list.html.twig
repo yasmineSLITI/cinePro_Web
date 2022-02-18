@@ -1,0 +1,23 @@
+{% extends 'base-back.html.twig' %}
+{% block body %}
+<h1> liste student  </h1> 
+
+
+<td><a href="/ajouterClient"> Ajouter Client</a> </td>
+
+<table border=5>
+{% for client in clients %}
+{% if client.role == "client" %}
+<tr>
+<td> {{client.id}} </td>
+<td> {{client.email}}  </td>
+<td> {{client.poid}}  </td>
+<td><a href="{{ path('showClient', {'id': client.id}) }}">show</a> </td>
+<td> <a href="{{path('modifierClient',{'id':client.id})}}" > edit</a>
+<td><a href="{{path('deleteClient',{'id':client.id})}}" > delete</a> </td>
+</tr>
+{% endif %}
+
+{% endfor %}
+</table>
+{% endblock %}
