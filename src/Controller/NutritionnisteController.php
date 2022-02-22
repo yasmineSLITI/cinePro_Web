@@ -10,7 +10,8 @@ use App\Form\NutritionnisteType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class NutritionnisteController extends AbstractController
 {
     /**
@@ -52,21 +53,26 @@ class NutritionnisteController extends AbstractController
      /**
      * @Route("/ajouterNutritionniste", name="addNutritionniste")
      */
-    public function ajouter(Request $request)
+    public function ajouter(Request $request,UserPasswordEncoderInterface $userPasswordEncoder)
     {
         $nutritionniste = new User();
         $form=$this->createForm(NutritionnisteType::class,$nutritionniste);
         $form->handleRequest($request);
         
        
-        if($form->isSubmitted()){
+        if($form->isSubmitted() && $form->isValid()){
             $file = $form->get("attestation")->getData();
             $files = $form->get("temoignage")->getData();
-
+            $nutritionniste->setPassword(
+                $userPasswordEncoder->encodePassword(
+                        $nutritionniste,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
             if ($file != null) {
                 $fileName = md5(uniqid()) . '.' . $file->guessExtension();
                 $file->move($this->getParameter('attestation'), $fileName);
-                $nutritionniste->setAtestation($fileName);
+                $nutritionniste->setAttestation($fileName);
             }
             if ($files != null) {
                 $fileName = md5(uniqid()) . '.' . $files->guessExtension();
@@ -74,6 +80,7 @@ class NutritionnisteController extends AbstractController
                 $nutritionniste->setTemoignage($fileName);
             }
             $nutritionniste-> setRole("nutritionniste");
+            $nutritionniste->setRoles(["ROLE_NUTRIONNISTE"]);
             $nutritionniste = $form->getData();
             $em = $this->getDoctrine()->getManager();
             $em->persist($nutritionniste);
@@ -96,7 +103,7 @@ class NutritionnisteController extends AbstractController
         $nutritionniste = $rep->find($id);
         $form=$this->createForm(NutritionnisteType::class,$nutritionniste);
         $form->handleRequest($request);
-        if($form->isSubmitted()){
+        if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $em->flush();
             return $this->redirectToRoute('listNutritionniste');

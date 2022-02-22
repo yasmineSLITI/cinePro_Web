@@ -11,11 +11,14 @@ use App\Repository\UserRepository;
 use App\Repository\ClietnRepository;
 use App\Form\ClientType;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ClientController extends AbstractController
 {
     /**
      * @Route("/client", name="client")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(): Response
     {
@@ -25,6 +28,7 @@ class ClientController extends AbstractController
     }
      /**
      * @Route("/listClient", name="listClient")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function list(): Response
     {
@@ -38,6 +42,7 @@ class ClientController extends AbstractController
     }
      /**
      * @Route("/deleteClient/{id}", name="deleteClient")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete($id)
     { $rep=$this->getDoctrine()->getRepository(User::class);
@@ -52,15 +57,22 @@ class ClientController extends AbstractController
   
      /**
      * @Route("/ajouterClient", name="addClient")
+     * @IsGranted("ROLE_ADMIN")
      */
-    public function ajouter(Request $request)
+    public function ajouter(Request $request  , UserPasswordEncoderInterface $userPasswordEncoder )
     {
         $client = new User();
         $form=$this->createForm(ClientType::class,$client);
         $form->handleRequest($request);
         
        
-        if($form->isSubmitted()){
+        if($form->isSubmitted() && $form->isValid()){
+            $client->setPassword(
+                $userPasswordEncoder->encodePassword(
+                        $client,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
             $client-> setRole("client");
             $client = $form->getData();
             $em = $this->getDoctrine()->getManager();
@@ -78,6 +90,7 @@ class ClientController extends AbstractController
 
     /**
      * @Route("/modifierClient{id}", name="modifierClient")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function modifier(Request $request, $id)
     {
@@ -99,6 +112,7 @@ class ClientController extends AbstractController
     
     /**
      * @Route("/showClient{id}", name="showClient", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function show(User $client): Response
     {

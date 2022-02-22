@@ -9,7 +9,7 @@ use App\Entity\User;
 class DefaultController extends AbstractController
 {
        /**
-     * @Route("/accueil", name="accueil")
+     * @Route("/", name="accueil")
      */
     public function index(): Response
     {

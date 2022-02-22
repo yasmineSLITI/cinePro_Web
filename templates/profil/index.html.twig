@@ -1,20 +1,474 @@
-{% extends 'base-back.html.twig' %}
+{% extends 'base2.html.twig' %}
 
-{% block title %}Hello ProfilController!{% endblock %}
+{% block title %}Profil de {{ app.user.nom }} {{ app.user.prenom }}{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+ 
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Asus/Downloads/adomifit (1)/adomifit/src/Controller/ProfilController.php'|file_link(0) }}">src/Controller/ProfilController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Asus/Downloads/adomifit (1)/adomifit/templates/profil/index.html.twig'|file_link(0) }}">templates/profil/index.html.twig</a></code></li>
-    </ul>
+		
+       <!--==============Container==================--> 
+
+      <div class="container-fluid mx-auto my-2 py-3">
+
+
+      <div class="row mt-secnav mx-auto">
+  
+
+<div class="col-md-12">
+<div class="sticky">
+  <div class="secnav pl-4 mr-2  mb-3">
+    <div class="row ">
+    <div style="margin-top: 11px " class="col-12 col-md-5"><h5 class=" mb-3">Gestion profil</h5></div>
+
+
+
+
+    <div class="col-12 col-md-2">
+      <div class=" mt-1 my-2">
+
+     
+      </div>
+    </div>
+    
+
 </div>
+
+</div>
+</div>
+
+<!--=======================1=============================-->
+        </br>
+<div class=" mt-5 row mx-auto">
+
+  <div class="col-md-6  ">
+      <div class="card px-4 mb-3 ">
+        <div class="card-body">
+          <div class="row">
+              <div class="col-md-11 text-primary">
+                  <div   style="color:black;"class="my-3 mb-3"><h5>Photo de profil</h5></div>
+                  
+                  <br/>
+                
+              </div>
+            <div class="col-md-4">
+
+            <!--  <div class="profile__img">
+                
+                <img src="img/nour.jpg" alt="">
+            </div> -->
+      
+            <div class="profile__img">
+              <img src="{{ vich_uploader_asset(app.user, 'imageFile')  }}" id="photo">
+              <input type="file"  id="file">
+             
+              <label for="file" id="uploadBtn" class="mt-2">Importer photo</label>
+            </div>
+
+            </div>
+
+            <div class="col-md-8 text-secondary">
+            
+            </div>
+            
+          </div>
+      
+      </br>
+          </div>
+        </div>
+      </div>
+
+  </div>
+
+
+<!--________________Debut Row 2________________-->
+
+    <div class="row mx-auto">
+
+    <!--_____Debut Col 1_____-->
+
+    <!--_____Informations generales_____-->
+
+
+      <div class="col-md-6">
+        <div class="card px-4 mb-3">
+          <div class="card-body">
+            <div class="row">
+             
+                <div class="col-md-12 ">
+
+                    <div class=" my-3 mb-4">
+                      <div class="row ">
+                      <h5   style="color:black;" class ="col-md-12 title__col"> Informations générales </h5>
+                   
+                   <!--  <butt class="col-md-1 ">
+                        <div >
+                          <a href="#" class="link__icon">
+                          <i class='bx bxs-chevron-right gp__icon'></i></a>
+                          </div></butt> --> 
+                    </div>
+                    
+                    </div>
+                  
+                    <br/>
+                  
+                </div>
+
+              <div class=" col-12 col-md-3">
+
+                <h6   style="color:black;"class="mb-0 pb-2 ">Nom et prénom</h6>
+              </div>
+
+              <div class=" col-10 col-md-8 text-secondary d-xl-inline-flex">
+                  {{app.user.nom}}   {{app.user.prenom}}
+              </div>
+          <!--11111-->
+              <span class="col-1 col-md-1 d-xl-inline-flex" value="for1">
+                <a  class="link__icon">
+                <i class='bx bxs-chevron-right gp__icon'></i></a>
+                </span>
+
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-12 col-md-3">
+                <h6 class="mb-0 pb-2">Mot de passe</h6>
+              </div>
+              <div class=" col-10 col-md-8 text-secondary">
+                ******
+              </div>
+
+          <!--22222-->
+            <span class="col-1 col-md-1 " value="for2">
+              <div >
+                <a  class="link__icon">
+                <i  onclick="window.location.href='#'"class='bx bxs-chevron-right gp__icon'></i></a>
+                </div></span> 
+
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-3">
+                <h6 class="mb-0 pb-2">prenom</h6>
+              </div>
+              <div class="col-md-8 text-secondary">
+                {{app.user.prenom}}
+              </div>
+             
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-3">
+                <h6 class="mb-0 pb-2">nom</h6>
+              </div>
+              <div class="col-md-8 text-secondary">
+                  {{app.user.nom}}
+              </div>
+             
+            </div>
+        </br>
+            </div>
+          </div>
+        </div>
+<!--_____Fin information generales_____-->
+
+
+
+<!--__________Formulaires__________-->
+<!--1: Nom et prenom-->
+<div>
+{{ form_start(form) }}
+
+    
+
+
+     
+    </div>
+		 <div class=" col-md-4 for1" style="display: none;">
+
+            <div class="card px-3 mb-3">
+              
+              <div class="card-body">
+                <div class="row">
+
+
+          <div class="col-md-12 ">
+                 
+          </br>
+
+
+
+          
+           <div class="form ">
+                           
+              <div class=" title__col  mb-5 "><h5>Nom et Prénom</h5></div>
+        
+          <div class="form__div mb-5">
+          <div class=" ">
+          {{ form_label(form.nom, 'Nom' )}}
+          </div>
+           <div class="mb-1">
+          {{ form_widget(form.nom,{'attr':{'class':' form-control '}} ) }}
+          </div>
+        
+              
+          </div>
+
+          <div class="form__div mb-5">
+          <div class=" ">
+          {{ form_label(form.prenom, 'Prénom' )}}
+          </div>
+           <div class="mb-1">
+          {{ form_widget(form.prenom ,{'attr':{'class':' form-control '}} ) }}
+          
+          </div>
+              
+          
+          </div>
+        
+          <input  style="background-color: #f36100; color:white;" type="submit" name="" value="Valider" class="form__button mb-3">
+   
+      </br>
+        </div>  
+
+
+
+
+      
+<!-- End-->
+        </div>
+
+                </div>
+
+                </div>
+              </div>
+            </div>
+
+    
+
+
+<!---->
+<!--2: Mot de passe-->
+
+
+
+            
+
+<!---->
+<!--______Fin fomulaire______-->
+
+          </div>
+
+
+
+
+
+    
+
+<!--________________Fin Row 2________________-->
+
+
+
+
+<!--=======================3============================-->
+
+
+
+
+<div class="row mx-auto">
+
+        <div class="col-md-6 ">
+            <div class="card px-4 mb-3">
+              <div class="card-body">
+                <div class="row">
+                  
+                    <div class="col-md-12">
+
+                      <div class=" my-3 mb-4">
+                        <div class="row ">
+                        <h5  style="color:black;" class ="col-md-11 title__col"> Coordonnées </h5>
+
+                      <!--  <butt1 class="col-md-1 ">
+                          <div >
+                            <a href="#" class="link__icon">
+                            <i class='bx bxs-chevron-right gp__icon'></i></a>
+                            </div></butt1> -->
+                      </div>
+                      
+                      </div>
+                    
+                      <br/>
+                    
+                  </div>
+
+                  <div class="col-12 col-md-3">
+    
+                    <h6 class="mb-0">E-mail</h6>
+                  </div>
+                  <div class="col-10 col-md-8 text-secondary">
+                      {{app.user.email}}
+                  </div>
+              <!--333333333-->  
+                <span class="col-1 col-md-1 " value="for3">
+                    <a  class="link__icon">
+                    <i class='bx bxs-chevron-right gp__icon'></i></a>
+                    </span>
+
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-12 col-md-3">
+                    <h6 class="mb-0">Téléphone</h6>
+                  </div>
+                  <div class="col-10 col-md-8 text-secondary">
+                     {{app.user.sexe}}
+                  </div>
+              <!--44444444-->
+                  <span class="col-1 col-md-1 " value="for4">
+                    <a  class="link__icon">
+                    <i class='bx bxs-chevron-right gp__icon'></i></a>
+                    </span>
+
+                </div>
+                
+            </br>
+                </div>
+              </div>
+            </div>
+
+
+    <!--Formulaire 2 : coordonnées-->
+
+
+
+    <div class="col-md-4 for3" style="display: none;">
+
+      <div class="card px-4 mb-3">
+        
+        <div class="card-body">
+          <div class="row">
+          <div class="col-md-12">
+           
+              
+                  <br/> 
+                  <div class="form ">
+                           
+                    <div   style="color:black;"class=" title__col  mb-5 "><h5>Email</h5></div>
+              
+                <div class="form__div ">
+                <div class=" ">
+               <!-- {{ form_label(form.email, 'Email' )}} -->
+                </div>
+                 <div class=" mb-5">
+                {{ form_widget(form.email ,{'attr':{'class':' form-control '}} ) }}
+                </div>
+              
+                  
+                </div>
+                </div>
+                <input  style="background-color: #f36100; color:white;"type="submit" name="" value="Valider" class="form__button mb-3">
+
+    </div>
+  </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+      <div class="col-md-4 for4" style="display: none;">
+
+        <div class="card px-4 mb-3">
+          
+          <div class="card-body">
+            <div class="row">
+
+
+            <div class="col-md-12">
+             
+                
+                    <br/> 
+  
+                 <div class="form ">
+                           
+              <div   style="color:black;" class=" title__col  mb-5 "><h5>Téléphone</h5></div>
+        
+          <div class="form__div ">
+          <div class=" ">
+         <!-- {{ form_label(form.sexe, 'Numéro de téléphone' )}} -->
+          </div>
+           <div class=" mb-5">
+          {{ form_widget(form.sexe,{'attr':{'class':' form-control '}} ) }}
+          </div>
+        
+            
+          </div>
+          </div>
+        
+          <input style="background-color: #f36100; color:white;" type="submit" name="" value="Valider" class="form__button mb-3">
+   
+    
+        </div>  
+ 
+      </div>
+    </div>
+  
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+<!--=======================4=============================-->
+
+
+                </div>
+
+            </div>
+
+
+          </div>
+       
+          </div>
+        </div>
+     
+      </div>
+	</div>
+ 
+  {{ form_end(form) }}
+      
+        <script src="{{ asset('assets/js/main.js') }} "></script>  
+        <script src="{{ asset('assets/js/mainSH.js') }} "></script> 
+        <script src="{{ asset('assets/js/upload.js') }} "></script> 
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+<script>
+    					// jQuery functions to show and hide divisions
+                        $(document).ready(function () {
+			
+            $('span').click(function () {
+                var list = [  'for1', 'for2' ,'for3', 'for4'];
+                var inputValue = $(this).attr("value");
+                $("." + inputValue).toggle();
+                for (l in list){
+                    
+                    if (list[l]!=$(this).attr("value")){
+                        if( $("." + list[l]).css('display') != 'none') {
+                            $("." + list[l]).toggle();
+                        }
+                        
+                    }
+                }
+                
+            });
+            
+        });
+</script>
+ 
 {% endblock %}

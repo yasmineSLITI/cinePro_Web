@@ -99,12 +99,12 @@ class User implements UserInterface
     private $imageFile;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="integer", length=255, nullable=true)
      */
     private $poid;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="integer", length=255, nullable=true)
      */
     private $taille;
 
@@ -167,6 +167,11 @@ class User implements UserInterface
      * @var Datetime
      */
     private $updateAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $tel;
     public function __construct()
     {
         $this->regimes = new ArrayCollection();
@@ -274,24 +279,24 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPoid(): ?string
+    public function getPoid(): ?int
     {
         return $this->poid;
     }
 
-    public function setPoid(?string $poid): self
+    public function setPoid(?int $poid): self
     {
         $this->poid = $poid;
 
         return $this;
     }
 
-    public function getTaille(): ?string
+    public function getTaille(): ?int
     {
         return $this->taille;
     }
 
-    public function setTaille(?string $taille): self
+    public function setTaille(?int $taille): self
     {
         $this->taille = $taille;
 
@@ -310,12 +315,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getAtestation(): ?string
+    public function getAttestation(): ?string
     {
         return $this->attestation;
     }
 
-    public function setAtestation(?string $attestation): self
+    public function setAttestation(?string $attestation): self
     {
         $this->attestation = $attestation;
 
@@ -564,5 +569,17 @@ class User implements UserInterface
     public function getImageFile()
     {
         return $this->imageFile;
+    }
+
+    public function getTel(): ?string
+    {
+        return $this->tel;
+    }
+
+    public function setTel(?string $tel): self
+    {
+        $this->tel = $tel;
+
+        return $this;
     }
 }

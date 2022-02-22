@@ -2,7 +2,6 @@
 
 {% block title %}A domifit | Accueil{% endblock %}
 {% block body %}
-
 <!-- Hero Section Begin -->
     <section class="hero-section">
         <div class="hs-slider owl-carousel">
@@ -13,7 +12,7 @@
                             <div class="hi-text">
                                 <span>Shape your body</span>
                                 <h1>Be <strong>strong</strong> traning hard</h1>
-                                <a href="/register" class="primary-btn">Register</a>
+                                <a href="#" class="primary-btn">Get info</a>
                             </div>
                         </div>
                     </div>
@@ -26,7 +25,7 @@
                             <div class="hi-text">
                                 <span>Shape your body</span>
                                 <h1>Be <strong>strong</strong> traning hard</h1>
-                                <a href="/register" class="primary-btn">Register</a>
+                                <a href="/register" class="primary-btn">Get info</a>
                             </div>
                         </div>
                     </div>
@@ -293,22 +292,24 @@
                 </div>
             </div>
             <div class="row">
-              {% for coach in coachs %}
-            {% if coach.role == "coach" %}
+            
                 <div class="ts-slider owl-carousel">
+                {% for c in coachs %}
                     <div class="col-lg-4">
-                        <div class="ts-item set-bg"  data-setbg="{{ vich_uploader_asset(coach, 'imageFile')  }}">
-                            <div class="ts_text">
-                                <h4>{{ coach.nom }} {{ coach.prenom }}</h4>
-                                <span>{{ coach.niveau }}</span>
-                            </div>
+                        <div class="ts-item set-bg" data-setbg="{{ vich_uploader_asset(c, 'imageFile')  }}">
+                       
+                            <a class="ts_text">
+                                <h4>{{c.nom}}</h4>
+                                <span>{{c.role}}</span>
+                                <a href="{{ path('showCoachFront', {'id': c.id}) }}" class="primary-btn btn-normal appoinment-btn">Details</a>
+                            </a>
                         </div>
                     </div>
-                  
-                  
-                  
-                   {% endif %}
-               {% endfor %}
+                   
+                    {% endfor %}
+                   
+                   
+                </div>
             </div>
         </div>
     </section>

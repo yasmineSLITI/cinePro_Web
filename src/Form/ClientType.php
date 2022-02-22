@@ -40,7 +40,7 @@ class ClientType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('photo',VichImageType::class)
+            ->add('imageFile',VichImageType::class)
             ->add('poid')
             ->add('taille')
             ->add('sexe')

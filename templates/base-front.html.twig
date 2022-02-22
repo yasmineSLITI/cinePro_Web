@@ -110,9 +110,26 @@
                             <i class="fa fa-search"></i>
                         </div>
                         <div class="to-social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-google"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
+                        
+
+
+
+                      
+                            {% if app.user %}
+                             <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <img class="rounded-circle me-lg-2" src={{ vich_uploader_asset(app.user, 'imageFile')  }}  alt="" style="width: 40px; height: 40px;">
+                            <span class="d-none d-lg-inline-flex">{{ app.user.nom }} {{ app.user.prenom }}</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <a href="/profil" class="dropdown-item">Profil</a>
+                           
+                            <a href="/logout" class="dropdown-item">Log Out</a>
+                        </div>
+                        </div>
+                    {%  else  %}
+  <a href="/login" class="primary-btn">Login</a>
+                        {%  endif  %}
                         </div>
                     </div>
                 </div>

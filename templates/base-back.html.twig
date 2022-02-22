@@ -59,7 +59,7 @@
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
-                        <img class="rounded-circle" src="back-office/img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                        <img class="rounded-circle"  src={{ vich_uploader_asset(app.user, 'imageFile')  }}  alt="" style="width: 40px; height: 40px;">
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>
                     <div class="ms-3">
@@ -68,7 +68,7 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="/statistique" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>statistique</a>
+                    <a href="/statistique" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>statistique</a>
                     
                      <a href="/listClient" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Client</a>
                       <a href="/agent" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Agent</a>
@@ -170,12 +170,12 @@
                     </div>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img class="rounded-circle me-lg-2" src="back-office/img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">John Doe</span>
+                            <img class="rounded-circle me-lg-2" src={{ vich_uploader_asset(app.user, 'imageFile')  }}  alt="" style="width: 40px; height: 40px;">
+                            <span class="d-none d-lg-inline-flex">{{ app.user.nom }} {{ app.user.prenom }}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="/profil" class="dropdown-item">Profil</a>
-                            <a href="#" class="dropdown-item">Settings</a>
+                           
                             <a href="/logout" class="dropdown-item">Log Out</a>
                         </div>
                     </div>
