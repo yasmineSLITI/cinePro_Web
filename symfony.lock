@@ -1,4 +1,10 @@
 {
+    "captcha-com/captcha": {
+        "version": "4.2.5"
+    },
+    "captcha-com/symfony-captcha-bundle": {
+        "version": "4.2.12"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -579,6 +585,9 @@
     },
     "symfony/yaml": {
         "version": "v4.4.37"
+    },
+    "symfonycasts/verify-email-bundle": {
+        "version": "v1.9.0"
     },
     "theseer/tokenizer": {
         "version": "1.2.1"

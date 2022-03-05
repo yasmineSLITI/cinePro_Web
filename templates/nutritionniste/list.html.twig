@@ -1,23 +1,55 @@
 {% extends 'base-back.html.twig' %}
 {% block body %}
-<h1> liste student  </h1> 
+<h1> liste Nutritionniste  </h1> 
 
 
 <td><a href="/ajouterNutritionniste"> Ajouter Nutritionniste</a> </td>
 
-<table border=5>
-{% for nutritionniste in nutritionnistes %}
+
+
+
+<table class="table">
+        <thead>
+            <tr>
+          
+         <th>Nom</th>
+        <th>Prenom</th>
+        <th>Email</th>
+      <th>  Niveau</th>
+    
+         <td></td>
+          <td></td>
+           <td></td>
+            </tr>
+        </thead>
+        <tbody>
+      {% for nutritionniste in nutritionnistes %}
 {% if nutritionniste.role == "nutritionniste" %}
 <tr>
-<td> {{nutritionniste.id}} </td>
-<td> {{nutritionniste.email}}  </td>
-<td> {{nutritionniste.nom}}  </td>
-<td><a href="{{ path('showNutritionniste', {'id': nutritionniste.id}) }}">show</a> </td>
-<td> <a href="{{path('modifierNutritionniste',{'id':nutritionniste.id})}}" > edit</a>
-<td><a href="{{path('deleteNutritionniste',{'id':nutritionniste.id})}}" > delete</a> </td>
-</tr>
-{% endif %}
+<td>{{nutritionniste.nom}}</td>
+<td>{{nutritionniste.prenom}}</td>
+<td>{{nutritionniste.email}}</td>
+<td>{{nutritionniste.niveau}}</td>
 
-{% endfor %}
-</table>
+<td>
+<form method="post" action="{{path('modifierNutritionniste',{'id':nutritionniste.id})}}" >
+    <button class="btn btn-info">Modifier</button>
+</form>
+</td>
+<td>
+<form method="post" action="{{path('deleteNutritionniste',{'id':nutritionniste.id})}}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <button class="btn-danger">Supprimer</button>
+</form>
+
+</td>
+
+
+
+
+</tr>
+      {% endif %}
+        {% endfor %}
+        </tbody>
+  
+
 {% endblock %}

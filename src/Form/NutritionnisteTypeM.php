@@ -13,31 +13,16 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-
-class CoachType extends AbstractType
+class NutritionnisteTypeM extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('email')
-      
-      
-        ->add('niveau',ChoiceType::class,[
-            'choices' => [
-                'Expert' => 'Expert',
-                'intermédiaire' => 'intermédiaire',
-                'Debutant' => 'Debutant',
-            ],       
-            ])
-
-       
+ 
         ->add('nom')
         ->add('prenom')
-        
         ->add('imageFile',VichImageType::class)
-
-        ->add('attestation', FileType::class)
+        ->add('email')
         ->add('plainPassword', PasswordType::class, [
             // instead of being set onto the object directly,
             // this is read and encoded in the controller

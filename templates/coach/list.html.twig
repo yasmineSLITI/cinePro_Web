@@ -1,22 +1,57 @@
 {% extends 'base-back.html.twig' %}
 {% block body %}
-<h1> liste student  </h1> 
+<h1> liste Coach  </h1> 
 
 
 <td><a href="/ajouterCoach"> Ajouter Coach</a> </td>
 
-<table border=5>
-{% for coach in coachs %}
+
+
+
+
+<table class="table">
+        <thead>
+            <tr>
+          
+         <th>Nom</th>
+        <th>Prenom</th>
+        <th>Email</th>
+      <th>  Niveau</th>
+    
+         <td></td>
+          <td></td>
+           <td></td>
+            </tr>
+        </thead>
+        <tbody>
+    {% for coach in coachs %}
 {% if coach.role == "coach" %}
 <tr>
-<td> {{coach.id}} </td>
+<td> {{coach.nom}} </td>
+<td> {{coach.prenom}} </td>
 <td> {{coach.email}}  </td>
-<td> {{coach.nom}}  </td>
-<td><a href="{{ path('showCoach', {'id': coach.id}) }}">show</a> </td>
-<td> <a href="{{path('modifierCoach',{'id':coach.id})}}" > edit</a>
-<td><a href="{{path('deleteCoach',{'id':coach.id})}}" > delete</a> </td>
+<td> {{coach.niveau}}  </td>
+
+<td>
+<form method="post" action="{{path('modifierCoach',{'id':coach.id})}}" >
+    <button class="btn btn-info">Modifier</button>
+</form>
+</td>
+<td>
+<form method="post" action="{{path('deleteCoach',{'id':coach.id})}}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <button class="btn-danger">Supprimer</button>
+</form>
+
+</td>
+
+
+
+
 </tr>
-{% endif %}
-{% endfor %}
-</table>
+      {% endif %}
+        {% endfor %}
+        </tbody>
+  
+
+
 {% endblock %}

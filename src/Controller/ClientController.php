@@ -74,6 +74,7 @@ class ClientController extends AbstractController
                     )
                 );
             $client-> setRole("client");
+            $client->setRoles(["ROLE_CLIENT"]);
             $client = $form->getData();
             $em = $this->getDoctrine()->getManager();
             $em->persist($client);

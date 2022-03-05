@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -43,7 +44,13 @@ class ClientType extends AbstractType
             ->add('imageFile',VichImageType::class)
             ->add('poid')
             ->add('taille')
-            ->add('sexe')
+            ->add('sexe',ChoiceType::class,[
+                'choices' => [
+                    'Homme' => 'Homme',
+                    'Femme' => 'Femme',
+                    'Autre' => 'Autre',
+                ],       
+                ])
             ->add('save',SubmitType::class,
             ['label'=>'valider'])
            

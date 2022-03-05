@@ -29,17 +29,26 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+    * @Assert\Regex(
+    * pattern = "/^[a-z]+$/i",
+    * htmlPattern = "[a-zA-Z]+"
+    * )
+    * )            I
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
-     */
+        * @Assert\Regex(
+        *        pattern     = "/^[a-z]+$/i",
+        *        htmlPattern = "[a-zA-Z]+"
+        * )
+        * )            I 
+       */
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\Email( message ="Email' {{ value }} ' n'est pas valide .", checkMX=true)
      */
     private $email;
 
@@ -73,7 +82,6 @@ class User implements UserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -88,7 +96,7 @@ class User implements UserInterface
 
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255  )
      * @var string
      */
     private $photo;
@@ -100,11 +108,43 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="integer", length=255, nullable=true)
+     * @Assert\Type(
+        *        type     = "integer",
+        *           message ="The value {{valuer}  is not a valide type {{type}}.}"
+        *   
+        * )
+        *  @Assert\Positive
+        *     
+     * 
      */
     private $poid;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isVerified = false;
+
+
+    public function isVerified(): bool
+        {
+            return $this->isVerified;
+        }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
 
     /**
      * @ORM\Column(type="integer", length=255, nullable=true)
+     * @Assert\Type(
+        *        type     = "integer",
+        *           message ="The value {{valuer}  is not a valide type {{type}}.}"
+        *   
+        * )
+        *  @Assert\Positive
+        *   
      */
     private $taille;
 
@@ -172,6 +212,19 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $tel;
+    
+    protected $captchaCode;
+    
+    public function getCaptchaCode()
+    {
+      return $this->captchaCode;
+    }
+
+    public function setCaptchaCode($captchaCode)
+    {
+      $this->captchaCode = $captchaCode;
+    }
+
     public function __construct()
     {
         $this->regimes = new ArrayCollection();

@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class CoachType extends AbstractType
+class CoachTypeM extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -37,7 +37,7 @@ class CoachType extends AbstractType
         
         ->add('imageFile',VichImageType::class)
 
-        ->add('attestation', FileType::class)
+  
         ->add('plainPassword', PasswordType::class, [
             // instead of being set onto the object directly,
             // this is read and encoded in the controller

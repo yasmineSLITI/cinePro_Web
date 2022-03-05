@@ -4,12 +4,14 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\CoachType;
+use App\Form\CoachTypeM;
 use App\Repository\CoachRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -66,6 +68,12 @@ class CoachController extends AbstractController
         
        
         if($form->isSubmitted() && $form->isValid()){
+            $file = $form->get("attestation")->getData();
+            if ($file != null) {
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                $file->move($this->getParameter('attestation'), $fileName);
+                $coach->setAttestation($fileName);
+            }
             $coach->setPassword(
                 $userPasswordEncoder->encodePassword(
                         $coach,
@@ -96,7 +104,7 @@ class CoachController extends AbstractController
     {
         $rep=$this->getDoctrine()->getRepository(User::class);
         $coach = $rep->find($id);
-        $form=$this->createForm(CoachType::class,$coach);
+        $form=$this->createForm(CoachTypeM::class,$coach);
         $form->handleRequest($request);
         if($form->isSubmitted()){
             $em = $this->getDoctrine()->getManager();

@@ -1,0 +1,143 @@
+{% extends 'baseDataTable.html.twig' %}
+
+{% block title %}Statistiques{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous">
+{% endblock %}
+
+{% block body %}
+
+      <div class="container-fluid mx-auto my-2 py-3">
+
+
+<!--=======================1=============================-->
+<div class="row mt-secnav mx-auto">
+  
+
+
+  <div class="col-md-12">
+  <div class="sticky">
+    <div class="secnav pl-4 mr-2  mb-3">
+      <div class="row ">
+      <div style="margin-top: 11px " class="col-12 col-md-10"><h5 class=" mb-3">Statistiques</h5></div>
+  
+  
+      <div class="col-12 col-md-2">
+      </div>
+  
+
+
+  </div>
+  
+  </div>
+  </div>
+
+  </br>
+
+
+<!--=================Chef departement===================-->
+
+
+  <div style="margin-left: 0px;" class="row mr-2 mt-5">
+
+      <div class="col-12 col-md-6 col-lg-6">
+        <div class="card ">
+          <div class="card-header mb-3">
+            <h3 style="color: #035EFF;" class="mt-3 ml-4 ">Appels d'offres</h3> </div>
+          <div class="card-body px-5 py-5">
+            <canvas id="myChart2"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-6">
+        <div class="card">
+          <div class="card-header mb-3">
+            <h3 style="color: #035EFF;" class="mt-3 ml-4 ">Taches</h3> </div>
+          <div class="card-body px-5 py-5">
+            <canvas id="myChart4"></canvas>
+          </div>
+        </div>
+      </div>
+
+  </div> 
+
+ 
+
+
+
+<!--===================End Chef departement===============-->
+
+
+  </div>
+</div>
+
+
+
+
+          </div>
+       
+
+
+
+{% endblock %}
+{% set  client = 0 %}
+{% set  coach = 0  %}
+{% set  nut = 0 %}
+{% for user in users %}                 
+{% if user.role == "Client"  %}
+{% set client = 1 + client  %}
+
+{% elseif user.role  == "coach"  %}
+{% set coach = 1 + coach  %}
+{% elseif  user.role  == "Nutritionniste" %}
+{% set nut = 1 + nut  %}
+
+{% endif %}
+{% endfor %}
+{% block javascripts %}
+<script>
+ var ctx = document.getElementById("myChart2").getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ["Client", "Coach", "Nutritionniste"],
+            datasets: [{
+              label: 'Nombre',
+              data: [ {{client}}, {{coach}}, {{nut}}],
+              borderWidth: 2,
+              backgroundColor: ['#FD9D15', '#31DE8D', '#FF4914'], 
+              
+              borderWidth: 2.5,
+              pointBackgroundColor: '#ffffff',
+              pointRadius: 4
+            }]
+          },
+          options: {
+            legend: {
+              display: false
+            },
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true,
+                  stepSize: 5
+                }
+              }],
+              xAxes: [{
+                ticks: {
+                  display: false
+                },
+                gridLines: {
+                  display: false
+                }
+              }]
+            },
+          }
+        });
+
+        </script>
+        <script src="{{ asset('assets/js/chart.min.jss') }} "></script> 
+
+
+{% endblock %}

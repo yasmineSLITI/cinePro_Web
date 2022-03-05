@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Query;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +19,19 @@ class UserRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
+    }
+
+
+
+    public function findEntitiesByString($str){
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT p
+                FROM AppBundle:User p
+                WHERE p.nom LIKE :str'
+            )
+            ->setParameter('str', '%'.$str.'%')
+            ->getResult();
     }
 
     // /**
