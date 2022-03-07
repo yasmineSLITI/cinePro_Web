@@ -63,24 +63,14 @@ class NutritionnisteController extends AbstractController
         
        
         if($form->isSubmitted() && $form->isValid()){
-            $file = $form->get("attestation")->getData();
-            $files = $form->get("temoignage")->getData();
             $nutritionniste->setPassword(
                 $userPasswordEncoder->encodePassword(
                         $nutritionniste,
                         $form->get('plainPassword')->getData()
                     )
                 );
-            if ($file != null) {
-                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-                $file->move($this->getParameter('attestation'), $fileName);
-                $nutritionniste->setAttestation($fileName);
-            }
-            if ($files != null) {
-                $fileName = md5(uniqid()) . '.' . $files->guessExtension();
-                $files->move($this->getParameter('temoignage'), $fileName);
-                $nutritionniste->setTemoignage($fileName);
-            }
+         
+          
             $nutritionniste-> setRole("Nutritionniste");
             $nutritionniste->setRoles(["ROLE_NUTRIONNISTE"]);
             $nutritionniste = $form->getData();

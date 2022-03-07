@@ -106,9 +106,7 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="top-option">
-                        <div class="to-search search-switch">
-                            <i class="fa fa-search"></i>
-                        </div>
+                       
                         <div class="to-social">
                         
 
@@ -121,14 +119,12 @@
                             <img class="rounded-circle me-lg-2" src={{ vich_uploader_asset(app.user, 'imageFile')  }}  alt="" style="width: 40px; height: 40px;">
                             <span class="d-none d-lg-inline-flex">{{ app.user.nom }} {{ app.user.prenom }}</span>
                         </a>
-                       
-                            <a href="/profil" class="dropdown-item">Profil</a>
-                           
-                            <a href="/logout" class="dropdown-item">Log Out</a>
+                            <a href="/profil">Profil</a>
+                            <a href="/logout">Log Out</a>
                         </div>
                         </div>
                     {%  else  %}
-  <a href="/login" class="primary-btn">Login</a>
+                        <a href="/login" class="primary-btn">Login</a>
                         {%  endif  %}
                         </div>
                     </div>

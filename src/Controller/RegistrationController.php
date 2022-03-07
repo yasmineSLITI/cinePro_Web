@@ -10,32 +10,35 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Security\EmailVerifier;
-use App\Security\LoginAuthenticator;
-use App\Security\LoginFormAuthentificatorAuthenticator;
-
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\Mailer\MailerInterface;
+use App\Form\UserType;
+use App\Form\AjouterUserType;
+use App\Form\ModifierUserType;
+use App\Repository\UserRepository;
+use App\Security\UsersAuthenticator;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\Address;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
-use Symfony\Component\Mailer\MailerInterface;
-use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
+use Symfony\Component\Security\Core\Encoder\AuthenticatorInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Security\LoginFormAuthentificatorAuthenticator;
+use Dompdf\Options;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class RegistrationController extends AbstractController
 {
-    private $verifyEmailHelper;
-    private $mailer;
-
-    public function __construct(VerifyEmailHelperInterface $helper, MailerInterface $mailer)
-    {
-        $this->verifyEmailHelper = $helper;
-        $this->mailer = $mailer;
-    }
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $userPasswordEncoder, LoginFormAuthentificatorAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordEncoderInterface $userPasswordEncoder, EntityManagerInterface $entityManager, GuardAuthenticatorHandler $guardHandler, LoginFormAuthentificatorAuthenticator $authenticator,MailerInterface $mailer): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -52,28 +55,39 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            // On génère un token et on l'enregistre
+            $user->setActivationToken(md5(uniqid()));
+            
 
             $entityManager->persist($user);
             $entityManager->flush();
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('o.gaaya50@gmail.com', 'omar bot'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
             // do anything else you need here, like send an email
-
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
+        // On crée le message
+        $message =(new TemplatedEmail())
+        // On attribue l'expéditeur
+        ->from(new Address('adomifit.123@gmail.com', 'A Domifit'))
+        // On attribue le destinataire
+       
         
+        ->to($user->getEmail())
+        ->subject('Activation compte')
+        // On crée le texte avec la vue
+        ->htmlTemplate('emails/activation.html.twig')
+        ->context([
+            'token' => $user->getActivationToken(),
+        ])
+    ;
+        $mailer->send($message);
+                // do anything else y   ou need here, like send an email
 
-            return $this->redirectToRoute('accueil');
-        }
+                return $guardHandler->authenticateUserAndHandleSuccess(
+                    $user,
+                    $request,
+                    $authenticator,
+                    'main' // firewall name in security.yaml
+                );
+                    return $this->redirectToRoute('accueil');
+                }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
@@ -82,25 +96,29 @@ class RegistrationController extends AbstractController
 
 
     /**
-     * @Route("/verify/email", name="app_verify_email")
-     */
-    
-    public function verifyUserEmail(Request $request): Response
-    {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+ * @Route("/activation/{token}", name="activation")
+ */
+public function activation($token, UserRepository $users)
+{
+    // On recherche si un utilisateur avec ce token existe dans la base de données
+    $user = $users->findOneBy(['activation_token' => $token]);
 
-        // validate email confirmation link, sets User::isVerified=true and persists
-        try {
-            $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
-        } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $exception->getReason());
-
-            return $this->redirectToRoute('article');
-        }
-
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
-
-        return $this->redirectToRoute('article');
+    // Si aucun utilisateur n'est associé à ce token
+    if(!$user){
+        // On renvoie une erreur 404
+        throw $this->createNotFoundException('Cet utilisateur n\'existe pas');
     }
+
+    // On supprime le token
+    $user->setActivationToken(null);
+    $entityManager = $this->getDoctrine()->getManager();
+    $entityManager->persist($user);
+    $entityManager->flush();
+
+    // On génère un message
+    $this->addFlash('message', 'Utilisateur activé avec succès');
+
+    // On retourne à l'accueil
+    return $this->redirectToRoute('accueil');
+}
 }

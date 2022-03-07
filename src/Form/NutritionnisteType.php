@@ -18,8 +18,7 @@ class NutritionnisteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('attestation', FileType::class)
-        ->add('temoignage', FileType::class)
+        
         ->add('nom')
         ->add('prenom')
         ->add('imageFile',VichImageType::class)

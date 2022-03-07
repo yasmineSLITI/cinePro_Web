@@ -38,21 +38,23 @@
     <div class="card-body">
         <div class="card-title">
         
-            <h1 class=" blue mb-5 mt-4 text-center card-title" style="color:black">Se connecter</h1>
+            <h1 class=" blue mb-5 mt-4 text-center card-title" style="color:black">Retrouvez votre compte</h1>
         </div>
     <form method="post">
-     {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+      {% for flashError in app.flashes('reset_password_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+    {{ form_start(requestForm) }}
+
+     
+    </div>
     <div class="mx-4">
         <div class="form__div mt-2 mb-2">
             <label  style="color:black;" for="" class="blue">Adresse E-mail</label>
-            <input type="email" value="{{ last_username }}" name="email" id="inputEmail"  placeholder="Email" required autofocus class="form-control">
+            {{ form_widget(requestForm.email,{'attr':{'class':' form-control '}}) }}
         </div>
-        <div class="form__div mb-3">
-            <label  style="color:black;" for="" class="blue">Mot de passe</label>
-            <input  type="password" name="password" id="inputPassword" class="form-control" required placeholder="Password" class="form-control" >
-        </div>
+       
 
 
         <div >
@@ -60,18 +62,20 @@
            value="{{ csrf_token('authenticate') }}"  
            style="background-color: #f36100; color:white;"
              class="width-sub py-2 mt-4 btn btn-blue mb-5"   >
-           <a   class="text-black "  href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
+           <a> Veuillez entrer votre adresse e-mail</a>
          <button style="background-color: #f36100; color:white;"
              class="width-sub py-2 mt-4 btn btn-blue mb-5"  type="submit">
-        Se connecter
+        Réinitialisation du mot de passe
     </button>
+    
         </div>
     </div>
 
 
 
-
+ {{ form_end(requestForm) }}
     </form>
+    
     </div>
         </div>
 

@@ -38,3 +38,4 @@ security:
          - { path: ^/listProgramme, roles: ROLE_USER }
          - { path: ^/listProgramme, roles: ROLE_COACH }
          - { path: ^/listProgramme, roles: ROLE_NUTRISIONNISTE }
+         - { path: ^/listProgramme, roles: ROLE_BLOQUE }

@@ -13,7 +13,7 @@ use App\Form\ClientType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
+use Knp\Component\Pager\PaginatorInterface; 
 class ClientController extends AbstractController
 {
     /**
@@ -30,12 +30,17 @@ class ClientController extends AbstractController
      * @Route("/listClient", name="listClient")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function list(): Response
+    public function list(Request $request, PaginatorInterface $paginator): Response
     {
         $rep=$this->getDoctrine()->getRepository(User::class);
 
-        $clients =$rep-> findAll();
+        $client =$rep-> findAll();
 
+        $clients = $paginator->paginate(
+            $client, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            6 // Nombre de résultats par page
+        );
         return $this->render('client/list.html.twig', [
             'clients' => $clients,
         ]);

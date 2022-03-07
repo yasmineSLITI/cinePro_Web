@@ -8,14 +8,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @Vich\Uploadable
+ *  @Vich\Uploadable
  * @UniqueEntity(fields={"email"}, message="Il existe déjà un compte avec cet e-mail")
  */
 class User implements UserInterface
@@ -96,7 +96,7 @@ class User implements UserInterface
 
 
     /**
-     * @ORM\Column(type="string", length=255  )
+     * @ORM\Column(type="string", length=255 , nullable=true )
      * @var string
      */
     private $photo;
@@ -118,23 +118,7 @@ class User implements UserInterface
      * 
      */
     private $poid;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isVerified = false;
 
-
-    public function isVerified(): bool
-        {
-            return $this->isVerified;
-        }
-
-    public function setIsVerified(bool $isVerified): self
-    {
-        $this->isVerified = $isVerified;
-
-        return $this;
-    }
 
     /**
      * @ORM\Column(type="integer", length=255, nullable=true)
@@ -156,23 +140,9 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $attestation;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $temoignage;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $niveau;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $experiance;
-
+    
     /**
      * @ORM\OneToMany(targetEntity=Regime::class, mappedBy="user")
      */
@@ -214,6 +184,11 @@ class User implements UserInterface
     private $tel;
     
     protected $captchaCode;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $activation_token;
     
     public function getCaptchaCode()
     {
@@ -368,29 +343,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getAttestation(): ?string
-    {
-        return $this->attestation;
-    }
-
-    public function setAttestation(?string $attestation): self
-    {
-        $this->attestation = $attestation;
-
-        return $this;
-    }
-
-    public function getTemoignage(): ?string
-    {
-        return $this->temoignage;
-    }
-
-    public function setTemoignage(?string $temoignage): self
-    {
-        $this->temoignage = $temoignage;
-
-        return $this;
-    }
+   
 
     public function getNiveau(): ?string
     {
@@ -404,17 +357,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getExperiance(): ?string
-    {
-        return $this->experiance;
-    }
 
-    public function setExperiance(?string $experiance): self
-    {
-        $this->experiance = $experiance;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Regime[]
@@ -632,6 +575,18 @@ class User implements UserInterface
     public function setTel(?string $tel): self
     {
         $this->tel = $tel;
+
+        return $this;
+    }
+
+    public function getActivationToken(): ?string
+    {
+        return $this->activation_token;
+    }
+
+    public function setActivationToken(?string $activation_token): self
+    {
+        $this->activation_token = $activation_token;
 
         return $this;
     }

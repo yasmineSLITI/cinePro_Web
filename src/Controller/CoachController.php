@@ -68,12 +68,8 @@ class CoachController extends AbstractController
         
        
         if($form->isSubmitted() && $form->isValid()){
-            $file = $form->get("attestation")->getData();
-            if ($file != null) {
-                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-                $file->move($this->getParameter('attestation'), $fileName);
-                $coach->setAttestation($fileName);
-            }
+         
+          
             $coach->setPassword(
                 $userPasswordEncoder->encodePassword(
                         $coach,

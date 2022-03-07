@@ -14,6 +14,7 @@
       <th> taille</th>
        <th> poid</th>
         <th> tel</th>
+        <th></th>
             <th> Action</th>
     
          <td></td>
@@ -23,7 +24,7 @@
         </thead>
         <tbody>
 {% for client in clients %}
-{% if client.role == "client" %}
+{% if client.role == "Client"  or client.role == "Client_Bloque" %}
 <tr>
 <td> {{client.nom}} </td>
 <td> {{client.prenom}}  </td>
@@ -32,16 +33,24 @@
 <td> {{client.poid}}  </td>
 <td>{{client.tel}}</td>
 
+
 <td>
+
 <form method="post" action="{{path('modifierClient',{'id':client.id})}}" >
     <button class="btn btn-info">Modifier</button>
 </form>
 </td>
 <td>
-<form method="post" action="{{path('deleteClient',{'id':client.id})}}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-    <button class="btn-danger">Supprimer</button>
+{% if client.role == "Client"%}
+<form method="post" onclick="window.location.href='/bloqueclient/{{client.email}}'"onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <button class="btn-danger">BLoque </button>
 </form>
-
+{% endif %}
+{% if client.role == "Client_Bloque"%}
+<form method="post" onclick="window.location.href='/debloqueclient/{{client.email}}'"onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <button class="btn-danger">debloque </button>
+</form>
+{% endif %}
 </td>
 
 
@@ -50,8 +59,9 @@
 </tr>
       {% endif %}
         {% endfor %}
-        </tbody>
-  
+        </tbody> </table>
+     {{ knp_pagination_render(clients) }}
+    
 
 
 

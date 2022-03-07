@@ -29,6 +29,12 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('listRegime'); 
         
         }
+        else if ($this->IsGranted('ROLE_BLOQUE') )
+        {
+
+            return $this->redirectToRoute('bloque'); 
+        
+        }
         else if ($this->IsGranted('ROLE_ADMIN') )
         {
 
