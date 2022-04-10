@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -65,6 +67,17 @@ class Client
      * })
      */
     private $username;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Followingproduit::class, mappedBy="client")
+     */
+    private $followings;
+
+    public function __construct()
+    {
+        $this->followings = new ArrayCollection();
+    }
+
 
     public function getIdclient(): ?int
     {
@@ -131,7 +144,7 @@ class Client
         return $this;
     }
 
-    public function getUsername(): ?Compte
+    public function getUsername()
     {
         return $this->username;
     }
@@ -143,5 +156,33 @@ class Client
         return $this;
     }
 
+    /**
+     * @return Collection<int, Followingproduit>
+     */
+    public function getFollowings(): Collection
+    {
+        return $this->followings;
+    }
 
+    public function addFollowing(Followingproduit $following): self
+    {
+        if (!$this->followings->contains($following)) {
+            $this->followings[] = $following;
+            $following->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollowing(Followingproduit $following): self
+    {
+        if ($this->followings->removeElement($following)) {
+            // set the owning side to null (unless already changed)
+            if ($following->getClient() === $this) {
+                $following->setClient(null);
+            }
+        }
+
+        return $this;
+    }
 }

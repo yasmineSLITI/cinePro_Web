@@ -2,43 +2,61 @@
 
 namespace App\Entity;
 
+use App\Repository\FollowingproduitRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Followingproduit
- *
- * @ORM\Table(name="followingproduit", indexes={@ORM\Index(name="fk", columns={"idClient"}), @ORM\Index(name="FK2", columns={"IDProduit"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=FollowingproduitRepository::class)
  */
 class Followingproduit
 {
     /**
      * @var int
-     *
-     * @ORM\Column(name="IDProduit", type="integer", nullable=false)
+     * 
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
-    private $idproduit;
+    private $id;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="idClient", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\ManyToOne(targetEntity=Produit::class, inversedBy="followings")
+     * @ORM\JoinColumn(name="IDProduit", referencedColumnName="IDProduit")
      */
-    private $idclient;
+    private $produit;
 
-    public function getIdproduit(): ?int
+    /**
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="followings")
+     * @ORM\JoinColumn(name="idClient", referencedColumnName="idClient")
+     */
+    private $client;
+
+    public function getId(): ?int
     {
-        return $this->idproduit;
+        return $this->id;
     }
 
-    public function getIdclient(): ?int
+    public function getProduit(): ?Produit
     {
-        return $this->idclient;
+        return $this->produit;
     }
 
+    public function setProduit(?Produit $produit): self
+    {
+        $this->produit = $produit;
 
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): self
+    {
+        $this->client = $client;
+
+        return $this;
+    }
 }
