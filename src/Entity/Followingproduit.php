@@ -14,7 +14,7 @@ class Followingproduit
 {
     /**
      * @var int
-     *
+     * 
      * @ORM\Column(name="IDProduit", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
