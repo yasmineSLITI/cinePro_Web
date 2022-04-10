@@ -1,0 +1,16 @@
+
+------------------------------------------------------------------------------
+
+MPUsbSIn Log
+Wed Feb 10 17:52:54 2021
+
+Windows(R) <unrecognized version>
+
+MPUsbSIn, version 1.06.00
+Build 0000
+
+Command Line Arguments: ""
+
+Invalid Windows(R) OS.
+MPUsbSIn will only operate under Windows(R) XP or 2000.
+
