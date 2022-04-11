@@ -1,0 +1,54 @@
+{% extends 'baseBackOffice.html.twig'%}
+    {% block backContainer %}
+        
+
+        <header> 
+            
+      
+    <h1>Liste des demandes de sponsoring : </h1> 
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    </header>
+    <section>
+<table border="2" align="center" hspace="10" vspace="6">
+    <thead>
+    <tr>
+    <th>ID de la demande</th>
+    <th>Sponsor user name</th>
+    <th>Etat d'acceptation</th>
+    <th>Description</th>
+    <th>Paquet</th>
+    
+    
+    </tr>  
+    </thead>
+    <tbody>
+        
+    <tr {% for d in demande %}>
+        <td>  {{d.iddemande}} </td>
+        
+        <td>{{d.idsp.username}}</td>
+        <td>{{d.etataccept}} </td>
+        <td>{{d.description}} </td>
+        <td>{{d.paquet}} </td>
+        <td>
+            
+          {% if d.etataccept == "En attente" %}
+            <a href="{{ path("listerD",{"id":d.idev}) }}"><img src = "../dist/img/k.png" width="20" height="30"></a>
+            <a herf ="{{ path("listerD" ,{"id":d.idev}) }}"><img src = "/dist/img/x.png" width="20" height="30"></a>
+          {% elseif d.etataccept == "Acceptée" %}
+            <a href="{{ path("listerD",{"id":d.idev}) }}"><img src="../dist/img/datail.png"></a>
+            <a herf ="{{ path("listerD",{"id":d.idev}) }}"><img src = "/dist/img/x.png" width="20" height="30"></a>
+          {% endif %}
+        </td>
+    </tr {% endfor %}>
+    </tbody>
+  </table>
+    </section>
+    
+{% endblock %} 

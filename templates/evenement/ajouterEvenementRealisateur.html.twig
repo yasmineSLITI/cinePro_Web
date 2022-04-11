@@ -1,0 +1,35 @@
+{% extends 'baseFrontOffice.html.twig'%}
+    {% block frontContainer %} 
+
+        {% block body %} 
+            <h2>Enrechir le festival en ajoutant un evenement</h2>
+            {{form_start (form)}}
+            <div class "form-group">
+                <label for ="">Nom de l'évenement :</label>
+                {{form_widget (form.nomev)}}
+                {{ form_row (form.nomev)}}  
+            </div>
+            <div class "form-group">
+                <label for ="">Ajouter une description :</label>
+                {{form_widget (form.description)}}
+                {{ form_row (form.description)}}
+            </div>
+            <div class "form-group">
+                <label for ="">Montant de sponsoring proposé :</label>
+                {{form_widget (form.montant)}}
+                {{ form_row (form.montant)}}    
+            </div>
+            <div class "form-group">
+                <label for ="">Durée de l'evenement en minute :</label>
+                {{form_widget (form.duree)}}
+                {{ form_row (form.duree)}}
+            </div>
+            <div class "form-group">
+            <button type="submit" class= "btn btn-dark">Envoyer demande</button>
+            <p></p>
+            <INPUT TYPE="reset" NAME="nom" VALUE=" Annuler demande" class= "btn btn-dark">
+            </div>
+            {{form_end (form)}}
+            
+        {% endblock %}
+    {% endblock %} 

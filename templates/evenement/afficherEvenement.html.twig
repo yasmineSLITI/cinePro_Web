@@ -1,0 +1,52 @@
+{% extends 'baseBackOffice.html.twig'%}
+    {% block backContainer %}
+        
+
+        <header> 
+            
+      
+    <h1>Liste des evenements</h1> 
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    </header>
+    <section>
+<table border="2" align="center" hspace="10" vspace="6">
+    <thead>
+    <tr>
+    <th>Nom de l'evenement</th>
+    <th>Nom de réalisateur</th>
+    <th>Durée</th>
+    <th>Etat d'acceptation</th>
+    <th>Montant proposé</th>
+    
+    
+    </tr>  
+    </thead>
+    <tbody>
+        
+    <tr {% for e in eve %}>
+        <td>  {{e.nomev}} </td>
+        <td>{{e.numrea.nomorg}} </td>
+        <td>{{e.duree}}</td>
+        <td>{{e.etat}} </td>
+        <td>{{e.montant}} </td>
+        <td>
+          {% if e.etat == "En attente" %}
+            <a href="{{ path("accepterE",{"id":e.idev}) }}"><img src = "../dist/img/k.png" width="20" height="30"></a>
+            <a herf ="{{ path("supprimerE" ,{"id":e.idev}) }}"><img src = "/dist/img/x.png" width="20" height="30"></a>
+          {% elseif e.etat == "Accepté" %}
+            <a href="{{ path("detailE",{"id":e.idev}) }}"><img src="../dist/img/datail.png"></a>
+            <a herf ="{{ path("supprimerE",{"id":e.idev}) }}"><img src = "/dist/img/x.png" width="20" height="30"></a>
+          {% endif %}
+        </td>
+    </tr {% endfor %}>
+    </tbody>
+  </table>
+    </section>
+    
+{% endblock %} 

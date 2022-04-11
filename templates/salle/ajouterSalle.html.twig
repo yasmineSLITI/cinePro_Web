@@ -1,0 +1,29 @@
+{% extends 'baseBackOffice.html.twig'%}
+    {% block backContainer %} 
+
+        {% block body %} 
+            <h1>Ajouter Salle</h1>
+            {{form_start (form)}}
+            <div class "form-group">
+                <label for ="">Nom de la salle :</label>
+                {{ form_errors(form.nomsalle) }}
+                {{form_widget (form.nomsalle)}}
+                {{ form_row (form.nomsalle)}}
+                
+            </div>
+            <div class "form-group">
+                <label for ="">La capacité de la salle :</label>
+                {{form_widget (form.capacite)}}
+            </div>
+            <div class "form-group">
+                <label for ="">Sa date de maintenance :</label>
+                {{form_widget (form.datedemaintenance)}}
+            </div>
+            <div>
+                
+            <button type="submit" class= "btn btn-dark">Ajouter salle</button>
+            <INPUT TYPE="reset" NAME="nom" VALUE=" Annuler" class= "btn btn-dark">
+            </div>
+            {{form_end (form)}}
+        {% endblock %}
+    {% endblock %} 

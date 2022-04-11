@@ -1,0 +1,59 @@
+{% extends 'sponsFrontOffice.html.twig'%}
+
+    {% block frontContainer %}
+      
+        <style>
+           th,td {
+               padding: 10px;
+               border:2px solid ;
+               border-collapse: collapse;
+      }
+    </style>
+    
+            
+      
+    <h1>Liste des evenements</h1> 
+    <p></p>
+    <p></p>
+    <p></p>
+   
+<table >
+    <thead>
+    <tr>
+    <th >Nom de l'evenement</th>
+    <th>Nom de réalisateur</th>
+    <th>Description</th>
+    <th>Durée</th>
+    <th>Etat d'acceptation</th>
+    
+    <th>Montant proposé</th>
+    
+    <th>Progret de sponsoring</th>
+    
+    
+    </tr>  
+    </thead>
+    <tbody>
+        
+    <tr {% for e in eve %}>
+        
+        <td>  {{e.nomev}} </td>
+        <td>{{e.numrea.nomorg}} </td>
+        <td>  {{e.description}} </td>
+        <td>{{e.duree}} min</td>
+       <td> {{e.etat}} </td>
+       <td>{{e.montant}} </td>
+        <td>{{e.progret}} </td>
+       
+        <td>
+          
+            <a href="{{ path("ajouterD",{"id":e.idev}) }}"><img src = "../dist/img/spons.png" width="35" height="30"></a>
+            
+        
+        </td>
+    </tr {% endfor %}>
+    </tbody>
+  </table>
+    
+    
+{% endblock %} 

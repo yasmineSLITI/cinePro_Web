@@ -1,0 +1,25 @@
+{% extends 'baseBackOffice.html.twig'%}
+    {% block backContainer %}
+        <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+      <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+      <p>
+            <header>Detail de l'evenement : {{eve.nomev}}</header>
+            <p>Description : {{eve.description}}</p> 
+            <p>Durée en minute : {{eve.duree}} min</p>
+            <p>Montant proposé : {{eve.montant}}</p>
+            <p>   Son progret de sponsoring :  <progress max ="100" value ="{{eve.progret}}" >  {{eve.progret}} %</progress> </p>
+      </p>
+           {#<script>
+                 $(document).ready(function(){
+                    $('.start-btn').click(function(){
+                    $('.modal-box').toggleClass("show-modal");
+                    $('.start-btn').toggleClass("show-modal");
+                    });
+                $('.fa-times').click(function(){
+                    $('.modal-box').toggleClass("show-modal");
+                    $('.start-btn').toggleClass("show-modal");
+                    });
+         });
+      </script>#} 
+    {% endblock %}
