@@ -19,14 +19,14 @@ class Evenement
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idev;
+    private $idev =1 ;
 
     /**
      * @var string
      *
      * @ORM\Column(name="Etat", type="string", length=255, nullable=false)
      */
-    private $etat;
+    private $etat = "En attente";
 
     /**
      * @var float
@@ -47,7 +47,7 @@ class Evenement
      *
      * @ORM\Column(name="progret", type="float", precision=10, scale=0, nullable=false)
      */
-    private $progret;
+    private $progret = 0;
 
     /**
      * @var string
@@ -66,13 +66,20 @@ class Evenement
     /**
      * @var \Realisateur
      *
-     * @ORM\ManyToOne(targetEntity="Realisateur")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Realisateur", inversedBy="evenement")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="NumRea", referencedColumnName="NumRea")
      * })
      */
-    private $numrea;
-
+    private $numrea=null;
+    
+    /**
+     * @var \App\Entity\Demandedesponsoring
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Demandedesponsoring", mappedBy="idev")
+     * 
+     */
+    private $demande=null;
     public function getIdev(): ?int
     {
         return $this->idev;
@@ -150,7 +157,7 @@ class Evenement
         return $this;
     }
 
-    public function getNumrea(): ?Realisateur
+    public function getNumrea()
     {
         return $this->numrea;
     }

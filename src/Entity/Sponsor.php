@@ -19,7 +19,7 @@ class Sponsor
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idsp;
+    private $idsp = 9;
 
     /**
      * @var string
@@ -34,6 +34,14 @@ class Sponsor
      * @ORM\Column(name="userName", type="string", length=255, nullable=false)
      */
     private $username;
+
+    /**
+     * @var \App\Entity\Demandedesponsoring
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Realisateur", mappedBy="idsp")
+     * 
+     */
+    private $demande=null;
 
     public function getIdsp(): ?int
     {

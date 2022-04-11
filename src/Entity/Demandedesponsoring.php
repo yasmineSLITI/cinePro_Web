@@ -22,16 +22,22 @@ class Demandedesponsoring
     private $iddemande;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="idEv", type="integer", nullable=false)
+     * @var \App\Entity\Evenement
+     * 
+     * @ORM\ManyToOne(targetEntity="App\Entity\Evenement", inversedBy="demande")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="IdEv", referencedColumnName="IdEv")
+     * })
      */
-    private $idev;
+    private $idev = null;
 
     /**
-     * @var int
+     * @var \App\Entity\Sponsor
      *
-     * @ORM\Column(name="idSp", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sponsor", inversedBy="demande")
+     * @ORM\JoinColumns({
+     * @ORM\JoinColumn(name="idSp", referencedColumnName="idSp")
+     * })
      */
     private $idsp;
 
@@ -54,31 +60,31 @@ class Demandedesponsoring
      *
      * @ORM\Column(name="paquet", type="string", length=255, nullable=false)
      */
-    private $paquet;
+    private $paquet ;
 
     public function getIddemande(): ?int
     {
         return $this->iddemande;
     }
 
-    public function getIdev(): ?int
+    public function getIdev(): ?Evenement
     {
         return $this->idev;
     }
 
-    public function setIdev(int $idev): self
+    public function setIdev(Evenement $idev): self
     {
         $this->idev = $idev;
 
         return $this;
     }
 
-    public function getIdsp(): ?int
+    public function getIdsp(): ?Sponsor
     {
         return $this->idsp;
     }
 
-    public function setIdsp(int $idsp): self
+    public function setIdsp(Sponsor $idsp): self
     {
         $this->idsp = $idsp;
 

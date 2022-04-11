@@ -54,7 +54,7 @@ class Salle
      *
      * @ORM\Column(name="disponible", type="string", length=255, nullable=false, options={"default"="'En maintenance'"})
      */
-    private $disponible = '\'En maintenance\'';
+    private $disponible = '\'Disponible\'';
 
     public function getIdsa(): ?int
     {
@@ -84,7 +84,10 @@ class Salle
 
         return $this;
     }
-
+    public function dateconstruct()
+    {
+        $this->datedemaintenance = new \DateTime();
+    }
     public function getEnmaintenance(): ?bool
     {
         return $this->enmaintenance;
