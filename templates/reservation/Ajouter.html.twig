@@ -1,0 +1,18 @@
+{% extends 'baseBackOffice.html.twig' %}
+{% block backContainer %}
+<link rel="stylesheet" href="{{ asset('dist/css/film/filmAdmin.css') }}">
+<section class="content">
+<div class="container ">
+<h1>Ajouter une Réservation: </h1>
+{{ form_start(form,{'attr':{'novalidate':'novalidate' }}) }}
+      {{ form_widget(form) }}
+   
+
+  <div class="card-tools"><button class="btn btn-danger"  style="width: 50%">{{ button_label|default('Ajouter') }}</button></div>
+
+       {{ form_end(form) }}
+    
+       
+    </div>
+    </section>
+{% endblock %}

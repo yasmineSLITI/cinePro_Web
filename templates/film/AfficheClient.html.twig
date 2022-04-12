@@ -1,0 +1,106 @@
+{% extends 'baseFrontOffice.html.twig' %}
+{% block frontContainer %}
+<link rel="stylesheet" href="{{ asset('dist/css/film/style.css') }}">
+<section class="content">
+
+      <!-- Default box -->
+      
+      <div class="card card-solid">
+        <div class="card-body pb-0">
+         
+          <div class="row d-flex align-items-stretch">
+           
+           
+            {% for f in film %} 
+        
+            <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
+            
+         
+           
+              <div class="card bg-light">
+                 
+                <div class="card-body pt-0" style="background-color: #1e1b26">
+               
+    
+    <div class="movie-img">
+        
+        <img src = "{{ asset('image/' ~ f.image) }}" alt = "">
+        </div>
+        <div class="text-movie-cont">
+          <div class="mr-grid">
+            <div class="col1">
+              <h1>{{ f.nomF }}</h1>
+              <ul class="movie-gen">
+                
+                <li>{{ f.duree }} minutes/</li>
+                <li>{{ f.Genre }}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="mr-grid summary-row">
+            <div class="col2">
+              <h5>SUMMARY</h5>
+            </div>
+            <div class="col2">
+               <ul class="movie-likes">
+                <li><i class="material-icons"></i>3/5</li>
+                
+              </ul>
+            </div>
+          </div>
+          <div class="mr-grid">
+            <div class="col1">
+              <p class="movie-description">{{ f.Description }} </p>
+            </div>
+          </div>
+          <div class="mr-grid actors-row">
+            <div class="col1">
+              <p class="movie-actors">{{ f.NumRea.NomOrg }}</p>
+            </div>
+          </div>
+          <div class="mr-grid action-row">
+            <div class="col2"><div class="watch-btn"><h3><i class="material-icons"></i>Réserver le film</h3></div>
+            </div>
+            
+          </div>
+            
+        </div>
+        
+      </div>
+       
+          </div>
+        
+        </div>
+        {% endfor %}
+      </div>
+  </div>
+</div>
+<a href="https://dribbble.com/geehm" target="_blank">
+  <img class="dribbble-link" src="https://image.flaticon.com/icons/png/512/124/124037.png">
+</a>
+                </div>
+               
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+          <nav aria-label="Contacts Page Navigation">
+            <ul class="pagination justify-content-center m-0">
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item"><a class="page-link" href="#">4</a></li>
+              <li class="page-item"><a class="page-link" href="#">5</a></li>
+              <li class="page-item"><a class="page-link" href="#">6</a></li>
+              <li class="page-item"><a class="page-link" href="#">7</a></li>
+              <li class="page-item"><a class="page-link" href="#">8</a></li>
+            </ul>
+          </nav>
+        </div>
+        <!-- /.card-footer -->
+      </div>
+      <!-- /.card -->
+</section>
+{% endblock %}

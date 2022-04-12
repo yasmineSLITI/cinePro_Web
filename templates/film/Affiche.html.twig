@@ -1,0 +1,48 @@
+ {% extends 'baseBackOffice.html.twig' %}
+{% block backContainer %}
+ <link rel="stylesheet" href="{{ asset('dist/css/film/film.css') }}">
+
+<h1>Liste des Films: </h1>
+
+<table class="content-table">
+  <thead>
+   
+<tr>
+<th> id  </th>
+<th> Nom du film  </th>
+<th>Nom de l'organisation </th>
+<th> Genre  </th>
+<th> Archive  </th>
+<th> Etat  </th>
+
+
+<th> Description  </th>
+<th> duree  </th>
+<th>  </th>
+<th>  </th>
+<th>  </th>
+</tr>
+  </thead>
+  <tbody>
+   <tr {% for f in film %}>
+<th> {{ f.idF }}  </th>
+<th> {{ f.nomF }}  </th>
+<th> {{ f.NumRea.NomOrg }}  </th>
+<th> {{ f.Genre }}  </th>
+<th> {{ f.Archive }}  </th>
+<th> {{ f.EtatAcc }} </th>
+
+<th> {{ f.Description }}  </th>
+<th> {{ f.duree }}  </th>
+
+<th><a style="color: #dc3545" href="{{ path('supp', {'id':f.idF}) }}" onclick="return confirm('Are you sure you want to delete this item ?');">Supprimer</a></th>
+
+<th><a style="color: #dc3545" href="{{ path('m', {'id':f.idF}) }}">Modifier</a></th>
+<th><a style="color: #dc3545" href="{{ path('de', {'id':f.idF}) }}">Details</a></th>
+
+</tr {% endfor %}>
+ </table>
+ </tbody>
+ {% endblock %}
+
+

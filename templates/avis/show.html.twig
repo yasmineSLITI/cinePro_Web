@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<title>Avis</title>
+
+{% block body %}
+    <h1>Avis</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Idavis</th>
+                <td>{{ avi.idavis }}</td>
+            </tr>
+            <tr>
+                <th>Idc</th>
+                <td>{{ avi.idc }}</td>
+            </tr>
+            <tr>
+                <th>Idf</th>
+                <td>{{ avi.idf }}</td>
+            </tr>
+            <tr>
+                <th>Nbetoile</th>
+                <td>{{ avi.nbetoile }}</td>
+            </tr>
+            <tr>
+                <th>Commentaire</th>
+                <td>{{ avi.commentaire }}</td>
+            </tr>
+            <tr>
+                <th>Moyenneavis</th>
+                <td>{{ avi.moyenneavis }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_avis_index') }}">back to list</a>
+
+    <a href="{{ path('app_avis_edit', {'idavis': avi.idavis}) }}">edit</a>
+
+    {{ include('avis/_delete_form.html.twig') }}
+{% endblock %}

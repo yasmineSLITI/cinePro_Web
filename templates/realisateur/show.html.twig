@@ -1,0 +1,14 @@
+{% extends 'RealisateurBackOffice.html.twig' %}
+{% block backContainer %}
+<link rel="stylesheet" href="{{ asset('dist/css/film/filmAdmin.css') }}">
+<section class="content">
+<div class="container ">
+
+
+<h1>l'image télecharger est: </h1>
+<img src="{{ asset ('image/' ~ film.image ) }}" width='600' height="450">
+
+</div>
+</section>
+
+{% endblock %}
