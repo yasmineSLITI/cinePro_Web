@@ -1,0 +1,60 @@
+{% extends 'baseBackOffice.html.twig' %}
+
+{% block backContainer %}
+
+
+<div class="container text-center">
+
+
+  <h1>Liste des Publications</h1>
+ 
+  <table class="table">
+      <thead>
+      <tr>
+        <th>IdPresse</th>
+          <th>IdPub</th>
+          <th>Titre</th>
+          <th></th>
+          
+
+          <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+
+ {% for pub in publications %} 
+                <tr>
+                    <td>{{ pub.idPresse }}</td>
+                    <td>{{ pub.idpub }}</td>
+                    <td>{{ pub.titre }}</td>
+                    <td> {% for image in pub.imgpub %}
+                        <img class="w-50 d-block"  height="50"  src="/uploads/{{ pub.imgpub[0].imageName }}" >
+                    {% endfor %}
+                    </td>
+                    <td>{{ pub.txtpub }}</td>
+                    
+
+                    <td>
+                        <a class="btn btn-success" href="{{ path('detail',{'id':pub.idpub}) }}">Plus de details</a>
+                        
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">no records found</td>
+                </tr>
+ {% endfor %}
+ 
+ 
+</tbody>
+</table>
+
+
+</div>
+
+
+
+
+{{ knp_pagination_render(publications) }}
+
+{% endblock %}

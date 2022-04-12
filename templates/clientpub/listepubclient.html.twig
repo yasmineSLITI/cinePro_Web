@@ -1,0 +1,35 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+{% block frontContainer %}
+
+<link rel="stylesheet" href="{{ asset('dist/css/publication/pub.css') }}">
+
+<section class = "design" id = "design">
+  <div class = "container">
+    <div class = "title">
+      <h2>Publications & Articles </h2>
+      <p>par différents partenaires de presse </p>
+    </div>
+
+    <div class = "design-content">
+      {% for pub in publications %} 
+      <div class = "design-item">
+        <div class = "design-img">
+          <img src = "{{ asset('uploads/' ~ pub.imgpub) }}" alt = "">
+          
+         
+        </div>
+        <div class = "blog-text">
+          <span>Ecrit le {{pub.datecreationpub | date('d/m/y')}} à {{pub.datecreationpub | date('H:i')}}</span>
+          <h2>{{pub.titre}}</h2>
+          <p>{{pub.txtpub}}</p>
+          <div><a href = "{{ path ('detailC',{'id':pub.idpub})}}">Lire la suite</a>
+          <a href = "#">signaler</a></div>
+        </div>
+      </div>
+     {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}

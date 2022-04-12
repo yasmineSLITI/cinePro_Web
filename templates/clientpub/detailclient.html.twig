@@ -1,0 +1,24 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+{% block frontContainer %}
+<link rel="stylesheet" href="{{ asset('dist/css/publication/detail.css') }}"> 
+
+
+<div class="card" >
+    <img src="{{ asset('uploads/' ~ details.imgpub) }}" alt="image" />
+    
+    <div class="card__content">
+      <time class="card__date">Ecrit le {{details.datecreationpub | date('d/m/y')}} à {{details.datecreationpub | date('H:i')}}</time>
+      <span class="card__title">{{details.titre}}<span>
+          <div class="text"><p>{{details.txtpub}}</p></div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+{% endblock %}
