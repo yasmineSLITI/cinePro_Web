@@ -1,0 +1,57 @@
+{% block backContainer  %}
+
+<body>
+<div class="container-xl">
+    
+     
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <h2>Gestion <b>Produits</b></h2>
+                    </div>
+                    <div class="col-sm-7">
+                     					
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Désignation</th>						
+                        <th>Prix Achat</th>
+                        <th>Prix Vente</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                {% for P in products %}
+                     
+                    <tr>
+                                    
+                        <td>{{P.IDProduit }}</td>
+                        <td><a href="#"><img src="{{ asset('uploads/'~ P.image) }}"  width=" 55px" height="55px" class="avatar" alt="Avatar"> {{P.Designation}}</a></td>
+                        <td>{{P.prixAchatUnit}} DT</td>                        
+                        <td>{{P.prixVenteUnit}} DT</td>
+                        {% if P.StatusStock == 0%}
+                        <td><span class="status text-danger">&bull;</span>Epuisé</td>
+                        {%else%}
+                        <td><span class="status text-success">&bull;</span>En Stock</td>
+                        {%endif%}
+                      
+                    </tr>
+
+
+                {% endfor %}   
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>     
+</body>
+
+
+{% endblock %}

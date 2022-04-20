@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Client
  *
  * @ORM\Table(name="client", indexes={@ORM\Index(name="fk4000", columns={"userName"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ClientRepository")
  */
 class Client
 {
@@ -184,5 +184,10 @@ class Client
         }
 
         return $this;
+    }
+
+    public function listFollowing()
+    {
+        return $this->followings;
     }
 }

@@ -2,34 +2,93 @@
 
 namespace App\Controller;
 
-use App\Entity\Produit;
 use App\Entity\Client;
+use App\Entity\Produit;
+use App\Data\SearchData;
+use App\Form\SearchForm;
 use App\Form\ProduitType;
+use App\Form\SearchProductType;
 use App\Entity\Followingproduit;
+use Symfony\Component\Mime\Email;
+use App\Repository\ClientRepository;
 use App\Repository\ProduitRepository;
 use Doctrine\Persistence\ObjectManager;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use App\Repository\FollowingproduitRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class ProduitController extends AbstractController
 {
     /**
      * @Route("/produit", name="affichage_Produits")
      */
-    public function index(ProduitRepository $repo)
+    public function index(ProduitRepository $repo, Request $request, PaginatorInterface $paginator)
     {
+        $donnees = $repo->findAll();
+        $Products = $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page', 1),
+            4
+        );
+
+        return $this->render(
+            'produit/back_office/index.html.twig',
+            [
+                'products' => $Products,
+                'donnees' => $donnees
+            ]
+
+        );
+    }
+
+    /**
+     * @Route("/imprimer", name="impression_Produits")
+     */
+    public function imprimer(ProduitRepository $repo)
+    {
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
 
         $Products = $repo->findAll();
 
-        return $this->render('produit/back_office/index.html.twig', [
-            'products' => $Products,
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView(
+            'produit/back_office/list.html.twig',
+            [
+                'products' => $Products,
+            ]
+        );
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => true
         ]);
     }
+
     /**
      * @route("/produit/ajouter",name="ajouterProduit")
      */
@@ -63,6 +122,9 @@ class ProduitController extends AbstractController
             'produitForm' => $form->createView()
         ]);
     }
+
+
+
 
     /**
      * @route("/produit/editer/{id}", name="editerProduit")
@@ -100,6 +162,8 @@ class ProduitController extends AbstractController
             $em->persist($produit);
 
             $em->flush();
+
+
             $this->addFlash('success', 'Produit modifié avec succès');
             return $this->redirectToRoute("affichage_Produits");
         }
@@ -150,13 +214,34 @@ class ProduitController extends AbstractController
      */
 
 
-    public function affichageFontProduit(ProduitRepository $repo)
+    public function affichageFrontProduit(Request $request, ProduitRepository $repo, ClientRepository $ClientRepo, FollowingproduitRepository $followRepo)
     {
+        $data = new SearchData();
+        $formSearch = $this->createForm(SearchForm::class, $data);
         $Products = $repo->findAll();
-        return $this->render('/produit/front_office/index.html.twig', [
-            'products' => $Products
-        ]);
+
+        $search = $formSearch->handleRequest($request);
+        $Products = $repo->findSearch($data);
+
+        $client = $ClientRepo->find(1);
+        $followings = $client->getFollowings();
+
+        $listFollowedProduit = array();
+
+        foreach ($followings as $following) {
+            $listFollowedProduit[] = $following->getProduit();
+        }
+
+        $followRepo->count(['client' => $client]);
+
+        return $this->render('/produit/front_office/index.html.twig', array(
+            'listFollowedProduit' => $listFollowedProduit,
+            'products' => $Products,
+            'countFollowings' => $followRepo,
+            'formSearch' => $formSearch->createView()
+        ));
     }
+
 
     /**
      * @route("produit/Fdetails/{id}", name="detailsProduitFront")
@@ -206,8 +291,9 @@ class ProduitController extends AbstractController
 
             return $this->json([
                 'code' => 200,
-                'message' => "est retiré à votre wishlist"
-            ]);
+                'message' => "est retiré à votre wishlist",
+                'followings' => $followRepo->count(['client' => $client])
+            ], 200);
         }
 
         $FP = new Followingproduit();
@@ -221,7 +307,30 @@ class ProduitController extends AbstractController
 
         return $this->json([
             'code' => 200,
-            'message' => "est ajouté à votre wishlist, vous recevrez un e-mail lorsqu'il sera de nouveau en stock "
+            'message' => "est ajouté à votre wishlist, vous recevrez un e-mail lorsqu'il sera de nouveau en stock ",
+            'followings' => $followRepo->count(['client' => $client])
+        ], 200);
+    }
+
+    /**
+     *@route("/produit/wishList/{idClient}", name="MyWishList")
+     */
+
+
+    public function displayFollowings($idClient, ClientRepository $ClientRepo)
+    {
+
+        $client = $ClientRepo->find($idClient);
+        $followings = $client->getFollowings();
+
+        $listProduit = array();
+
+        foreach ($followings as $following) {
+            $listProduit[] = $following->getProduit();
+        }
+
+        return $this->render('/produit/front_office/index1.html.twig', [
+            'listProduits' => $listProduit
         ]);
     }
 }

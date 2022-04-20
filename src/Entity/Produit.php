@@ -13,6 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="produit")
  * @ORM\Entity(repositoryClass="App\Repository\ProduitRepository")
+ * @ORM\Table(name="produit",indexes={@ORM\Index(columns={"Designation","Description"},flags={"fulltext"})})
  * @UniqueEntity(
  *     fields={"designation"},
  *     message="Un Produit Ayant Cette Désignation est déja existant."
@@ -59,7 +60,7 @@ class Produit
      * @ORM\Column(name="QuantiteEnStock", type="integer", nullable=false)
      * @Assert\NotBlank(message="Le Champ Quantité En Stock est obligatoire")
      * @Assert\Type(type="integer")
-     * @Assert\GreaterThan(0 , message="La Quantité En Stock Doit Etre Supérieur à Zéro.")
+     * @Assert\GreaterThan(-1 , message="La Quantité En Stock Doit Etre Supérieur ou égale à Zéro.")
      */
     private $quantiteenstock;
 

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Produit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -45,6 +46,20 @@ class ProduitRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Recherche les annonces en fonction du formulaire
+     * @return void 
+     */
+    public function search($mots = null)
+    {
+        $query = $this->createQueryBuilder('a');
+        if ($mots != null) {
+            $query->andWhere('MATCH_AGAINST(a.designation, a.description) AGAINST (:mots boolean)>0')
+                ->setParameter('mots', $mots);
+        }
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Produit[] Returns an array of Produit objects
     //  */
@@ -73,4 +88,26 @@ class ProduitRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findSearch(SearchData $search): array
+    {
+        $query = $this->createQueryBuilder('p');
+
+        if (!empty($search->q)) {
+            $query = $query->andWhere('p.designation LIKE :q')
+                ->setParameter('q', "%{$search->q}%");
+        }
+
+        if (!empty($search->min)) {
+            $query = $query->andWhere('p.prixventeunit >= :min')
+                ->setParameter('min', $search->min);
+        }
+
+        if (!empty($search->max)) {
+            $query = $query->andWhere('p.prixventeunit <= :max')
+                ->setParameter('max', $search->max);
+        }
+
+        return $query->getQuery()->getResult();
+    }
 }
