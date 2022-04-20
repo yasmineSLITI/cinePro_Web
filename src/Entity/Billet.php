@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Billet
  *
  * @ORM\Table(name="billet", indexes={@ORM\Index(name="FK_IDResBillet", columns={"idReservation"}), @ORM\Index(name="FK_IDClientBillet", columns={"idClient"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\BilletRepository")
  */
 class Billet
 {
@@ -139,6 +139,4 @@ class Billet
 
         return $this;
     }
-
-
 }
