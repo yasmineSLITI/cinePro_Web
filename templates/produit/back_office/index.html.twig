@@ -243,6 +243,11 @@ $(document).ready(function(){
                 </tbody>
             </table>
 
+
+            {% if qrcode %}
+              <img src="{{qrcode}}" alt="qrCode">
+            {% endif %}
+
             
 
             <div class="clearfix">

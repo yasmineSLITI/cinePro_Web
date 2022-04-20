@@ -18,6 +18,7 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use App\Repository\FollowingproduitRepository;
+use App\Services\QrcodeService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,8 +34,14 @@ class ProduitController extends AbstractController
     /**
      * @Route("/produit", name="affichage_Produits")
      */
-    public function index(ProduitRepository $repo, Request $request, PaginatorInterface $paginator)
+    public function index(ProduitRepository $repo, Request $request, PaginatorInterface $paginator, QrcodeService $qrcodeService)
     {
+
+        $qrCode = null;
+        $qrCode = $qrcodeService->qrcode('symfony');
+
+        //data = $form->getData()
+        //$qrcodeService->qrcode($data['name'])
         $donnees = $repo->findAll();
         $Products = $paginator->paginate(
             $donnees,
@@ -46,7 +53,8 @@ class ProduitController extends AbstractController
             'produit/back_office/index.html.twig',
             [
                 'products' => $Products,
-                'donnees' => $donnees
+                'donnees' => $donnees,
+                'qrcode' => $qrCode
             ]
 
         );
