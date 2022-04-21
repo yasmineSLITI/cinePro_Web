@@ -2,12 +2,17 @@
 
 namespace App\Controller;
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use App\Data\CSVData;
+use App\Form\CSVType;
 use App\Entity\Client;
 use App\Entity\Produit;
 use App\Data\SearchData;
 use App\Form\SearchForm;
 use App\Form\ProduitType;
 use App\Form\SearchProductType;
+use App\Services\QrcodeService;
 use App\Entity\Followingproduit;
 use Symfony\Component\Mime\Email;
 use App\Repository\ClientRepository;
@@ -18,7 +23,6 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use App\Repository\FollowingproduitRepository;
-use App\Services\QrcodeService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,8 +30,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Dompdf\Dompdf;
-use Dompdf\Options;
+use Symfony\Component\Serializer\Encoder\CsvEncoder;
 
 class ProduitController extends AbstractController
 {
@@ -106,6 +109,7 @@ class ProduitController extends AbstractController
         $produit = new Produit();
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
+
         if (($form->isSubmitted()) && ($form->isValid())) {
             $file = $request->files->get('produit')['image'];
 
@@ -340,5 +344,61 @@ class ProduitController extends AbstractController
         return $this->render('/produit/front_office/index1.html.twig', [
             'listProduits' => $listProduit
         ]);
+    }
+    /**
+     * @route("/upload", name="upload_CSV")
+     */
+
+    public function uploadCSVFile(Request $request, ProduitRepository $produitRepo)
+    {
+        $em = $this->getDoctrine()->getManager();
+        if ($request->isMethod('POST')) {
+
+            // Pull the uploaded file information
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file = $request->files->get('file')->getClientOriginalName();
+
+            if ($file != null) {
+                $uploads_directory = $this->getParameter('uploads_directory');
+                $inputFile = $uploads_directory . '/' . $file;
+                $decoder = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
+                $products = $decoder->decode(file_get_contents($inputFile), 'csv');
+                //dd($products);
+                foreach ($products as $P) {
+
+                    $existingProduct = $produitRepo->find(['idproduit' => $P['IDProduit']]);
+
+                    if ($existingProduct) {
+                        $existingProduct->setDesignation($P['Designation']);
+                        $existingProduct->setDescription($P['Description']);
+                        $existingProduct->setImage($P['Image']);
+                        $existingProduct->setQuantiteenstock($P['QuantiteEnStock']);
+                        $existingProduct->setPrixachatunit($P['prixAchatUnit']);
+                        $existingProduct->setPrixventeunit($P['prixVenteUnit']);
+                        $existingProduct->setStatusstock($P['StatusStock']);
+
+                        $em->persist($existingProduct);
+                        $em->flush();
+                    } else {
+
+                        $produit = new Produit();
+
+                        $produit->setDesignation($P['Designation']);
+                        $produit->setDesignation($P['Designation']);
+                        $produit->setDescription($P['Description']);
+                        $produit->setImage($P['Image']);
+                        $produit->setQuantiteenstock($P['QuantiteEnStock']);
+                        $produit->setPrixachatunit($P['prixAchatUnit']);
+                        $produit->setPrixventeunit($P['prixVenteUnit']);
+                        $produit->setStatusstock($P['StatusStock']);
+
+                        $em->persist($produit);
+                        $em->flush();
+                    }
+                }
+            }
+        }
+
+        return $this->render('/produit/back_office/importCSV.html.twig');
     }
 }
