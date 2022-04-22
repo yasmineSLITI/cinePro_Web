@@ -238,17 +238,9 @@ $(document).ready(function(){
                             <a href="{{path('supprimerProduit',{'id':P.IDProduit})}}" onclick="return confirm('est-vous sure de vouloir supprimer ce produit.?')" class="delete" title="Supprimer" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
                         </td>
                     </tr>
-
-
                 {% endfor %}   
                 </tbody>
             </table>
-
-
-            {% if qrcode %}
-              <img src="{{qrcode}}" alt="qrCode">
-            {% endif %}
-
             
 
             <div class="clearfix">

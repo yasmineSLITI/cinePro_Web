@@ -37,11 +37,8 @@ class ProduitController extends AbstractController
     /**
      * @Route("/produit", name="affichage_Produits")
      */
-    public function index(ProduitRepository $repo, Request $request, PaginatorInterface $paginator, QrcodeService $qrcodeService)
+    public function index(ProduitRepository $repo, Request $request, PaginatorInterface $paginator)
     {
-
-        $qrCode = null;
-        $qrCode = $qrcodeService->qrcode('symfony');
 
         //data = $form->getData()
         //$qrcodeService->qrcode($data['name'])
@@ -57,7 +54,7 @@ class ProduitController extends AbstractController
             [
                 'products' => $Products,
                 'donnees' => $donnees,
-                'qrcode' => $qrCode
+               
             ]
 
         );

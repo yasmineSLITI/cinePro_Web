@@ -73,4 +73,17 @@ class BilletRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByExampleField($valueIDClient,$valueCategorie)
+    {
+        return $this->createQueryBuilder('b')
+            ->Where('b.idclient = :val1')
+            ->andWhere('b.categoriebillet = :val2')
+            ->setParameter('val', $valueIDClient)
+            ->setParameter('val', $valueCategorie)
+            ->getQuery()
+            ->getResult();
+    }
+
+    
 }

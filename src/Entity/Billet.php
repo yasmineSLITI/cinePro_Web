@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Billet
@@ -30,7 +31,9 @@ class Billet
 
     /**
      * @var int
-     *
+     * @Assert\NotBlank(message="Le Champ Nombre De Place est obligatoire")
+     * @Assert\Type(type="integer")
+     * @Assert\GreaterThan(0 , message="Le Champ Nombre De Place Doit Etre Supérieur ou égale à 0.")
      * @ORM\Column(name="nb_place", type="integer", nullable=false)
      */
     private $nbPlace;
