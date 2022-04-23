@@ -4,8 +4,9 @@
 	Import .CSV
 {% endblock %}
 
-
 {% block backContainer  %}
+
+
 
 
    
@@ -43,27 +44,52 @@
               </div>
             </div>
             <div class="card-body">
-            
+           
               <div class="form-group">
-                <form action="/upload" method="post" enctype="multipart/form-data">
-               <input type="file" name="file" required>
-                <input type="submit" value="Upload">
-              </form>
-               
+                <form name="myform" action="/upload" method="post" enctype="multipart/form-data" >
+                    <label for="exampleInputFile">File input</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="exampleInputFile" name="file">
+                        
+                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                      </div>
+                      <div class="input-group-append">
+                        <span class="input-group-text" onclick="myform.submit()">Upload</span>
+                      </div>
+                    </div>
+                    {% if error is defined and error is not null %}
+                     <label class="col-form-label" for="inputError"><i class="far fa-times-circle"></i> {{error}}</label>
+                    {%endif%}
+                   
+                  </form>
+                </div>
               </div>
+
              
             </div>
+            <div class="row">
+        <div class="col-12">
+          <a href="{{path('affichage_Produits')}}" class="btn btn-secondary">Annuler</a>
+
+          {% if fileName is defined and fileName is not null %}
+
+          <a href="{{path('importer_CSV',{'fileName':fileName})}}"class="btn btn-success float-right">Importer Le Contenu du fichier .CSV</a>
+
+          {%endif%}
+
+        </div>
+      </div>
             <!-- /.card-body -->
           </div>
           <!-- /.card -->
         </div>
       </div>
-      <div class="row">
-        <div class="col-12">
-          <a href="{{path('affichage_Produits')}}" class="btn btn-secondary">Annuler</a>
-          <input type="submit" value="Importer le fichier .csv" class="btn btn-success float-right">
-        </div>
-      </div>
+      
+      
+
+
+    
 
 
      

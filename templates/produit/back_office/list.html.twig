@@ -1,5 +1,3 @@
-{% block backContainer  %}
-
 <body>
 <div class="container-xl">
     
@@ -27,25 +25,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                
-                {% for P in products %}
-                     
-                    <tr>
-                                    
-                        <td>{{P.IDProduit }}</td>
-                        <td><a href="#"><img src="{{ asset('uploads/'~ P.image) }}"  width=" 55px" height="55px" class="avatar" alt="Avatar"> {{P.Designation}}</a></td>
-                        <td>{{P.prixAchatUnit}} DT</td>                        
-                        <td>{{P.prixVenteUnit}} DT</td>
-                        {% if P.StatusStock == 0%}
-                        <td><span class="status text-danger">&bull;</span>Epuisé</td>
-                        {%else%}
-                        <td><span class="status text-success">&bull;</span>En Stock</td>
-                        {%endif%}
-                      
-                    </tr>
-
-
-                {% endfor %}   
+          
                 </tbody>
             </table>
         </div>
@@ -54,4 +34,3 @@
 </body>
 
 
-{% endblock %}

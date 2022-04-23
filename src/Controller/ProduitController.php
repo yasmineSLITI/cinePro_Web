@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTime;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Data\CSVData;
@@ -10,6 +11,7 @@ use App\Entity\Client;
 use App\Entity\Produit;
 use App\Data\SearchData;
 use App\Form\SearchForm;
+use Knp\Snappy\Pdf;
 use App\Form\ProduitType;
 use App\Form\SearchProductType;
 use App\Services\QrcodeService;
@@ -54,7 +56,7 @@ class ProduitController extends AbstractController
             [
                 'products' => $Products,
                 'donnees' => $donnees,
-               
+
             ]
 
         );
@@ -68,17 +70,25 @@ class ProduitController extends AbstractController
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
 
+
         // Instantiate Dompdf with our options
         $dompdf = new Dompdf($pdfOptions);
+        $options = new Options();
+        $options->setIsRemoteEnabled(true);
+        $dompdf = new Dompdf($options);
 
         $Products = $repo->findAll();
+        //Current Date
+        $now = new DateTime();
+        $nowFormat = $now->format('Y-m-d H:i:s');
 
 
         // Retrieve the HTML generated in our twig file
         $html = $this->renderView(
-            'produit/back_office/list.html.twig',
+            'produit/back_office/printProduits.html.twig',
             [
                 'products' => $Products,
+                'currentDate' => $nowFormat
             ]
         );
 
@@ -342,59 +352,94 @@ class ProduitController extends AbstractController
             'listProduits' => $listProduit
         ]);
     }
+
     /**
      * @route("/upload", name="upload_CSV")
      */
 
-    public function uploadCSVFile(Request $request, ProduitRepository $produitRepo)
+    public function uploadAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $fileName = null;
+        $error = null;
+        // See if posted
         if ($request->isMethod('POST')) {
 
-            // Pull the uploaded file information
-            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-            $file = $request->files->get('file')->getClientOriginalName();
+            $file = $request->files->get('file');
+            if ($file == null) {
+                $error = 'Veuillez Choisir un fichier.';
+                return $this->render('/produit/back_office/importCSV.html.twig', [
+                    'error' => $error
+                ]);
+            }
+            if ($file->guessExtension() != 'txt') {
+                $error = 'Extension Invalide . Veuillez Choisir Un Fichier .CSV';
+                return $this->render('/produit/back_office/importCSV.html.twig', [
+                    'error' => $error
+                ]);
+            }
+            $uploads_directory = $this->getParameter('uploads_directory');
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
 
-            if ($file != null) {
-                $uploads_directory = $this->getParameter('uploads_directory');
-                $inputFile = $uploads_directory . '/' . $file;
-                $decoder = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
-                $products = $decoder->decode(file_get_contents($inputFile), 'csv');
-                //dd($products);
-                foreach ($products as $P) {
+            $file->move(
+                $uploads_directory,
+                $fileName
+            );
+        }
 
-                    $existingProduct = $produitRepo->find(['idproduit' => $P['IDProduit']]);
+        return $this->render('/produit/back_office/importCSV.html.twig', [
+            'fileName' => $fileName
+        ]);
+    }
 
-                    if ($existingProduct) {
-                        $existingProduct->setDesignation($P['Designation']);
-                        $existingProduct->setDescription($P['Description']);
-                        $existingProduct->setImage($P['Image']);
-                        $existingProduct->setQuantiteenstock($P['QuantiteEnStock']);
-                        $existingProduct->setPrixachatunit($P['prixAchatUnit']);
-                        $existingProduct->setPrixventeunit($P['prixVenteUnit']);
-                        $existingProduct->setStatusstock($P['StatusStock']);
 
-                        $em->persist($existingProduct);
-                        $em->flush();
-                    } else {
+    /**
+     * @route("/importer_CSV/{fileName}", name="importer_CSV")
+     */
 
-                        $produit = new Produit();
 
-                        $produit->setDesignation($P['Designation']);
-                        $produit->setDesignation($P['Designation']);
-                        $produit->setDescription($P['Description']);
-                        $produit->setImage($P['Image']);
-                        $produit->setQuantiteenstock($P['QuantiteEnStock']);
-                        $produit->setPrixachatunit($P['prixAchatUnit']);
-                        $produit->setPrixventeunit($P['prixVenteUnit']);
-                        $produit->setStatusstock($P['StatusStock']);
+    public function uploadCSVFile($fileName, ProduitRepository $produitRepo)
+    {
 
-                        $em->persist($produit);
-                        $em->flush();
-                    }
-                }
+        $em = $this->getDoctrine()->getManager();
+
+        $uploads_directory = $this->getParameter('uploads_directory');
+        $inputFile = $uploads_directory . '/' . $fileName;
+        $decoder = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
+        $products = $decoder->decode(file_get_contents($inputFile), 'csv');
+        //dd($products);
+        foreach ($products as $P) {
+
+            $existingProduct = $produitRepo->find(['idproduit' => $P['IDProduit']]);
+
+            if ($existingProduct) {
+                $existingProduct->setDesignation($P['Designation']);
+                $existingProduct->setDescription($P['Description']);
+                $existingProduct->setImage($P['Image']);
+                $existingProduct->setQuantiteenstock($P['QuantiteEnStock']);
+                $existingProduct->setPrixachatunit($P['prixAchatUnit']);
+                $existingProduct->setPrixventeunit($P['prixVenteUnit']);
+                $existingProduct->setStatusstock($P['StatusStock']);
+
+                $em->persist($existingProduct);
+                $em->flush();
+            } else {
+
+                $produit = new Produit();
+
+                $produit->setDesignation($P['Designation']);
+                $produit->setDesignation($P['Designation']);
+                $produit->setDescription($P['Description']);
+                $produit->setImage($P['Image']);
+                $produit->setQuantiteenstock($P['QuantiteEnStock']);
+                $produit->setPrixachatunit($P['prixAchatUnit']);
+                $produit->setPrixventeunit($P['prixVenteUnit']);
+                $produit->setStatusstock($P['StatusStock']);
+
+                $em->persist($produit);
+                $em->flush();
             }
         }
+
 
         return $this->render('/produit/back_office/importCSV.html.twig');
     }

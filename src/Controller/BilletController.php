@@ -177,16 +177,6 @@ class BilletController extends AbstractController
         }
         $prixFinaleApresRemise = $prixFinale - $remise * $prixFinale;
 
-        $html = $this->renderView(
-            "/billet/cinemaTicket.html.twig",
-            [
-                'billet' => $billet,
-                'film' => $film,
-                'client' => $client,
-                'qrcode' => $qrCode,
-                'prixFinaleApresRemise' => $prixFinaleApresRemise
-            ]
-        );
 
         return $this->render(
             "/billet/cinemaTicket.html.twig",

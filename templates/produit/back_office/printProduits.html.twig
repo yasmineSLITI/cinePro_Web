@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<style>
+body {
+border: 3px solid #5579c6;
+}
+
+</style>
+
+<body>
+<div class="wrapper">
+  <!-- Main content -->
+  <section class="invoice">
+    <!-- title row -->
+    <div class="row">
+      <div class="col-12">
+        <h2 class="page-header">
+          
+           Liste Des Produits.            
+          <small class="float-right" style="position: absolute; left:460px">Date: {{currentDate}}</small>
+        </h2>
+      </div>
+      <!-- /.col -->
+    </div>
+   
+    <!-- /.row -->
+
+    <!-- Table row -->
+    <div class="row">
+      <div class="col-12 table-responsive">
+        <table class="table table-striped" border=1>
+          <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Designation</th>
+            <th scope="col">Quantite</th>
+            <th scope="col">Description</th>
+            <th scope="col">Prix Vente Unitaire</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for P in products %}
+          <tr>
+            <td>{{P.IDProduit }}</td>
+            <td>{{P.Designation}}</td>
+            <td>{{P.QuantiteEnStock}}</td>
+            <td>{{P.Description}}</td>
+            <td>{{P.prixVenteUnit}} DT</td>
+          </tr>
+          {% endfor %} 
+          </tbody>
+        </table>
+      </div>
+   
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
+
+</body>
+</html>
