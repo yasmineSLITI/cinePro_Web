@@ -110,6 +110,13 @@ class Produit
         return $this->idproduit;
     }
 
+    public function setIdproduit(int $idproduit): self
+    {
+        $this->idproduit = $idproduit;
+
+        return $this;
+    }
+
     public function getDesignation(): ?string
     {
         return $this->designation;

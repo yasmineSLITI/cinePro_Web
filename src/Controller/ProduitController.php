@@ -102,7 +102,7 @@ class ProduitController extends AbstractController
         $dompdf->render();
 
         // Output the generated PDF to Browser (force download)
-        $dompdf->stream("mypdf.pdf", [
+        $dompdf->stream("Liste_Produits.pdf", [
             "Attachment" => true
         ]);
     }
@@ -412,6 +412,7 @@ class ProduitController extends AbstractController
             $existingProduct = $produitRepo->find(['idproduit' => $P['IDProduit']]);
 
             if ($existingProduct) {
+
                 $existingProduct->setDesignation($P['Designation']);
                 $existingProduct->setDescription($P['Description']);
                 $existingProduct->setImage($P['Image']);
@@ -427,7 +428,6 @@ class ProduitController extends AbstractController
                 $produit = new Produit();
 
                 $produit->setDesignation($P['Designation']);
-                $produit->setDesignation($P['Designation']);
                 $produit->setDescription($P['Description']);
                 $produit->setImage($P['Image']);
                 $produit->setQuantiteenstock($P['QuantiteEnStock']);
@@ -441,6 +441,7 @@ class ProduitController extends AbstractController
         }
 
 
-        return $this->render('/produit/back_office/importCSV.html.twig');
+        $this->addFlash('success', 'Fichier .csv importé avec succès');
+        return $this->redirectToRoute("affichage_Produits");
     }
 }
