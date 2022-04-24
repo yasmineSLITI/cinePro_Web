@@ -133,6 +133,7 @@
                   </thead>
                   <tbody>
                   {%for Produit in Produits%}
+
                   {% set profit = 0 %}
                   <tr>
                     <td>
@@ -141,15 +142,34 @@
                     </td>
                     <td>${{Produit.prixVenteUnit}} USD</td>
                     <td>
-                      <small class="text-success mr-1">
+            
                       {% set profit = (Produit.prixVenteUnit-Produit.prixAchatUnit)/Produit.prixAchatUnit %} 
+
                       {%if profit>0%}
+
+                        <small class="text-success mr-1">
                         <i class="fas fa-arrow-up"></i>
+                        {{ "%.2f"|format(profit) }}
+                        </small>
+
+                      {%elseif profit<0%}
+
+                       <small class="text-danger mr-1">
+                        <i class="fas fa-arrow-down"></i>
+                        {{ "%.2f"|format(profit) }}
                       {%else%}
-                       <i class="fas fa-arrow-down"></i>   
-                      {%endif%}  
+
+                      <small class="text-warning mr-1">
+                        <i class="fas fa-arrow-down"></i>
                         {{ "%.2f"|format(profit) }}
                       </small>
+
+                      </small>  
+
+                      {%endif%}
+                    
+                        
+                      
                       
                     </td>
                    
