@@ -2,7 +2,11 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\CssSelector\Parser\Reader;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Evenement
@@ -19,7 +23,7 @@ class Evenement
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idev ;
+    private $idev  ;
 
     /**
      * @var string
@@ -32,6 +36,7 @@ class Evenement
      * @var float
      *
      * @ORM\Column(name="Montant", type="float", precision=10, scale=0, nullable=false)
+     * @Assert\GreaterThanOrEqual(value=5000,message="LE montant minimale est égale à 5000 ! ")
      */
     private $montant;
 
@@ -39,6 +44,8 @@ class Evenement
      * @var int
      *
      * @ORM\Column(name="Duree", type="integer", nullable=false)
+     *@Assert\GreaterThanOrEqual(value=45 , message="La durée minimale d'un évenement est de 45 minutes !")
+     *   
      */
     private $duree;
 
@@ -53,6 +60,7 @@ class Evenement
      * @var string
      *
      * @ORM\Column(name="nomEv", type="string", length=255, nullable=false)
+     *  @Assert\NotBlank(message = "Il parait que vous-avez oublié(e) de saisir le nom de l'événement ! ")
      */
     private $nomev;
 
@@ -71,7 +79,7 @@ class Evenement
      *   @ORM\JoinColumn(name="NumRea", referencedColumnName="NumRea")
      * })
      */
-    private $numrea=null;
+    private $numrea;
     
     /**
      * @var \App\Entity\Demandedesponsoring
@@ -79,7 +87,13 @@ class Evenement
      * @ORM\OneToMany(targetEntity="App\Entity\Demandedesponsoring", mappedBy="idev")
      * 
      */
-    private $demande=null;
+    private $demande;
+
+    public function __construct()
+    {
+        $this->demnuande = new ArrayCollection();
+    }
+
     public function getIdev(): ?int
     {
         return $this->idev;
@@ -168,6 +182,39 @@ class Evenement
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Demandedesponsoring>
+     */
+    public function getDemande(): ?Demandedesponsoring
+    {
+        return $this->demande;
+    }
+
+    /*public function addDemande(Demandedesponsoring $demande): self
+    {
+        if (!$this->demande->contains($demande)) {
+            $this->demande[] = $demande;
+            $demande->setIdev($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemande(Demandedesponsoring $demande): self
+    {
+        if ($this->demande->removeElement($demande)) {
+            // set the owning side to null (unless already changed)
+            if ($demande->getIdev() === $this) {
+                $demande->setIdev(null);
+            }
+        }
+
+        return $this;
+    }*/
+
+    
+    
 
 
 }

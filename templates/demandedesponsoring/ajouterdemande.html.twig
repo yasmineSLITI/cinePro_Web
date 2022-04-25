@@ -1,14 +1,9 @@
 {% extends 'sponsFrontOffice.html.twig'%}
-    {% block frontContainer %} 
-
+    {% block frontContainer %}
+        
         {% block body %} 
             <h2>Devenir partenaire et sponsoriser l'evenement : </h2>
-            {{form_start (form)}}
-            <div class "form-group">
-                <label for ="">Etat:</label>
-                {{form_widget (form.etataccept)}}
-                {{ form_row (form.etataccept)}}  
-            </div>
+           {{form_start (form)}}
             <div class "form-group">
                 <label for ="">Ajouter une description :</label>
                 {{form_widget (form.description)}}
@@ -21,10 +16,13 @@
             </div>
             
             <div class "form-group">
-            <button type="submit" class= "btn btn-dark">Envoyer demande</button>
-            <p></p>
-            <INPUT TYPE="reset" NAME="nom" VALUE=" Annuler demande" class= "btn btn-dark">
-            </div>
+             
+              {#<button type="submit" class= "btn btn-dark">Envoyer demande</button>#}
+              <p></p>
+              <button type="submit" class= "btn btn-dark">Envoyer demande</button>
+              
+              <input type="reset"  value=" Annuler demande"  class= "btn btn-dark">
+              </div>
             {{form_end (form)}}
             
         {% endblock %}

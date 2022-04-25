@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Demandedesponsoring
  *
@@ -29,7 +30,7 @@ class Demandedesponsoring
      *   @ORM\JoinColumn(name="IdEv", referencedColumnName="IdEv")
      * })
      */
-    private $idev = null;
+    private $idev ;
 
     /**
      * @var \App\Entity\Sponsor
@@ -45,8 +46,10 @@ class Demandedesponsoring
      * @var string
      *
      * @ORM\Column(name="etatAccept", type="string", length=255, nullable=false, options={"default"="'En attente'"})
+     * @Assert\NotNull(message = "Ce champ ne peut pas etre vide! Veuillez le remplir.")
+     *  @Assert\NotBlank(message = "Il parait que vous-avez oubliée de remplir le champ du nom !")
      */
-    private $etataccept = '\'En attente\'';
+    private $etataccept ='En attente' ;
 
     /**
      * @var string
@@ -61,6 +64,10 @@ class Demandedesponsoring
      * @ORM\Column(name="paquet", type="string", length=255, nullable=false)
      */
     private $paquet ;
+    public function __construct()
+    {
+        $this->idsp=new ArrayCollection();
+    }
 
     public function getIddemande(): ?int
     {
@@ -126,6 +133,32 @@ class Demandedesponsoring
 
         return $this;
     }
+///// les fonctions eli taamlhom jdod fel repository public function 
+    public function getDemandeByIdEvent($id){
+        $list = array();
+
+        if (is_object($this->idev))
+{
+        foreach( $this->idev as $event){
+            if($event->getIdev() === $id)
+            $list[]=array($event);
+        }}
+        
+        return $list;
+    }
+    public function getDemandeByIdSpns($id){
+        $list = array();
+
+        if (is_object($this->idev))
+{
+        foreach( $this->idsp as $spons){
+            if($spons->getIdsp() === $id)
+            $list[]=array($spons);
+        }}
+        
+        return $list;
+    }
+    
 
 
 }

@@ -1,8 +1,9 @@
-{% extends 'sponsFrontOffice.html.twig'%}
+{% extends 'baseFrontOffice.html.twig'%}
 
     {% block frontContainer %}
       
         <style>
+           
             .content-table{
                 border-collapse: collapse;
                 margin: 25px 0;
@@ -51,21 +52,17 @@
                   align : center;
               }
     </style>
-    
-            
-      
-    <h1>Liste des evenements</h1> 
-
+    <h1>Liste des vos evenements</h1> 
 <table class ="content-table">
     <thead>
     <tr>
     <th >Nom de l'evenement</th>
-    <th>Nom de réalisateur</th>
+    <th>Montant demandé</th>
     <th>Description</th>
     <th>Durée</th>
     <th>Etat d'acceptation</th>
     
-    <th>Montant proposé</th>
+    <th>Montant demandé</th>
     
     <th>Progret de sponsoring</th>
     
@@ -75,26 +72,26 @@
     <tbody>
         
     <tr {% for e in eve %}>
-        {% if e.etat == "Accepté" %}
+        
         <td>  {{e.nomev}} </td>
-        <td>{{e.numrea.nomorg}} </td>
+        <td>{{e.montant}} </td>
         <td>  {{e.description}} </td>
         <td>{{e.duree}} min</td>
        <td> {{e.etat}} </td>
        <td>{{e.montant}} </td>
         <td>{{e.progret}} </td>
        
-        <td>
-          
-            <a href="{{ path("envoyerD",{"num":e.idev} )}}"><img src = "../dist/img/spons.png" width="35" height="30"></a>
+        <td {% if e.etat =='En attente' %}>
             
-        
-        </td>
-        {% endif %}
+            <a href="{{ path("editer", {"id":e.idev})}}"><img src = "../dist/img/editC.png" width="35" height="30"></a>
+        </td {% endif %}>
     </tr {% endfor %}>
     </tbody>
   </table>
-  {{knp_pagination_render(eve)}}
-    
-    
+  <div class = "navigation">
+    {{knp_pagination_render(eve)}}
+    <a href = "{{path("ajouterEvent")}}" class ="btn btn-dark">Demander evenement</a>
+   </div> 
 {% endblock %} 
+
+

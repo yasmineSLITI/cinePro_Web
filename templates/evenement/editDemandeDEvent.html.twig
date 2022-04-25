@@ -1,0 +1,44 @@
+{% extends 'baseFrontOffice.html.twig'%}
+    
+    {% block frontContainer %} 
+        {% block body %} 
+            <h1>Modifier vtre demande d'ajout d'un evenement </h1>
+            {{form_start (form)}}
+            <div class "form-group">
+                <label for ="">Nom de l'evenement :</label>
+                {{form_errors (form.nomev)}}
+                {{form_widget (form.nomev)}}
+            </div>
+            <div class "form-group">
+                <label for ="">Descritption de la demande :</label>
+                {{form_errors (form.description)}}
+                {{form_widget (form.description)}}
+            </div>
+            <div class "form-group">
+                <label for ="">Montant demandé :</label>
+                {{form_errors (form.montant)}}
+                {{form_widget (form.montant)}}
+            </div>
+            <div class "form-group">
+                <label for ="">Durée proposée :</label>
+                {{form_row (form.duree)}}
+                
+            </div>{{form_end (form)}}
+            
+            
+        {% endblock %}
+    {% endblock %} 
+
+
+
+
+{#{% extends 'baseBackOffice.html.twig'%}
+{%block title%}Modifier la salle {% endblock %}
+    {% block backContainer %}
+        <section id="salleAff" class="content-wrapper align-items-center">
+            <div class = "content">
+                {{form (form)}}
+                <button type="submit" class= "btn-enregistrement">Modifier salle</button>
+            <INPUT TYPE="reset" NAME="nom" VALUE=" Annuler ">
+                </div>
+            {% endblock %} #}

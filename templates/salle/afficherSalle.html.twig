@@ -1,70 +1,110 @@
 {% extends 'baseBackOffice.html.twig'%}
 
     {% block backContainer %}
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Noto+Sans:wght@400;700&display=swap" >
-    
-    <style>
-/*   color variables */
-$clr-primary: #d0def2;
-$clr-primary-light: #f3f8fe;
-$clr-primary-dark: #a7bad3;
-$clr-gray100: #f9fbff;
-$clr-gray150: #f4f6fb;
-$clr-gray200: #eef1f6;
-$clr-gray300: #e1e5ee;
-$clr-gray400: #767b91;
-$clr-gray500: #4f546c;
-$clr-gray600: #2a324b;
-$clr-gray700: #161d34;
+        <style>
+            
+            .content-table{
+                border-collapse: collapse;
+                margin: 25px 0;
+                font-size: 0.9em;
+                min-width: 400px;
+                border-radius: 5px 5px 0 0;
+                overflow: scroll;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+                text-align: center;
+                margin-left: auto;
+    margin-right: auto;
+              }
+              
+              .content-table thead tr {
+                background-color: #D10000;
+                color: #ffffff;
+                text-align: left;
+                font-weight: bold;
+              }
+              
+              .content-table th,
+              .content-table td {
+                padding: 12px 15px;
+              }
+              
+              .content-table tbody tr {
+                border-bottom: 1px solid #dddddd;
+              }
+              
+              .content-table tbody tr:nth-of-type(even) {
+                background-color: #f3f3f3;
+              }
+              
+              .content-table tbody tr:last-of-type {
+                border-bottom: 2px solid #D10000;
+              }
+              
+              .content-table tbody tr.active-row {
+                font-weight: bold;
+                color: #D10000;
+                
+              }
+              .heads{
+            position: sticky;
+            /*background-repeat: no-repeat;
+            background: linear-gradient(red,pink);
+background-size: cover;
+background-clip: text;
+-webkit-background-clip: text;
+color: transparent;
+             
+              /* font-family: 'Lato', sans-serif;
+                font-weight: 900;
+                font-size: 2.5em;
+                color: red;
+                display: inline;
+                margin-top: -500px;*/
+              }
+              .navigation{
+                display: center;
+              }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
 
-/*   border radius */
-$radius: 0.2rem;
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-
-
-table {
-  border-collapse: collapse;
-  box-shadow: 20px 20px 20px 5px $clr-primary-dark;
-  background-color: white;
-  text-align: left;
-
-  th {
-    background-color: $clr-primary;
-    padding: 0.75rem 2rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1rem;
-    font-size: 0.7rem;
-    font-weight: 900;
-  }
-
-  td {
-    padding: 1rem 2rem;
-  }
-
-  //   Color alternating rows
-  tr:nth-child(even) {
-    background-color: $clr-primary-light;
-  }
-}
-    
-    </style>    
-        <header>   
+</script>
+        <header class = "heads">   
     <h1>Liste des salles</h1> 
-    </header>
+    <input id="myInput" type="text" placeholder="Search..">
+   {# {% if form is defined %}
+        {{ form_start (form)}}
+        <div class ="form-row align-items-end">
+          <div class="col">
+            {{form_row(form.nom)}}
+          </div>
+          <div class="col">
+            <div class="form-group">
+            </div>
+          </div>
+        </div>
+        {{ form_end (form) }}
+    {% endif %}#}
+       {#<link href="affiche.css">#} 
+        
+       <a href= "{{ path('ajouterS') }}" class="btn btn-dark" align = "left" >Ajouter</a>
+       <a href= "{{ path('calendrier') }}"  class="btn btn-dark" align = "left" >Voir calendrier</a>
+       
+       </header>
     <section>
-<table  align="center" hspace="15" vspace="9">
-    <thead>
+
+<table class ="content-table" >
     <tr>
-    
+    <thead>
+    <th>Id</th>
     <th>Name</th>
     <th>Capacité</th>
     <th>Date de maintenance</th>
@@ -73,36 +113,43 @@ table {
         
     </tr>  
     </thead>
-    <tbody>
+    <tbody id="myTable">
         
     <tr {% for s in salle %}>
-        
+        <td> {{s.idsa}} </td>
         <td> {{s.nomSalle}} </td>
         <td> {{s.capacite}} </td>
         <td> {{s.datedemaintenance |date('d-m-Y')}} </td>
        {#{% if s.datedemaintenance %} #} 
             {% if s.enmaintenance == 0 %}
                 <td> Maitenue </td>  
-            {% else %}
-                <td>En maintenace</td>
-            {% endif %}
+            {% else  %}
+              <td>
+                <a href="{{ path("maintenir",{"id":s.idSa})}}" class = "btn btn-dark">Maintenues</a>
+              </td>
+              {% endif %}
         <td> {{s.disponible}} </td>
         
         
         <td>
         <a href="{{ path("supprimerS",{"id":s.idSa}) }}"><img src = "../dist/img/poubelle.png" width="20" height="30"></a>
         <a href="{{ path("modiferS",{"id":s.idSa}) }}"><img src = "../dist/img/edit.png" width="20" height="30"></a>
-        <img src = "../dist/img/reserver.png">
+        {% if s.disponible == "Disponible" and s.enmaintenance == 0 %}
+        <a href="{{ path("reserver" , {"id":s.idSa})}}"><img src = "../dist/img/reserver.png"></a>
+        {% endif %}
         </td>
        {# <td><a href="{{ path("modifierS",{"id":s.idSa}) }}">Modifier</a></td>#}
     </tr {% endfor %}>
     </tbody>
   </table>
-    </section>
-    
-    <footer>
-        <a href= "{{ path('ajouterS') }}" class="btn btn-dark" align = "left" >Ajouter</a>
-        <a class="btn btn-dark" align = "left" >Exporter Excel</a>
+  {#
+  <div class ="navigation">
+     {{knp_pagination_render(salle)}}
+ 
+    </div>
+    </section>#}
+    <footer class = "ftr">
+        
     
   </footer>
 {% endblock %} 

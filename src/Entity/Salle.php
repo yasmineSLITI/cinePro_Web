@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Salle
@@ -25,6 +26,7 @@ class Salle
      * @var int
      *
      * @ORM\Column(name="capacite", type="integer", nullable=false)
+     *  
      */
     private $capacite;
 
@@ -46,6 +48,8 @@ class Salle
      * @var string
      *
      * @ORM\Column(name="nomSalle", type="string", length=255, nullable=false)
+     * @Assert\NotNull(message = "Ce champ ne peut pas etre vide! Veuillez le remplir.")
+     *  @Assert\NotBlank(message = "Il parait que vous-avez oubliée de remplir le champ du nom !")
      */
     private $nomsalle;
 

@@ -1,35 +1,27 @@
 {% extends 'baseFrontOffice.html.twig'%}
     {% block frontContainer %} 
 
-        {% block body %} 
-            <h2>Enrechir le festival en ajoutant un evenement</h2>
+            <h2>Enrechir le festival en proposant un évenement</h2>
             {{form_start (form)}}
+            {{form_errors (form)}}
             <div class "form-group">
-                <label for ="">Nom de l'évenement :</label>
-                {{form_widget (form.nomev)}}
-                {{ form_row (form.nomev)}}  
+                {{ form_row (form.nomev , {'label' : "Nom de l'évenement :"})}} 
+                
             </div>
             <div class "form-group">
-                <label for ="">Ajouter une description :</label>
-                {{form_widget (form.description)}}
-                {{ form_row (form.description)}}
+                {{ form_row (form.description , {'label' : "Ajouter une description :"})}}
             </div>
             <div class "form-group">
-                <label for ="">Montant de sponsoring proposé :</label>
-                {{form_widget (form.montant)}}
-                {{ form_row (form.montant)}}    
+                {{ form_row (form.montant , {'label' : "Montant de sponsoring proposé :"})}}    
             </div>
             <div class "form-group">
-                <label for ="">Durée de l'evenement en minute :</label>
-                {{form_widget (form.duree)}}
-                {{ form_row (form.duree)}}
+                {{ form_row (form.duree , {'label' : "Durée de l'evenement en minute :"})}}
             </div>
             <div class "form-group">
             <button type="submit" class= "btn btn-dark">Envoyer demande</button>
             <p></p>
-            <INPUT TYPE="reset" NAME="nom" VALUE=" Annuler demande" class= "btn btn-dark">
+            <INPUT TYPE="reset"  VALUE=" Annuler demande"  class= "btn btn-dark">
             </div>
             {{form_end (form)}}
             
         {% endblock %}
-    {% endblock %} 
