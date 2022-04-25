@@ -94,7 +94,8 @@ class ProduitRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('p');
 
         if (!empty($search->q)) {
-            $query = $query->andWhere('p.designation LIKE :q')
+            $query = $query->where('p.designation LIKE :q')
+                ->orWhere('p.description LIKE :q')
                 ->setParameter('q', "%{$search->q}%");
         }
 

@@ -409,13 +409,19 @@ class ProduitController extends AbstractController
         //dd($products);
         foreach ($products as $P) {
 
-            $existingProduct = $produitRepo->find(['idproduit' => $P['IDProduit']]);
+            //$existingProduct = $produitRepo->find(['idproduit' => $P['IDProduit']]);
+            $existingProduct = $produitRepo->findOneBy(['designation' => $P['Designation']]);
 
             if ($existingProduct) {
 
                 $existingProduct->setDesignation($P['Designation']);
                 $existingProduct->setDescription($P['Description']);
                 $existingProduct->setImage($P['Image']);
+                $nomImage = $this->getParameter("uploads_directory") . '/' . $P['Image'];
+                $uploads_directory = $this->getParameter('uploads_directory');
+                if (!file_exists($nomImage)) {
+                    move_uploaded_file($P['Image'], $uploads_directory);
+                }
                 $existingProduct->setQuantiteenstock($P['QuantiteEnStock']);
                 $existingProduct->setPrixachatunit($P['prixAchatUnit']);
                 $existingProduct->setPrixventeunit($P['prixVenteUnit']);
@@ -430,6 +436,11 @@ class ProduitController extends AbstractController
                 $produit->setDesignation($P['Designation']);
                 $produit->setDescription($P['Description']);
                 $produit->setImage($P['Image']);
+                $nomImage = $this->getParameter("uploads_directory") . '/' . $P['Image'];
+                $uploads_directory = $this->getParameter('uploads_directory');
+                if (!file_exists($nomImage)) {
+                    move_uploaded_file($P['Image'], $uploads_directory);
+                }
                 $produit->setQuantiteenstock($P['QuantiteEnStock']);
                 $produit->setPrixachatunit($P['prixAchatUnit']);
                 $produit->setPrixventeunit($P['prixVenteUnit']);

@@ -1,3 +1,0 @@
-IDProduit,Designation ,Description,Image,QuantiteEnStock,prixAchatUnit,prixVenteUnit,StatusStock
-25,testDesignation25,testDescription25,3344b975b96ba1224e6e2a88f47314b5.jpeg,0,150,200,0
-29,testDesignation29,testDescription29,3344b975b96ba1224e6e2a88f47314b5.jpeg,500,200,300,1
