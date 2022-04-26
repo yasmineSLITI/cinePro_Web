@@ -5,6 +5,8 @@ namespace App\Form;
 use App\Entity\Salle;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,7 +18,11 @@ class SalleType extends AbstractType
         $builder
             ->add('nomsalle')
             ->add('capacite')
-            ->add('datedemaintenance')
+            ->add('datedemaintenance', DateType :: class, [
+                'widget' => 'single_text',
+                
+
+            ] )
                
         ;
     }

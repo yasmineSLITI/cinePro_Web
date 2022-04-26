@@ -3,9 +3,14 @@
 namespace App\Form;
 
 use App\Entity\Demandedesponsoring;
+use App\Entity\Evenement;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+
 
 class DemandedesponsoringType extends AbstractType
 {
@@ -13,11 +18,15 @@ class DemandedesponsoringType extends AbstractType
     {
         $builder
             
-            ->add('etataccept')
             ->add('description')
-            ->add('paquet')
-        ;
+            ->add('paquet', ChoiceType::class, [
+                'choices' => [
+                    'Bronze' => "Bronze",
+                    'Silver' => "Silver",
+                    'Gold' => "Gold",
+                ],]);
     }
+    
 
     public function configureOptions(OptionsResolver $resolver): void
     {

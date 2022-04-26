@@ -53,6 +53,8 @@
               }
     </style>
     <h1>Liste des vos evenements</h1> 
+    <a href = "{{path("ajouterEvent")}}" class ="btn btn-dark">Demander evenement</a>
+
 <table class ="content-table">
     <thead>
     <tr>
@@ -88,10 +90,24 @@
     </tr {% endfor %}>
     </tbody>
   </table>
-  <div class = "navigation">
-    {{knp_pagination_render(eve)}}
-    <a href = "{{path("ajouterEvent")}}" class ="btn btn-dark">Demander evenement</a>
-   </div> 
+ {{ knp_pagination_render(
+      eve,
+      '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig',
+      {
+          'queryParam1': 'param1 value',
+          'queryParam2': 'param2 value'
+      },
+      {
+          'viewParam1': 'param1 value',
+          'viewParam2': 'param2 value'
+      },
+      {
+        'align': 'center',
+        'size': 'large',
+        'rounded': true,
+        }
+  ) }} 
+ 
 {% endblock %} 
 
 

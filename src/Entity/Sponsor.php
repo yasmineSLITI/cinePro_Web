@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,7 +20,7 @@ class Sponsor
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idsp = 9;
+    private $idsp;
 
     /**
      * @var string
@@ -36,13 +37,24 @@ class Sponsor
     private $username;
 
     /**
-     * @var \App\Entity\Demandedesponsoring
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Realisateur", mappedBy="idsp")
+     * @var \App\Entity\Demandedesponsoring 
+     * @ORM\OneToMany(targetEntity="App\Entity\Realisateur",
+     * mappedBy="idsp", cascade={"persist"}, orphanRemoval=true)
      * 
      */
-    private $demande=null;
+    private $demande;
+    /**
+     * @var \App\Entity\Evenement
+     * @ORM\OneToMany(targetEntity="App\Entity\Evenement",
+     * mappedBy="idsp", cascade={"persist"}, orphanRemoval=true)
+     * 
+     */
+    private $idev;
 
+    public function __construct()
+    {
+        $this->demande=new ArrayCollection();
+    }
     public function getIdsp(): ?int
     {
         return $this->idsp;
@@ -72,5 +84,29 @@ class Sponsor
         return $this;
     }
 
+    public function getIdev(): ? Evenement
+    {
+        return $this->idev;
+    }
+
+    public function setIdev(?Evenement $idev): self
+    {
+        $this->idev = $idev;
+
+        return $this;
+    }
+    public function getDemande(): ? Demandedesponsoring
+    {
+        return $this->demande;
+    }
+
+    public function setDemande(?Demandedesponsoring $demande): self
+    {
+        $this->demande = $demande;
+
+        return $this;
+    }
+
+    
 
 }

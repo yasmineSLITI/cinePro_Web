@@ -47,7 +47,20 @@
                 </style> 
                 <header class = "heads">   
             <h1>Liste de vos demande</h1> 
-            
+            {% if form is defined %}
+              {{ form_start (form)}}
+              <div class ="form-row align-items-end">
+                <div class="col">
+                  {{form_row(form.nom)}}
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                  </div>
+                </div>
+              </div>
+              {{ form_end (form) }}
+          {% endif %}
+                </header>
         <table class ="content-table" >
             <tr>
             <thead>
@@ -68,5 +81,24 @@
         <td>{{d.description}}</td>
         
             </tr {% endfor %}> 
-        </table> 
+        </table>
+        
+        {{ knp_pagination_render(
+      demande,
+      '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig',
+      {
+          'queryParam1': 'param1 value',
+          'queryParam2': 'param2 value'
+      },
+      {
+          'viewParam1': 'param1 value',
+          'viewParam2': 'param2 value'
+      },
+      {
+        'align': 'center',
+        'size': 'large',
+        'rounded': true,
+        }
+  ) }} 
+ 
 {% endblock %} 

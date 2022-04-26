@@ -57,6 +57,19 @@ class EvenementRepository extends ServiceEntityRepository
         ->getQuery()
         ->execute();
     }
+/**
+ * 
+ */
+    public function updateProgress ($id,$progress)  {
+        return $this->createQueryBuilder('r')
+        ->update()
+        ->set('r.progret','?2')
+        ->setParameter(2,$progress)
+        ->where('r.idev IN (?1)')
+        ->setParameter(1, $id)
+        ->getQuery()
+        ->execute();
+    }
     /**
      * 
      */

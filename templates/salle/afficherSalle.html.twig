@@ -47,40 +47,16 @@
               }
               .heads{
             position: sticky;
-            /*background-repeat: no-repeat;
-            background: linear-gradient(red,pink);
-background-size: cover;
-background-clip: text;
--webkit-background-clip: text;
-color: transparent;
-             
-              /* font-family: 'Lato', sans-serif;
-                font-weight: 900;
-                font-size: 2.5em;
-                color: red;
-                display: inline;
-                margin-top: -500px;*/
               }
-              .navigation{
-                display: center;
+              
+                
               }
         </style>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-$(document).ready(function(){
-  $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
-
-</script>
+   
         <header class = "heads">   
     <h1>Liste des salles</h1> 
-    <input id="myInput" type="text" placeholder="Search..">
-   {# {% if form is defined %}
+    
+   {% if form is defined %}
         {{ form_start (form)}}
         <div class ="form-row align-items-end">
           <div class="col">
@@ -92,7 +68,7 @@ $(document).ready(function(){
           </div>
         </div>
         {{ form_end (form) }}
-    {% endif %}#}
+    {% endif %}
        {#<link href="affiche.css">#} 
         
        <a href= "{{ path('ajouterS') }}" class="btn btn-dark" align = "left" >Ajouter</a>
@@ -142,12 +118,27 @@ $(document).ready(function(){
     </tr {% endfor %}>
     </tbody>
   </table>
-  {#
-  <div class ="navigation">
-     {{knp_pagination_render(salle)}}
+  
+    {{ knp_pagination_render(
+      salle,
+      '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig',
+      {
+          'queryParam1': 'param1 value',
+          'queryParam2': 'param2 value'
+      },
+      {
+          'viewParam1': 'param1 value',
+          'viewParam2': 'param2 value'
+      },
+      {
+        'align': 'center',
+        'size': 'large',
+        'rounded': true,
+        }
+  ) }} 
  
-    </div>
-    </section>#}
+   
+    </section>
     <footer class = "ftr">
         
     

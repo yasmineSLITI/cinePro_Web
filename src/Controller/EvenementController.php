@@ -125,8 +125,14 @@ class EvenementController extends Controller
         $event=$this->get('knp_paginator')->paginate(
             $ev, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            5 /*limit per page*/
+            3 /*limit per page*/
         );
+        $event->setCustomParameters([
+            'align' => 'center', # center|right (for template: twitter_bootstrap_v4_pagination and foundation_v6_pagination)
+             # small|large (for template: twitter_bootstrap_v4_pagination)
+            'style' => 'bottom',
+            'span_class' => 'whatever',
+        ]);
         
         return $this->render("evenement/listeEvenementRea.html.twig",
         ['eve'=>$event]);

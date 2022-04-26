@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\PropertySearch;
 use App\Entity\Demandedesponsoring;
 use App\Entity\Evenement;
 use App\Entity\Sponsor;
 use App\Form\DemandedesponsoringType;
+use App\Form\PropertySearchType;
 use App\Repository\DemandedesponsoringRepositoy;
 use App\Repository\EvenementRepository;
 use App\Repository\SponsorRepositoy;
@@ -34,11 +36,24 @@ class DemandedesponsoringController extends Controller
 /**
  * @Route ("/mesdemandes" , name = "mesdemandes")
  */
-public function affiche_des_demandes_par_spons ( DemandedesponsoringRepositoy $repo){
+public function affiche_des_demandes_par_spons ( DemandedesponsoringRepositoy $repo , Request $request){
     $spons = $this->getDoctrine()->getRepository(Sponsor::class)->findBy(['idsp'=>12]);
     $mesdemandes=$repo->findBy(['idsp'=>$spons]);
+    
+    $salles=$this->get('knp_paginator')->paginate(
+        $mesdemandes, /* query NOT result */
+        $request->query->getInt('page', 1), /*page number*/
+        5 /*limit per page*/ 
+    );
+    $salles->setCustomParameters([
+        'align' => 'center', # center|right (for template: twitter_bootstrap_v4_pagination and foundation_v6_pagination)
+         # small|large (for template: twitter_bootstrap_v4_pagination)
+        'style' => 'bottom',
+        'span_class' => 'whatever',
+    ]);
+
    //dd($mesdemandes);
-    return $this->render("demandedesponsoring/afspons.html.twig",['demande'=>$mesdemandes]);
+    return $this->render("demandedesponsoring/afspons.html.twig",['demande'=>$salles]);
 }
 
     /**
@@ -93,7 +108,6 @@ public function affiche_des_demandes_par_spons ( DemandedesponsoringRepositoy $r
     /**
   *  
   * @Route("/accepterDemande/{id}", name="accepterDemande")
-  * Method({"GET", "POST"})
   */ 
   public function accepter_demande(Request $request , $id , DemandedesponsoringRepositoy $dm , EvenementRepository $eve) {
     $demande=$this->getDoctrine()->getRepository(Demandedesponsoring :: class)->findOneBy(['iddemande'=>$id]);
@@ -132,8 +146,7 @@ public function affiche_des_demandes_par_spons ( DemandedesponsoringRepositoy $r
     /**
   *  
   * @Route("/refuserDemande/{id}", name="refuserDemande")
-  * Method({"GET", "POST"})
-  */ 
+  */
   public function refuser_demande(Request $request , $id , DemandedesponsoringRepositoy $dm , EvenementRepository $eve) {
     $demande=$this->getDoctrine()->getRepository(Demandedesponsoring :: class)->findOneBy(['iddemande'=>$id]);
     $event=$demande->getIdev();
@@ -181,6 +194,9 @@ public function affiche_des_demandes_par_spons ( DemandedesponsoringRepositoy $r
     $response->send();
     return$this->redirectToRoute('listerD_idev');
 }
+
+
+
 
 }
 

@@ -88,7 +88,7 @@ class SalleController extends Controller
             
         }
 //        $recherche=$this->getDoctrine()->getRepository(Salle::class)->findOneBy(['idsa' => 6]);
-       /* if($form->isSubmitted()&&$form->isValid()){
+     if($form->isSubmitted()&&$form->isValid()){
             $nom=$ps->getNom();
             if ($nom!="")
             $recherche=$this->getDoctrine()->getRepository(Salle::class)->findBy(['nomsalle'=>$nom]);
@@ -97,9 +97,15 @@ class SalleController extends Controller
             
         $salles=$this->get('knp_paginator')->paginate(
             $recherche, /* query NOT result */
-         /*   $request->query->getInt('page', 1), /*page number*/
-           /* 10 /*limit per page*/ 
-        /*);*/
+            $request->query->getInt('page', 1), /*page number*/
+            5 /*limit per page*/ 
+        );
+        $salles->setCustomParameters([
+            'align' => 'center', # center|right (for template: twitter_bootstrap_v4_pagination and foundation_v6_pagination)
+             # small|large (for template: twitter_bootstrap_v4_pagination)
+            'style' => 'bottom',
+            'span_class' => 'whatever',
+        ]);
         $time = new \DateTime();
         //$time=$time->format('d-m-Y');
         //dd($time);
@@ -110,7 +116,7 @@ class SalleController extends Controller
         $recherche1=$recherche1->format('d-m-Y');
         dd($diff);*/
         return $this->render("salle/afficherSalle.html.twig",
-        ['form' => $form->createView(),'salle'=>$recherche1]); 
+        ['form' => $form->createView(),'salle'=>$salles]); 
     }
 
     /**

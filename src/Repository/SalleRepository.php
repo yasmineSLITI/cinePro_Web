@@ -45,6 +45,32 @@ class SalleRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function enMaintenance(int $s){
+        return $this->createQueryBuilder('r')
+        ->update()
+        ->set('r.enmaintenance',true)
+        ->set('r.disponible','Non disponible')
+        ->where('r.idsa IN (?1)')
+        ->setParameter(1,$s)
+        ->getQuery()
+        ->execute()
+        ;
+
+    }
+    public function maintenu(Salle $s){
+        return $this->createQueryBuilder('r')
+        ->update()
+        ->set('r.enmaintenance',0)
+        ->set('r.disponible','Disponible')
+        ->where('r.idsa IN (?1)')
+        ->setParameter(1,$s->getIdsa())
+        ->getQuery()
+        ->execute()
+        ;
+
+    }
+
     // /**
     //  * @return Salle[] Returns an array of Salle objects
     //  */

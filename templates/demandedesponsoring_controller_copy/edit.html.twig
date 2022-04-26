@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<title>Edit Demandedesponsoring</title>
+
+{% block body %}
+    <h1>Edit Demandedesponsoring</h1>
+
+    {{ include('demandedesponsoring_controller_copy/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_demandedesponsoring_controller_copy_index') }}">back to list</a>
+
+    {{ include('demandedesponsoring_controller_copy/_delete_form.html.twig') }}
+{% endblock %}

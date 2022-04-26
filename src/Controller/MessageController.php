@@ -24,38 +24,38 @@ class MessageController extends AbstractController
      */
     public function send(Request $request)
     {
-$mobile ='+21652635303';
+$mobile ='0021652635303';
 $message = 'Votre demande a été bien acceptée';
 $encodedMessage = urlencode($message);
 $authKey ='';
 $sendrId='';
 $route = 4;
 $postData = array(
-    'authKey'=>$authKey,
-    'sendID'=>$sendrId,
-    'route'=>$route,
-    'mobile'=>$mobile,
-    'encodedMessage'=>$encodedMessage
+    'authkey'=>$authKey,
+    'mobiles'=>$mobile,
+    'message'=>$encodedMessage,
+    'sender'=>$sendrId,
+    'route'=>$route
 
 );
 $url='';
 
-$ch = Curl_init();
-Curl_setopt_array($ch,array(
+$ch = curl_init();
+curl_setopt_array($ch,array(
     CURLOPT_URL =>$url ,
     CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_POST => True,
+    CURLOPT_POST => true,
     CURLOPT_POSTFIELDS => $postData
 ));
 curl_setopt($ch,CURLOPT_SSL_VERIFYHOST , 0);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER,0);
 $output = curl_exec($ch);
 if(curl_errno($ch)){
-    echo 'error'.curl_error($ch);
+    echo 'error : ' . $ch;
 }
 curl_close($ch);
-/*return $this->render('message/success.html.twig' , [
-    'response'=>$response*
+return $this->render('message/success.html.twig' , [
+    'response'=> $output
 ]);
 
 
