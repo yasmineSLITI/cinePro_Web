@@ -6,8 +6,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\PublicationRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
+
+
 use App\Entity\Publication;
 use App\Entity\Presse;
+
+
 
 class ClientpubController extends AbstractController
 {
@@ -23,16 +29,44 @@ class ClientpubController extends AbstractController
 /**
      * @Route("/client1", name="publicationClient")
      */
-    public function publication(): Response
+    public function publication(Request $request, PaginatorInterface $paginator): Response
     {
-        $p = $this->getDoctrine()->getRepository(Publication::class)->findAll();
-         
+        $donnees = $this->getDoctrine()->getRepository(Publication::class)->findByArch();
+        $p = $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page',1),
+            6
+        );
         
         return $this->render('clientPub/listePubClient.html.twig', [
             
             'publications'=> $p,
         ]);
+
     }
+
+    /**
+     * @Route("/clientarchive", name="publicationArchive")
+     */
+    public function publicationArchive(Request $request, PaginatorInterface $paginator): Response
+    {
+        $donnees = $this->getDoctrine()->getRepository(Publication::class)->findByArchive();
+        $pub = $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page',1),
+            4
+        );
+        
+        return $this->render('clientPub/pubarchive.html.twig', [
+            
+            'pub'=> $pub,
+        ]);
+    }
+
+
+
+
+
     /**
      * @Route("/{id}", name="detailC")
      */
@@ -48,4 +82,7 @@ class ClientpubController extends AbstractController
 
         ]);
     }
+
+   
+    
 }

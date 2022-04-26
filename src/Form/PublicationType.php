@@ -34,7 +34,9 @@ class PublicationType extends AbstractType
         
         ->add('imgpub',FileType::class,[
             'label'=> 'insert image',
-            
+            'required'=> false,
+            'data_class'=> null,
+            'mapped'=> true
            
             
         ])

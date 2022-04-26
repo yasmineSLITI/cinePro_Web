@@ -3,9 +3,44 @@
 {% block frontContainer %}
 
 <link rel="stylesheet" href="{{ asset('dist/css/publication/pub.css') }}">
-
+<link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
 <section class = "design" id = "design">
   <div class = "container">
+    <div style="position: relative; float: right;">
+        <a class="btn btn-app bg-secondary"href="{{path('publicationArchive')}}" >
+          
+          <i class="fas fa-inbox"></i> publications archivées
+          </a></div>
+          
+
+  </br>
+  
+  
+
+  <form style="margin-bottom: 10px" method="post" action="{{ path('publicationClient') }}">
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous">
+      <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+      <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css"/>
+      <input type="text" id="minDate" name="minDate" value="Date" width="200"/>
+
+      <script>
+          $('#minDate').datepicker({
+              uiLibrary: 'bootstrap4'
+              , format: "dd-mm-yyyy"
+          });
+      </script>
+
+                  
+            <button style="margin-top: 10px" class="btn btn-secondary" onclick="TDate()">Afficher les pubs.</button>
+
+            
+
+           
+
+              </form>
     <div class = "title">
       <h2>Publications & Articles </h2>
       <p>par différents partenaires de presse </p>
@@ -15,21 +50,33 @@
       {% for pub in publications %} 
       <div class = "design-item">
         <div class = "design-img">
-          <img src = "{{ asset('uploads/' ~ pub.imgpub) }}" alt = "">
+          <img src = "{{ asset('uploads/' ~ pub.imgpub) |imagine_filter('pubfiltre')}}" alt = "">
           
          
         </div>
         <div class = "blog-text">
           <span>Ecrit le {{pub.datecreationpub | date('d/m/y')}} à {{pub.datecreationpub | date('H:i')}}</span>
           <h2>{{pub.titre}}</h2>
-          <p>{{pub.txtpub}}</p>
+          
           <div><a href = "{{ path ('detailC',{'id':pub.idpub})}}">Lire la suite</a>
-          <a href = "#">signaler</a></div>
+          <a href = "{{ path ('app_signalpub',{'idp':pub.idpub})}}">signaler</a>
+
+        </div>
         </div>
       </div>
      {% endfor %}
+
     </div>
+    {{ knp_pagination_render(publications) }}
+
   </div>
+
 </section>
+
+    <script src="//code.jquery.com/jquery.js"></script>
+    <!-- Load Flashy default JavaScript -->
+    <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+    <!-- Include Flashy default partial -->
+    {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
 
 {% endblock %}

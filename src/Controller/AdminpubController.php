@@ -9,7 +9,11 @@ use App\Entity\Publication;
 use App\Entity\Presse;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use MercurySeries\FlashyBundle\FlashyNotifier;
+
 use App\Repository\PublicationRepository;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class AdminpubController extends AbstractController
 {
@@ -45,4 +49,60 @@ class AdminpubController extends AbstractController
 
         ]);
     }
+    /**
+     * @Route("/publication/supprimer/{id}", name="supprimerPubAdmin")
+     */
+    public function Supprimer($id,PublicationRepository $repo, FlashyNotifier $flashy){
+        //$repo=$this->getDoctrine()->getRepository(Film::class);
+        $pub =$repo->find($id);
+        $em=$this->getDoctrine()->getManager();
+        $em->remove($pub);
+        $em->flush();
+        $flashy->info('la publication est supprimée ');
+
+        //$this->addFlash('message','Film Supprimé avec succés');
+        return $this->redirectToRoute('publicationAdmin');
+    }
+
+    /**
+     * @Route("/pdf", name="pubpdf")
+     */
+    public function pubpdf(): Response
+    {
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        $pdfOptions->setIsRemoteEnabled(true);
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+        $pub = $this->getDoctrine()->getRepository(Publication::class)->findAll();
+
+       
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('adminpub/pubpdf.html.twig', [
+            
+            'pub'=> $pub,
+        ]);
+        
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+        
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => true
+        ]);
+
+       
+       
+        
+        
+    }
+
+      
 }

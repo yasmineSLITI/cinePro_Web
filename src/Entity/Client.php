@@ -19,7 +19,7 @@ class Client
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idc;
+    private $idc = 4;
 
     /**
      * @var string

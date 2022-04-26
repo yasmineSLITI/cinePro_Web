@@ -1,0 +1,41 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+{% block frontContainer %}
+
+<link rel="stylesheet" href="{{ asset('dist/css/publication/pub.css') }}">
+<section class = "design" id = "design">
+  <div class = "container">
+    <div class = "title">
+      <h2>Publications & Articles Archivées </h2>
+      <p>par différents partenaires de presse </p>
+    </div>
+
+    <div class = "design-content">
+      {% for p in pub %} 
+      <div class = "design-item">
+        <div class = "design-img">
+          <img src = "{{ asset('uploads/' ~ p.imgpub)|imagine_filter('pubfiltre') }}" alt = "">
+          
+         
+        </div>
+        <div class = "blog-text">
+          <span>Ecrit le {{p.datecreationpub | date('d/m/y')}} à {{p.datecreationpub | date('H:i')}}</span>
+          <h2>{{p.titre}}</h2>
+          
+          <div><a href = "{{ path ('detailC',{'id':p.idpub})}}">Lire la suite</a>
+
+        </div>
+        </div>
+      </div>
+     {% endfor %}
+
+    </div>
+    {{ knp_pagination_render(pub) }}
+  </div>
+
+</section>
+
+
+    
+
+{% endblock %}

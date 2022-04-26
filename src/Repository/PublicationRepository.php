@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Publication;
+use App\Entity\Signale;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -21,31 +22,41 @@ class PublicationRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Publication[] Returns an array of Classeroom objects
+    //  * @return Publication[] Returns an array of Publication objects
     //  */
-    /*
-    public function findByExampleField($value)
+    
+
+    public function findByArchive()
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('c.archive = :archive')
+            ->setParameter('archive', 1)
+            
             ->getQuery()
             ->getResult()
         ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Classeroom
+    public function findByArch()
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('c.archive = :archive')
+            ->setParameter('archive', 0)
+            
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
+    
+    public function filterbydate($Date)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        $qb->select( 'e' )
+            ->from( 'App\Entity\Publication',  'e' )
+            ->setParameter('date', $Date)
+            ->orderBy('e.datecreationpub', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }
+

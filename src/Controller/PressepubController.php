@@ -10,10 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\PublicationType;
 use App\Entity\Publication;
 use App\Entity\Presse;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 
 use App\Repository\PublicationRepository;
 use Symfony\Component\HttpFoundation\File\UploadFile;
-use MercurySeries\FlashyBundle\FlashyNotifier;
 use Knp\Component\Pager\PaginatorInterface;
 
 class PressepubController extends AbstractController
@@ -22,9 +22,8 @@ class PressepubController extends AbstractController
      * @Route("/presse", name="appPresse")
      */
 
-    public function publication1(Request $request, PaginatorInterface $paginator): Response
+    public function publication1(Request $request): Response
     {
-        $pub = $this->getDoctrine()->getRepository(Publication::class)->findAll();
         
         
         
@@ -43,7 +42,7 @@ class PressepubController extends AbstractController
         $pub = $paginator->paginate(
             $donnees,
             $request->query->getInt('page',1),
-            2
+            3
         );
         
         return $this->render('pressepub/listepub.html.twig', [
@@ -55,7 +54,7 @@ class PressepubController extends AbstractController
     /**
      * @Route("/presse/ajouter/{id}", name="app_presse")
      */
-    public function new(Request $request, $id): Response
+    public function new(Request $request, $id, FlashyNotifier $flashy): Response
     
     {
 
@@ -76,7 +75,8 @@ class PressepubController extends AbstractController
 
             $entityManager->persist($Publication);
             $entityManager->flush();
-            $this->addFlash('Success','Created successfully');
+            $flashy->success(' votre publication a été ajoutée avec succée');
+
 
             return $this->redirectToRoute('publicationPresse');
         }
@@ -90,14 +90,88 @@ class PressepubController extends AbstractController
     /**
      * @Route("/presse/listepub/supprimer/{id}", name="supprimerPub")
      */
-    public function Supprimer($id,PublicationRepository $repo){
+    public function Supprimer($id,PublicationRepository $repo, FlashyNotifier $flashy){
         //$repo=$this->getDoctrine()->getRepository(Film::class);
         $pub =$repo->find($id);
         $em=$this->getDoctrine()->getManager();
         $em->remove($pub);
         $em->flush();
+        $flashy->info('votre publication est supprimée ');
+
         //$this->addFlash('message','Film Supprimé avec succés');
         return $this->redirectToRoute('publicationPresse');
     }
+
+    /**
+     * @Route("/modifier/{id}", name="modifierPub")
+     */
+    public function Modifier($id,PublicationRepository $repo, Request $request , FlashyNotifier $flashy){
+       
+        
+
+        
+        $pub =$repo->find($id);
+        $imageName = $pub->getImgpub();
+        $form = $this->createForm(PublicationType::class, $pub);
+        #$form->handleRequest($request);
+        $form->submit($request->request->get($form->getName()), false);
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $file = $request->files->get('publication')['imgpub'];
+            if ($file != null) {
+                $uploads_directory = $this->getParameter('images_directory');
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                $file->move(
+                    $uploads_directory,
+                    $fileName
+                );
+                $pub->setImgpub($fileName);
+            } else {
+                $pub->setImgpub($imageName);
+            }
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($pub);
+
+            $em->flush();
+            $flashy->success('votre publication a été modifier avec succée');
+
+            
+            return $this->redirectToRoute("publicationPresse");
+        }
+
+        return $this->render('pressepub/modifierpubpresse.html.twig', [
+            'pub' => $pub,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/archiver/{id}", name="archiverPub")
+     */
+    public function archiver($id,PublicationRepository $repo, Request $request , FlashyNotifier $flashy){
+       
+        
+
+        
+        $pub =$repo->find($id);
+        $pub->setArchive(1);
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($pub);
+
+            $em->flush();
+            $flashy->success('votre publication a été archivé avec succée');
+
+            
+            return $this->redirectToRoute("publicationPresse");
+        
+
+        
+    }
+
+    
 
 }

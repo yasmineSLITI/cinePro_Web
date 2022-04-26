@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SignalRepository;
 
 /**
  * Signale
  *
  * @ORM\Table(name="signale", indexes={@ORM\Index(name="FK517", columns={"idClient"}), @ORM\Index(name="FK520", columns={"idPub"})})
- * @ORM\Entity
+  * @ORM\Entity(repositoryClass = SignalRepository::class)
+
  */
 class Signale
 {
@@ -26,7 +28,7 @@ class Signale
      *
      * @ORM\Column(name="nbreSignal", type="integer", nullable=false)
      */
-    private $nbresignal = '0';
+    private $nbresignal = '1';
 
     /**
      * @var \Client

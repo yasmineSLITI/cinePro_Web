@@ -2,6 +2,9 @@
 
 {% block presseContainer %}
 
+<link rel="stylesheet" href="{{ asset('dist/css/publication/liste.css') }}"> 
+
+<link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
  <!-- Main content -->
  <section class="content">
   <div class="container-fluid">
@@ -62,54 +65,88 @@ Le Festival du Film de Carthage a été conçu comme un festival de cinéma enga
         <div class="card">
           <div class="card-header p-2">
             <ul class="nav nav-pills">
-              <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a></li>
-            </ul>
-          </div><!-- /.card-header -->
-          <div class="card-body">
              
-            <div class="tab-content">
-              <div class="active tab-pane" id="activity">
-                 {% for pub in publications %} 
-                 
-                  
-                 <div class="post">
-                  <div class="user-block">
-                   
-                    
-                    <span class="description">Ecrit le {{pub.datecreationpub | date('d/m/y')}} à {{pub.datecreationpub | date('H:i')}}</span>
-                    <p>
-                      {{pub.titre}}
-                    </p>
-                 
-                  </div>
-                  <!-- /.user-block -->
-                  <img src="{{ asset('uploads/' ~ pub.imgpub) }}" alt="image" />
+          </div><!-- /.card-header -->
+          {#<script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
+          <script type="text/javascript">
+            jQuery(document).ready(function() {
+                var searchRequest = null;
+                $("#search").keyup(function() {
+                    var minlength = 1;
+                    var that = this;
+                    var value = $(this).val();
+                    var entitySelector = $("#entitiesNav").html('');
+                    if (value.length >= minlength ) {
+                        if (searchRequest != null)
+                            searchRequest.abort();
+                        searchRequest = $.ajax({
+                            type: "GET",
+                            url: "{{ path('ajax_search') }}",
+                            data: {
+                                'q' : value
+                            },
+                            dataType: "text",
+                            success: function(msg){
+                                //we need to check if the value is the same
+                                if (value===$(that).val()) {
+                                    var result = JSON.parse(msg);
+                                    $.each(result, function(key, arr) {
+                                        $.each(arr, function(idpub, value) {
+                                            if (key === 'posts') {
+                                                if (idpub !== 'error') {
+                                                    console.log(value[1]);
+                                                    entitySelector.append('<li><b>'+value[1]+'</b><a href="/detailedpost/'+idpub +'</a></li>');
+                                                } else {
+                                                    entitySelector.append('<li class="errorLi">'+value+'</li>');
+                                                }
+                                            }
+                                        });
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        </script>#}
+          <div class="active tab-pane" id="activity">
 
-                  <p>
-                    {{pub.txtpub}}
-                  </p>
-                  
-                  <th><a href="{{ path('supprimerPub', {'id':pub.idpub}) }}" class="btn btn-danger btn-sm">Supprimer</a></th>  
-                  
-
+          {% for pub in publications %} 
+          <div class="blog-card">
+            <div class="meta">
+              
+                <img src="{{ asset('uploads/' ~ pub.imgpub) |imagine_filter('pubfiltre')}}" alt="image" />
                 
+              <ul class="details">
+                <li class="date">Ecrit le {{pub.datecreationpub | date('d/m/y')}} à {{pub.datecreationpub | date('H:i')}}</li>
                 
-
-                 
-                 </div></div>
-                
-
-
+              </ul>
+            </div>
+            <div class="description">
+              <h1>{{pub.titre}}</h1>
+              
+              <p>{{pub.txtpub}}</p>
+              
+              
+                <a href="{{ path('supprimerPub', {'id':pub.idpub}) }}" class="btn btn-block btn-outline-dark btn-flat">Supprimer</a> 
                   
-                 </div>
-                 {% endfor %}
-              </div>
+                  <a href="{{ path('modifierPub', {'id':pub.idpub}) }}" class="btn btn-block btn-outline-dark btn-flat">modifier</a> 
+
+                  <a href="{{ path('archiverPub', {'id':pub.idpub}) }}" class="btn btn-block btn-outline-dark btn-flatt">archiver</a>  
+
+                </div>
+          </div>
+          {% endfor %}
+          </div>
               <!-- /.tab-pane -->
              
               <!-- /.tab-pane -->
 
               
               <!-- /.tab-pane -->
+              
+              
+
             </div>
             <!-- /.tab-content -->
           </div><!-- /.card-body -->
@@ -120,8 +157,15 @@ Le Festival du Film de Carthage a été conçu comme un festival de cinéma enga
     </div>
     <!-- /.row -->
   </div><!-- /.container-fluid -->
+
 </section>
 <!-- /.content -->
 </div>
 {{ knp_pagination_render(publications) }}
+
+<script src="//code.jquery.com/jquery.js"></script>
+    <!-- Load Flashy default JavaScript -->
+    <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+    <!-- Include Flashy default partial -->
+    {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
 {% endblock %}
