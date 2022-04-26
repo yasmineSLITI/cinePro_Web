@@ -1,0 +1,89 @@
+{% extends 'baseBackOffice.html.twig' %}
+{% block backContainer %}
+<script>
+        $(document).ready(function(){
+            $('#search').keyup(function(){
+                search_table($(this).val());
+            });
+            function search_table(value){
+                $('#tableac tbody tr').each(function(){
+                    var found = 'false';
+                    $(this).each(function(){
+                        if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                        {
+                            found = 'true';
+                        }
+                    });
+                    if(found == 'true')
+                    {
+                        $(this).show();
+
+                    }
+                    else
+                    {
+                        $(this).hide();
+
+                    }
+                });
+            }
+        });
+    </script>
+    <center><h1>Liste des comptes</h1></center>
+<div class="table-responsive">
+
+<script src="{{ asset('admin/js/jquery.min.js') }}"></script>
+<input type="text" id="search" class="form-control form-control-no-border mr-sm-2" placeholder="chercher Compte">
+<table class="table table-bordered dataTable" id="tableac" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+
+    {#  <table class="table">#}
+    
+        <thead>
+            <tr>
+
+
+                <th>Username</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Mail</th>
+                <th>password</th>
+                <th>Role</th>
+                <th>Image</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for compte in comptes %}
+            <tr>
+                <td>{{ compte.username }}</td>
+                <td>{{ compte.Nom }}</td>
+                <td>{{ compte.Prenom }}</td>
+                <td>{{ compte.mail }}</td>
+                <td>{{ compte.password }}</td>
+                <td>{{ compte.role }}</td>
+                <td><img height='90px' src="{{ asset('uploads/'~compte.image) }}"/></td>
+                <td>
+                    <a href="{{ path('app_compte_show', {'username': compte.username}) }}"><button type="button" class="btn btn-primary mb-2">Détails</button></a>
+                    <a href="{{ path('app_compte_delete', {'username': compte.username}) }}"><button type="button" class="btn btn-danger mb-2">Supprimer</button></a>
+                    
+                </td>
+            </tr>
+        
+
+                {% endfor %}
+                <div class="nk-pagination nk-pagination-center">
+                    {{ knp_pagination_render(comptes) }}
+                </div>
+
+        </tbody>
+</table>
+</div>
+<script type="text/javascript">
+        function imprimer_page(){
+            window.print();
+        }
+</script>
+    <form>
+        <input id="impression" class="js-programmatic-set-val btn btn-outline-primary mr-1 mb-1s" name="impression" type="button" onclick="imprimer_page()" value="Print this page" />
+    </form>
+{% endblock %}
+
