@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Client
  *
  * @ORM\Table(name="client", indexes={@ORM\Index(name="fk4000", columns={"userName"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ClientRepository")
  */
 class Client
 {
@@ -18,6 +21,7 @@ class Client
      * @ORM\Column(name="idClient", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("clients")
      */
     private $idclient;
 
@@ -25,6 +29,7 @@ class Client
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255, nullable=false)
+     * @Groups("clients")
      */
     private $nom;
 
@@ -32,6 +37,7 @@ class Client
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=255, nullable=false)
+     * @Groups("clients")
      */
     private $prenom;
 
@@ -39,6 +45,7 @@ class Client
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=250, nullable=false)
+     * @Groups("clients")
      */
     private $email;
 
@@ -46,6 +53,7 @@ class Client
      * @var \DateTime|null
      *
      * @ORM\Column(name="DateNaiss", type="date", nullable=true, options={"default"="NULL"})
+     * @Groups("clients")
      */
     private $datenaiss = 'NULL';
 
@@ -53,6 +61,7 @@ class Client
      * @var string
      *
      * @ORM\Column(name="role", type="string", length=255, nullable=false)
+     * @Groups("clients")
      */
     private $role;
 
@@ -63,8 +72,21 @@ class Client
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="userName", referencedColumnName="userName")
      * })
+     * @Groups("clients")
      */
     private $username;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Followingproduit::class, mappedBy="client")
+     * @Groups("clients")
+     */
+    private $followings;
+
+    public function __construct()
+    {
+        $this->followings = new ArrayCollection();
+    }
+
 
     public function getIdclient(): ?int
     {
@@ -131,7 +153,7 @@ class Client
         return $this;
     }
 
-    public function getUsername(): ?Compte
+    public function getUsername()
     {
         return $this->username;
     }
@@ -143,5 +165,38 @@ class Client
         return $this;
     }
 
+    /**
+     * @return Collection<int, Followingproduit>
+     */
+    public function getFollowings(): Collection
+    {
+        return $this->followings;
+    }
 
+    public function addFollowing(Followingproduit $following): self
+    {
+        if (!$this->followings->contains($following)) {
+            $this->followings[] = $following;
+            $following->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollowing(Followingproduit $following): self
+    {
+        if ($this->followings->removeElement($following)) {
+            // set the owning side to null (unless already changed)
+            if ($following->getClient() === $this) {
+                $following->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function listFollowing()
+    {
+        return $this->followings;
+    }
 }

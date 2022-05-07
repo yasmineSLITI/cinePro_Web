@@ -1,0 +1,100 @@
+{% extends 'baseBackOffice.html.twig' %}
+
+{% block title %}
+	Import .CSV
+{% endblock %}
+
+{% block backContainer  %}
+
+
+
+
+   
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Importer un fichier .CSV</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{{path('affichage_Produits')}}">Produits</a></li>
+              <li class="breadcrumb-item active">Import .CSV</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+   
+
+    <!-- Main content -->
+    <section class="content">
+     
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Informations Générales</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+           
+              <div class="form-group">
+                <form name="myform" action="/upload" method="post" enctype="multipart/form-data" >
+                    <label for="exampleInputFile">File input</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="exampleInputFile" name="file">
+                        
+                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                      </div>
+                      <div class="input-group-append">
+                        <span class="input-group-text" onclick="myform.submit()">Upload</span>
+                      </div>
+                    </div>
+                    {% if error is defined and error is not null %}
+                     <label class="col-form-label" for="inputError"><i class="far fa-times-circle"></i> {{error}}</label>
+                    {%endif%}
+                   
+                  </form>
+                </div>
+              </div>
+
+             
+            </div>
+            <div class="row">
+        <div class="col-12">
+          <a href="{{path('affichage_Produits')}}" class="btn btn-secondary">Annuler</a>
+
+          {% if fileName is defined and fileName is not null %}
+
+          <a href="{{path('importer_CSV',{'fileName':fileName})}}"class="btn btn-success float-right">Importer Le Contenu du fichier .CSV</a>
+
+          {%endif%}
+
+        </div>
+      </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+      
+      
+
+
+    
+
+
+     
+    </section>
+ 
+</div>
+
+{%endblock%}

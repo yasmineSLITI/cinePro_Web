@@ -3,12 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Film
  *
  * @ORM\Table(name="film", indexes={@ORM\Index(name="FK400", columns={"NumRea"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\FilmRepository")
  */
 class Film
 {
@@ -18,6 +19,7 @@ class Film
      * @ORM\Column(name="idF", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("films")
      */
     private $idf;
 
@@ -25,6 +27,7 @@ class Film
      * @var string
      *
      * @ORM\Column(name="nomF", type="string", length=255, nullable=false)
+     * @Groups("films")
      */
     private $nomf;
 
@@ -32,6 +35,7 @@ class Film
      * @var string
      *
      * @ORM\Column(name="Genre", type="string", length=255, nullable=false)
+     * @Groups("films")
      */
     private $genre;
 
@@ -39,6 +43,7 @@ class Film
      * @var bool
      *
      * @ORM\Column(name="Archive", type="boolean", nullable=false)
+     * @Groups("films")
      */
     private $archive = '0';
 
@@ -46,6 +51,7 @@ class Film
      * @var string
      *
      * @ORM\Column(name="EtatAcc", type="string", length=255, nullable=false, options={"default"="'en attente'"})
+     * @Groups("films")
      */
     private $etatacc = '\'en attente\'';
 
@@ -53,6 +59,7 @@ class Film
      * @var string
      *
      * @ORM\Column(name="Image", type="string", length=255, nullable=false)
+     * @Groups("films")
      */
     private $image;
 
@@ -60,6 +67,7 @@ class Film
      * @var string
      *
      * @ORM\Column(name="Description", type="string", length=255, nullable=false)
+     * @Groups("films")
      */
     private $description;
 
@@ -67,6 +75,7 @@ class Film
      * @var \DateTime
      *
      * @ORM\Column(name="dateDispo", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @Groups("films")
      */
     private $datedispo = 'current_timestamp()';
 
@@ -74,6 +83,7 @@ class Film
      * @var int
      *
      * @ORM\Column(name="duree", type="integer", nullable=false)
+     * @Groups("films")
      */
     private $duree;
 
@@ -84,6 +94,7 @@ class Film
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="NumRea", referencedColumnName="NumRea")
      * })
+     * @Groups("films")
      */
     private $numrea;
 
@@ -199,6 +210,4 @@ class Film
 
         return $this;
     }
-
-
 }

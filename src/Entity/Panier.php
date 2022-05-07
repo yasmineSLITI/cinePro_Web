@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
  * Panier
  *
  * @ORM\Table(name="panier", indexes={@ORM\Index(name="fk", columns={"idClient"}), @ORM\Index(name="fk1", columns={"idBillet"}), @ORM\Index(name="FK2", columns={"idProduit"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PanierRepository")
+ * 
  */
 class Panier
 {
@@ -134,6 +135,4 @@ class Panier
 
         return $this;
     }
-
-
 }

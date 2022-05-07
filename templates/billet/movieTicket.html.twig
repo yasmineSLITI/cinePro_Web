@@ -1,0 +1,331 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+
+{% block frontContainer  %}
+<style>
+
+#imprimerBillet{
+	position: relative;
+	top: 20px;
+	right: -450px;
+	text-align: center;
+}
+
+body {
+    background: #F5F5F5;
+}
+.logo {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.nextButton {
+    margin-top: 20px;
+}
+.form-inline {
+    margin-top: 50px;
+}
+.form-group {
+    margin-left: 260px;
+}
+.table-responsive {
+    margin-top: 50px;
+}
+#title {
+    font-size: 20px;
+    margin-top: 50px;
+}
+.bookingTicket,
+.booked_list,
+.ticketBox {
+    background: #ffffff;
+    box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    padding: 40px;
+    margin: 2em;
+    border-radius: 10px;
+    display: inline-block;
+}
+#screen {
+    width: 200px;
+    border: 1px solid #f1f1f1;
+    border-radius: 3px;
+    box-shadow: 1px 3px 6px 0px #f9f9f9;
+    text-align: center;
+    margin: 0 auto;
+    background-color: #fefeff;
+}
+#table-screen {
+    border-collapse: separate;
+}
+#displayscreenTickets {
+    margin-top: 10px;
+}
+#table-screen td,
+th,
+tr {
+    padding: 8px 0px;
+    text-align: center;
+}
+.bookingTicket select {
+    width: 100% !important;
+}
+.bookingTicket .form-group {
+    margin-left: 0px;
+}
+.screen-map {
+    margin-top: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+.screen-map img {
+    margin-right: 15px;
+}
+.reserved-seat {
+    margin-left: 4px;
+    width: 25px;
+}
+.empty-seat {
+    cursor: pointer;
+    width: 25px;
+}
+.booked-seat {
+    cursor: pointer;
+    content: url('../img/selected.png');
+    width: 25px;
+}
+.message {
+    font-size: 14px;
+    color: #ff0000;
+    font-family: sans-serif;
+}
+.hero-container {
+	margin: auto;
+	display: flex;
+}
+
+.main-container {
+	width: 270px;
+	height: 540px;
+	position: relative;
+	margin: 0 20px;
+}
+
+.poster-container {
+	width: 330px;
+	position: absolute;
+	top: 0;
+	left: 20px;
+	z-index: 9999;
+}
+
+.poster {
+	width: 70%;
+	box-shadow: 0 5px 20px 3px rgba(0, 0, 0, 0.6);
+}
+
+.ticket-container {
+	background: #fff;
+	width: 270px;
+	height: 520px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-radius: 5px;
+	position: absolute;
+	top: 20px;
+	box-shadow: 0 5px 20px 3px rgba(0, 0, 0, 0.6);
+	opacity: 0;
+}
+
+.main-container:hover .ticket-container {
+	opacity: 1;
+	animation: bounceIn 0.6s linear;
+}
+
+@keyframes bounceIn {
+	0%,
+	20%,
+	40%,
+	60%,
+	80%,
+	to {
+		-webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+		animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	}
+	0% {
+		opacity: 0;
+		-webkit-transform: scale3d(0.3, 0.3, 0.3);
+		transform: scale3d(0.3, 0.3, 0.3);
+	}
+	20% {
+		-webkit-transform: scale3d(1.03, 1.03, 1.03);
+		transform: scale3d(1.03, 1.03, 1.03);
+	}
+	40% {
+		-webkit-transform: scale3d(0.9, 0.9, 0.9);
+		transform: scale3d(0.9, 0.9, 0.9);
+	}
+	60% {
+		opacity: 1;
+		-webkit-transform: scale3d(1.01, 1.01, 1.01);
+		transform: scale3d(1.01, 1.01, 1.01);
+	}
+	80% {
+		-webkit-transform: scale3d(0.97, 0.97, 0.97);
+		transform: scale3d(0.97, 0.97, 0.97);
+	}
+	to {
+		opacity: 1;
+		-webkit-transform: scaleX(1);
+		transform: scaleX(1);
+	}
+}
+
+/* @keyframes bounce {
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+} */
+
+.ticket__content {
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+	text-align: center;
+}
+
+.ticket__movie-title {
+	text-transform: uppercase;
+	margin-bottom: 5px;
+}
+
+.ticket__movie-slogan {
+	color: #999;
+	font-size: 0.9rem;
+	margin-bottom: 20px;
+}
+
+.ticket__current-price {
+	color: #69c982;
+	font-size: 1.4rem;
+	font-weight: bold;
+}
+
+.ticket__old-price {
+	color: #999;
+	text-decoration: line-through;
+	margin-bottom: 10px;
+}
+
+.ticket__buy-btn {
+	cursor: pointer;
+	width: 100%;
+	background: #2f2f2f;
+	color: white;
+	padding: 15px 0;
+	font-size: 1rem;
+	font-weight: bold;
+	text-transform: uppercase;
+	border: 0;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+
+</style>
+
+ <html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<title>
+    Online Movie Tickets Booking - softAOX
+</title>
+ 
+<body>
+    <div class="container">
+        
+        <div class="row d-flex justify-content-center">
+            <div class="logo">
+                <img src="{{ asset('dist/img/logo.png') }}" width="150px" />
+                <h1>Merci d'avoir choisi {{film.nomf}}</h1>
+            </div>
+            <div>
+
+            </div>
+            
+            
+        </div>
+ 
+        <div class="row d-flex justify-content-center">
+          
+             <div class="main-container">
+			<div class="poster-container">
+				<a href="#">
+				<img src="{{ asset('uploads/'~film.image) }}" class="poster" /></a>
+
+				
+			</div>
+			<div class="ticket-container">
+				<div class="ticket__content">
+					<p class="ticket__movie-slogan">Les prix de vos billets.</p>
+					<p class="ticket__current-price">${{prixFinaleApresRemise}}</p>
+					<p class="ticket__old-price">${{prixFinale}}</p>
+
+					<a href="{{path('supprimerBillet',{'id':billet.idbillet})}}"> <input class="ticket__buy-btn" type="submit" value="Annuler" /></a>
+				</div>
+			</div>
+		</div>   
+ 
+           
+        </div>
+ 
+ 
+        <div class="row d-flex justify-content-center">
+ 
+            <div class="table-responsive booked_list">
+                <h4 align="center">Votre Billet</h4>
+                <br/>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Titre Film</th>
+                            <th>Categorie</th>
+                            <th>Nb Place</th>
+                            <th> QR Code </th>
+                        </tr>
+                    </thead>
+                    <tbody id="soldMessage">
+                 
+                    <td>{{film.nomf}}</td>
+                    <td>{{billet.categoriebillet}}</td>            
+                    <td>{{billet.nbPlace}}</td>
+                    <td> {% if qrcode %}
+                         <img src="{{qrcode}}" alt="qrCode" width="100" height="100" >
+                        {% endif %}</td>
+                    </tbody>
+                </table>
+				<a href="{{path('visualiserBillet',{'id':billet.idbillet})}}"> <input style="width: 180px;"class="ticket__buy-btn" type="submit" value="Visualiser Ticket" id="imprimerBillet" /></a>
+            </div>
+        </div>
+		
+ 
+    </div>
+</body>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="js/underscore-min.js"></script>
+<script type="text/javascript" src="js/backbone.js"></script>
+<script type="text/javascript" src="js/core.js"></script>
+</html>
+
+ {% endblock %}

@@ -1,0 +1,110 @@
+{% extends 'baseBackOffice.html.twig' %}
+
+{% block title %}
+	Ajouter Produit
+{% endblock %}
+
+
+{% block backContainer  %}
+
+
+   
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Ajout Produit</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{{path('affichage_Produits')}}">Produits</a></li>
+              <li class="breadcrumb-item active">Ajout Produit</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+   
+
+    <!-- Main content -->
+    <section class="content">
+     {{form_start(produitForm,{'attr':{'novalidate' : 'novalidate'}})}}
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Informations Générales</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+            
+              <div class="form-group">
+                {{form_label(produitForm.designation,"Désignation")}}
+                {{form_widget(produitForm.designation)}}  
+              </div>
+              <div class="form-group">
+                {{form_label(produitForm.description,"Description Produit")}}
+                {{form_widget(produitForm.description)}}
+              </div>
+             
+              <div class="form-group">
+
+              {{form_label(produitForm.image,"Image Produit")}}
+              {{form_widget(produitForm.image)}}
+                
+              </div>
+             
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <div class="col-md-6">
+          <div class="card card-secondary">
+            <div class="card-header">
+              <h3 class="card-title">Tarification Produit</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                 {{form_label(produitForm.prixachatunit,"Prix Achat Unitaire")}}
+                 {{form_widget(produitForm.prixachatunit)}}
+              </div>
+              <div class="form-group">
+                {{form_label(produitForm.prixventeunit,"Prix Vente Unitaire")}}
+                 {{form_widget(produitForm.prixventeunit)}}
+              </div>
+              <div class="form-group">
+                {{form_label(produitForm.quantiteenstock,"Quantité En Stock")}}
+                 {{form_widget(produitForm.quantiteenstock)}}
+              </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <a href="{{path('affichage_Produits')}}" class="btn btn-secondary">Annuler</a>
+          <input type="submit" value="Ajouter Nouveau Projet" class="btn btn-success float-right">
+        </div>
+      </div>
+    {{form_end(produitForm)}}
+
+    </section>
+ 
+</div>
+
+{%endblock%}
