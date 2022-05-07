@@ -3,8 +3,79 @@
 <link rel="stylesheet" href="{{ asset('dist/css/film/filmAdmin.css') }}">
 <section class="content">
 <div class="container ">
-<h1>Modifier Réservation </h1>
-{{ form(form) }}
+<h1>Modifier une Réservation: </h1>
+{{ form_start(form,{'attr':{'novalidate':'novalidate' }}) }}
+ <form class="form-horizontal" role="form">
 
+
+                                            <div class="form-group">
+                                                <label class="">Catégorie :</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form.categorie, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(form.categorie, { 'attr': {'class': 'form-control'} }) }}
+                                                   
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="">Nombre de place:</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form.nbplace, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(form.nbplace, { 'attr': {'class': 'form-control'} }) }}
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="" >Date début:</label>
+                                                <div class="col-10">
+                                                   
+                                                    {{ form_widget(form.datedeb, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(form.datedeb, { 'attr': {'class': 'form-control'} }) }}
+                                                </div>
+                                            </div>
+                                             <div class="form-group">
+                                                <label class="" >Date Fin:</label>
+                                                <div class="col-10">
+                                                   
+                                                    {{ form_widget(form.datefin, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(form.datefin, { 'attr': {'class': 'form-control'} }) }}
+                                                </div>
+                                            </div>
+                                           
+                                            <div class="form-group">
+                                                <label >Film:</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form.idf, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(form.idf, { 'attr': {'class': 'form-control'} }) }}
+
+                                                </div>
+                                            </div>
+                                               <div class="form-group">
+                                                <label >Evénement :</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form.idev, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(form.idev, { 'attr': {'class': 'form-control'} }) }}
+
+                                                </div>
+                                            </div>
+                                             <div class="form-group">
+                                                <label >Salle :</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form.idsa, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(form.idsa, { 'attr': {'class': 'form-control'} }) }}
+
+                                                </div>
+                                            </div>
+                                          
+                                          
+                                     
+                                            <div class="form-group text-center">
+                                            <div class="card-tools"><button class="btn btn-danger"  style="width: 50%">{{ button_label|default('Modifier') }}</button></div>
+                                            </div>
+                                        </div>
+    
+       
+    </div>
     </section>
+    {{ form_end(form) }}
 {% endblock %}

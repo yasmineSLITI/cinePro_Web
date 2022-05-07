@@ -68,13 +68,27 @@ class RealisateurController extends AbstractController
      * @return \Symphony\Component\HttpFoundation\Response
      * @Route("/realisateur/Modifier/{id}", name="m")
      */
+    
     public function Update(FilmRepository $repo,$id,Request $request){
         $film=$repo->find($id);
+        $imageName = $film->getImage();
         $form=$this->createForm(FilmType::class,$film);
-        $form->add('Modifier',SubmitType::class);
+        #$form->submit($request->request->get($form->getName()), false);
+      
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid()){
-            
+            $file = $request->files->get('film')['image'];
+            if ($file != null) {
+                $uploads_directory = $this->getParameter('image_directory');
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                $file->move(
+                    $uploads_directory,
+                    $fileName
+                );
+                $film->setImage($fileName);
+            } else {
+                $film->setImage($imageName);
+            }
             $em=$this->getDoctrine()->getManager();
             
             $em->flush();

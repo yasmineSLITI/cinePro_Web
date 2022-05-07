@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Film;
+use App\Entity\Avis;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,4 +48,25 @@ class FilmRepository extends ServiceEntityRepository
         ;
     }
     */
+  
+   
+    public function findAllMoy()
+    {
+      
+       
+            return $this->createQueryBuilder('s')
+                
+                ->innerJoin('App\Entity\Avis', 'avis', 'WITH', 'avis.idf = s.idf')
+                ->where('s.archive=false')
+                ->groupBy('s.idf')
+                 ->orderBy('avis.moyenneavis', 'ASC')
+                 ->setMaxResults(5)
+                ->getQuery()
+                ->getResult()
+            ;
+        
+        
+    }
+    
+
 }

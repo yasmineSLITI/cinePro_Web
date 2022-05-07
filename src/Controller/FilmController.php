@@ -4,16 +4,20 @@ namespace App\Controller;
 use App\Entity\Film;
 use App\Entity\Realisateur;
 use App\Form\FilmType;
+use App\Form\FilmmType;
+use App\Repository\AvisRepository;
 use App\Repository\FilmRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\service\MailerService;
 
 class FilmController extends AbstractController
 {
     /**
-     * @Route("/film", name="app")
+     * @Route("/film", name="app4")
      */
     public function index(): Response
     {
@@ -24,13 +28,16 @@ class FilmController extends AbstractController
     /**
      * @param FilmRepository $repo
      * @return \Symphony\Component\HttpFoundation\Response
-     * @Route("/film/Afficher", name="app")
+     * @Route("/film/Afficher", name="appp")
      */
     public function Affiche(FilmRepository $repo){
         //$repo=$this->getDoctrine()->getRepository(Film::class);
         $film =$repo->findAll();
+       
+        
         return $this->render('Film/Affiche.html.twig',
     ['film'=>$film]);
+
     }
      /**
      * @Route("/Supprimer/{id}", name="supp")
@@ -65,11 +72,15 @@ class FilmController extends AbstractController
     /**
      * @param Request $request
      * @return \Symphony\Component\HttpFoundation\Response
-     * @Route("/film/Modifier/{id}", name="m")
+     * @Route("/film/Modifier/{id}", name="mF")
      */
-    public function Update(FilmRepository $repo,$id,Request $request){
+    public function Update(FilmRepository $repo,$id,Request $request,\Swift_Mailer $mailer,
+    MailerService $mailerService):Response{
+        
         $film=$repo->find($id);
-        $form=$this->createForm(FilmType::class,$film);
+        
+        $form=$this->createForm(FilmmType::class,$film);
+        #$form->submit($request->request->get($form->getName()), false);
         $form->add('Modifier',SubmitType::class);
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid()){
@@ -77,9 +88,19 @@ class FilmController extends AbstractController
             $em=$this->getDoctrine()->getManager();
             
             $em->flush();
-            return $this->redirectToRoute('app');
+            return $this->redirectToRoute('appp');
         }
+            $mailerService->send(
+                "Bienvenue dans jcc votre film est accepté",
+                "yosr.sahnoun1@esprit.tn",
+                "yosr.sahnoun1@esprit.tn",
+                
+                "MailTemplate/emailTemplate.html.twig");
+    
+           
+        
         return $this->render('film/Modifier.html.twig',[
+            'film'=>$film,
             'form'=>$form->createView()
         ]);
     }
@@ -95,7 +116,7 @@ class FilmController extends AbstractController
 
         if($form->isSubmitted()&&$form->isValid()){
           
-            $file =$form->get('image')->getData();
+            $file = $form->get('image')->getData();
            
             $fileName = md5 (uniqid()).'.'.$file->guessExtension();
             $file->move( $this->getParameter('image_directory'),$fileName);

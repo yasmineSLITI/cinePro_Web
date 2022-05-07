@@ -48,14 +48,13 @@ class Film
      * @var string
      *
      * @ORM\Column(name="EtatAcc", type="string", length=255, nullable=false, options={"default"="'en attente'"})
-     * @Assert\Choice({"'en attente'", "accepté"})
      */
     private $etatacc = '\'en attente\'';
 
     /**
      * @var string
-     * @Assert\NotBlank(message="Ajouter une image s'il vous plait")
-     * @Assert\Image()
+     *
+     
      * @ORM\Column(name="Image", type="string", length=255, nullable=false)
      */
     private $image;
@@ -208,6 +207,8 @@ class Film
 
         return $this;
     }
-
+    public function __toString() {
+        return $this->idf;
+    }
 
 }
