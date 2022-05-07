@@ -3,14 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\Panier;
+use App\Entity\Client;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 /**
- * @extends ServiceEntityRepository<Panier>
- *
  * @method Panier|null find($id, $lockMode = null, $lockVersion = null)
  * @method Panier|null findOneBy(array $criteria, array $orderBy = null)
  * @method Panier[]    findAll()
@@ -23,40 +21,16 @@ class PanierRepository extends ServiceEntityRepository
         parent::__construct($registry, Panier::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function add(Panier $entity, bool $flush = true): void
-    {
-        $this->_em->persist($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
-
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function remove(Panier $entity, bool $flush = true): void
-    {
-        $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
-
     // /**
-    //  * @return Panier[] Returns an array of Panier objects
+    //  * @return Classeroom[] Returns an array of Classeroom objects
     //  */
     /*
     public function findByExampleField($value)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.exampleField = :val')
             ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
+            ->orderBy('c.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
@@ -65,14 +39,30 @@ class PanierRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Panier
+    public function findOneBySomeField($value): ?Classeroom
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
     */
+    public function viderPnier(){
+        $entityManager=$this->getEntityManager();
+        $query=$entityManager
+            ->createQuery("Delete  FROM APP\Entity\Panier p WHERE p.idpanier = 1")
+          ;
+        return $query->getResult();
+    }
+    public function getQt(){
+        $entityManager=$this->getEntityManager();
+        $query=$entityManager
+            ->createQuery("Select pa.quantite  FROM APP\Entity\Panier pa ")
+          ;
+        return $query->getSingleScalarResult();
+    }
+   
+   
 }

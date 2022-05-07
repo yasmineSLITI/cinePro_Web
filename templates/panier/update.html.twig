@@ -1,0 +1,21 @@
+
+{% extends 'baseFrontOffice.html.twig'%}
+{% block frontContainer %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+
+<link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+
+<link rel="stylesheet" href="../../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+
+<link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
+
+<link rel="stylesheet" href="../../dist/css/adminlte.min.css?v=3.2.0">
+
+ {% form_theme form 'bootstrap_4_layout.html.twig' %}
+ <div class="card card-primary">
+ <div class="card-header">
+                <h3 class="card-title">Modifier votre Quantité</h3>
+              </div>
+ {{form(form)}}
+ </div>
+  {%endblock%}

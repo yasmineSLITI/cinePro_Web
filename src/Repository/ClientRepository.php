@@ -4,8 +4,11 @@ namespace App\Repository;
 
 use App\Entity\Client;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+<<<<<<< HEAD
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+=======
+>>>>>>> salmafinal
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,6 +24,7 @@ class ClientRepository extends ServiceEntityRepository
         parent::__construct($registry, Client::class);
     }
 
+<<<<<<< HEAD
     /**
      * @throws ORMException
      * @throws OptimisticLockException
@@ -47,6 +51,10 @@ class ClientRepository extends ServiceEntityRepository
 
     // /**
     //  * @return Client[] Returns an array of Client objects
+=======
+    // /**
+    //  * @return Classeroom[] Returns an array of Classeroom objects
+>>>>>>> salmafinal
     //  */
     /*
     public function findByExampleField($value)
@@ -63,7 +71,11 @@ class ClientRepository extends ServiceEntityRepository
     */
 
     /*
+<<<<<<< HEAD
     public function findOneBySomeField($value): ?Client
+=======
+    public function findOneBySomeField($value): ?Classeroom
+>>>>>>> salmafinal
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')
@@ -73,4 +85,18 @@ class ClientRepository extends ServiceEntityRepository
         ;
     }
     */
+<<<<<<< HEAD
 }
+=======
+   
+
+   
+    public function getRole(){
+        $entityManager=$this->getEntityManager();
+        $query=$entityManager
+            ->createQuery("Select c.role FROM APP\Entity\Panier p , APP\Entity\client c  where p.idclient = c.idclient  ")
+          ;
+        return $query->getResult();
+    }
+}
+>>>>>>> salmafinal

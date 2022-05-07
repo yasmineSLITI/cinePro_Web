@@ -6,12 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use App\Repository\ClientRepository;
 
 /**
  * Client
  *
- * @ORM\Table(name="client", indexes={@ORM\Index(name="fk4000", columns={"userName"})})
- * @ORM\Entity(repositoryClass="App\Repository\ClientRepository")
+ * @ORM\Table(name="client")
+ * @ORM\Entity(repositoryClass=ClientRepository::class)
  */
 class Client
 {

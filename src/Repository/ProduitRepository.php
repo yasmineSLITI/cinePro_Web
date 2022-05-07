@@ -143,4 +143,11 @@ class ProduitRepository extends ServiceEntityRepository
         // returns an array of Product objects
         return $query->getResult();
     }
+    public function getPrix(){
+        $entityManager=$this->getEntityManager();
+        $query=$entityManager
+            ->createQuery("Select p.prixventeunit  FROM APP\Entity\Produit p,APP\Entity\Panier pa where p.idproduit= pa.idproduit ")
+          ;
+        return $query->getSingleScalarResult();
+    }
 }

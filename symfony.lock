@@ -1,9 +1,14 @@
 {
+<<<<<<< HEAD
     "bacon/bacon-qr-code": {
         "version": "2.0.7"
     },
     "dasprid/enum": {
         "version": "1.0.3"
+=======
+    "composer/package-versions-deprecated": {
+        "version": "1.11.99.5"
+>>>>>>> salmafinal
     },
     "doctrine/annotations": {
         "version": "1.13",
@@ -27,7 +32,11 @@
         "version": "3.2.2"
     },
     "doctrine/dbal": {
+<<<<<<< HEAD
         "version": "3.3.4"
+=======
+        "version": "2.13.8"
+>>>>>>> salmafinal
     },
     "doctrine/deprecations": {
         "version": "v0.5.3"
@@ -74,10 +83,17 @@
         "version": "1.2.3"
     },
     "doctrine/migrations": {
+<<<<<<< HEAD
         "version": "3.4.1"
     },
     "doctrine/orm": {
         "version": "2.11.2"
+=======
+        "version": "3.3.2"
+    },
+    "doctrine/orm": {
+        "version": "2.10.5"
+>>>>>>> salmafinal
     },
     "doctrine/persistence": {
         "version": "2.4.1"
@@ -88,6 +104,7 @@
     "dompdf/dompdf": {
         "version": "v1.2.1"
     },
+<<<<<<< HEAD
     "dragonmantank/cron-expression": {
         "version": "v3.3.1"
     },
@@ -103,6 +120,11 @@
     "endroid/qr-code-bundle": {
         "version": "4.0.5"
     },
+=======
+    "egulias/email-validator": {
+        "version": "3.1.2"
+    },
+>>>>>>> salmafinal
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.7"
     },
@@ -112,6 +134,7 @@
     "knplabs/knp-paginator-bundle": {
         "version": "v5.8.0"
     },
+<<<<<<< HEAD
     "knplabs/knp-snappy": {
         "version": "v1.4.1"
     },
@@ -135,6 +158,10 @@
     },
     "mercuryseries/flashy-bundle": {
         "version": "v5.1.0"
+=======
+    "laminas/laminas-code": {
+        "version": "4.5.1"
+>>>>>>> salmafinal
     },
     "monolog/monolog": {
         "version": "1.27.0"
@@ -202,7 +229,11 @@
         "version": "1.0.1"
     },
     "psr/container": {
+<<<<<<< HEAD
         "version": "1.1.1"
+=======
+        "version": "1.1.2"
+>>>>>>> salmafinal
     },
     "psr/link": {
         "version": "1.0.0"
@@ -210,9 +241,12 @@
     "psr/log": {
         "version": "1.1.4"
     },
+<<<<<<< HEAD
     "rewieer/taskschedulerbundle": {
         "version": "0.10.0"
     },
+=======
+>>>>>>> salmafinal
     "sabberworm/php-css-parser": {
         "version": "8.4.0"
     },
@@ -235,7 +269,11 @@
         "version": "4.0.4"
     },
     "sebastian/environment": {
+<<<<<<< HEAD
         "version": "5.1.3"
+=======
+        "version": "5.1.4"
+>>>>>>> salmafinal
     },
     "sebastian/exporter": {
         "version": "4.0.4"
@@ -276,17 +314,26 @@
             "./config/packages/sensio_framework_extra.yaml"
         ]
     },
+<<<<<<< HEAD
     "swiftmailer/swiftmailer": {
         "version": "v6.3.0"
     },
     "symfony/asset": {
         "version": "v4.4.37"
+=======
+    "symfony/asset": {
+        "version": "v4.4.40"
+>>>>>>> salmafinal
     },
     "symfony/browser-kit": {
         "version": "v4.4.37"
     },
     "symfony/cache": {
+<<<<<<< HEAD
         "version": "v4.4.38"
+=======
+        "version": "v4.4.40"
+>>>>>>> salmafinal
     },
     "symfony/cache-contracts": {
         "version": "v2.5.0"
@@ -326,7 +373,11 @@
         ]
     },
     "symfony/dependency-injection": {
+<<<<<<< HEAD
         "version": "v4.4.39"
+=======
+        "version": "v4.4.40"
+>>>>>>> salmafinal
     },
     "symfony/deprecation-contracts": {
         "version": "v2.5.0"
@@ -341,7 +392,11 @@
         "version": "v4.4.37"
     },
     "symfony/error-handler": {
+<<<<<<< HEAD
         "version": "v4.4.37"
+=======
+        "version": "v4.4.40"
+>>>>>>> salmafinal
     },
     "symfony/event-dispatcher": {
         "version": "v4.4.37"
@@ -350,7 +405,11 @@
         "version": "v1.1.11"
     },
     "symfony/expression-language": {
+<<<<<<< HEAD
         "version": "v4.4.37"
+=======
+        "version": "v4.4.40"
+>>>>>>> salmafinal
     },
     "symfony/filesystem": {
         "version": "v4.4.39"
@@ -371,7 +430,11 @@
         ]
     },
     "symfony/form": {
+<<<<<<< HEAD
         "version": "v4.4.38"
+=======
+        "version": "v4.4.40"
+>>>>>>> salmafinal
     },
     "symfony/framework-bundle": {
         "version": "4.4",
@@ -404,7 +467,11 @@
         }
     },
     "symfony/http-client": {
+<<<<<<< HEAD
         "version": "v4.4.39"
+=======
+        "version": "v4.4.40"
+>>>>>>> salmafinal
     },
     "symfony/http-client-contracts": {
         "version": "v2.5.0"
@@ -413,7 +480,11 @@
         "version": "v4.4.39"
     },
     "symfony/http-kernel": {
+<<<<<<< HEAD
         "version": "v4.4.39"
+=======
+        "version": "v4.4.40"
+>>>>>>> salmafinal
     },
     "symfony/inflector": {
         "version": "v4.4.37"
@@ -506,6 +577,7 @@
         "version": "v1.25.0"
     },
     "symfony/process": {
+<<<<<<< HEAD
         "version": "v4.4.37"
     },
     "symfony/property-access": {
@@ -513,6 +585,15 @@
     },
     "symfony/property-info": {
         "version": "v4.4.37"
+=======
+        "version": "v4.4.40"
+    },
+    "symfony/property-access": {
+        "version": "v4.4.40"
+    },
+    "symfony/property-info": {
+        "version": "v4.4.40"
+>>>>>>> salmafinal
     },
     "symfony/proxy-manager-bridge": {
         "version": "v4.4.39"
@@ -556,7 +637,11 @@
         "version": "v4.4.37"
     },
     "symfony/serializer": {
+<<<<<<< HEAD
         "version": "v4.4.39"
+=======
+        "version": "v4.4.40"
+>>>>>>> salmafinal
     },
     "symfony/service-contracts": {
         "version": "v2.5.0"
@@ -564,6 +649,7 @@
     "symfony/stopwatch": {
         "version": "v4.4.38"
     },
+<<<<<<< HEAD
     "symfony/swiftmailer-bundle": {
         "version": "3.5",
         "recipe": {
@@ -578,6 +664,8 @@
             "./config/packages/test/swiftmailer.yaml"
         ]
     },
+=======
+>>>>>>> salmafinal
     "symfony/translation": {
         "version": "4.4",
         "recipe": {
@@ -595,7 +683,11 @@
         "version": "v2.5.0"
     },
     "symfony/twig-bridge": {
+<<<<<<< HEAD
         "version": "v4.4.38"
+=======
+        "version": "v4.4.40"
+>>>>>>> salmafinal
     },
     "symfony/twig-bundle": {
         "version": "4.4",
@@ -628,7 +720,11 @@
         "version": "v4.4.39"
     },
     "symfony/var-exporter": {
+<<<<<<< HEAD
         "version": "v4.4.39"
+=======
+        "version": "v4.4.40"
+>>>>>>> salmafinal
     },
     "symfony/web-link": {
         "version": "v4.4.37"
