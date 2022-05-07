@@ -31,25 +31,23 @@ class UpdateBilletStatus extends Command
         $listBillet = $BilletRepo->findAll();
 
         foreach ($listBillet as $billet) {
-           
+
             //CreatedOn Datetime
             $createdOn = $billet->getCreatedOn();
             $day_CreatedOn = (int)$createdOn->format("d");
-            
+
             //Current Date
             $now = new DateTime();
             $nowFormat = $now->format('Y-m-d H:i:s');
             $currentDate = $now->getTimestamp();
             $currentDateday = date('d', $currentDate);
-            
-            if($currentDateday-$day_CreatedOn>7){
+
+            if ($currentDateday - $day_CreatedOn > 7) {
 
                 $billet->setArchived(true);
                 $this->entityManager->persist($billet);
                 $this->entityManager->flush();
-
             }
-            
         }
     }
 }

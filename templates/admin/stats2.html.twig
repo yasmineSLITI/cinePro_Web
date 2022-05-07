@@ -200,6 +200,25 @@
               </div>
               
            </div>
+
+           <div class="card">
+             
+              <div class="card-body">
+              
+                  <canvas id="QuantiteVenduChart" width="400" height="400"></canvas>
+              </div>
+              
+           </div>
+
+           <div class="card">
+             
+              <div class="card-body">
+              
+                  <canvas id="myCharting" width="400" height="400"></canvas>
+              </div>
+              
+           </div>
+
   
           </div>
           <!-- /.col-md-6 -->
@@ -283,6 +302,7 @@ const myBarChartFollowing = new Chart(c, {
     }
 });
 </script>
+
 <script>
 const ctx2 = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx2, {
@@ -317,5 +337,86 @@ const myChart = new Chart(ctx2, {
 });
 </script>
  
+
+<script>
+const ctxx = document.getElementById('QuantiteVenduChart').getContext('2d');
+const QuantiteVenduChart = new Chart(ctxx, {
+    type: 'bar',
+    data: {
+        labels: {{designationProdVendu|raw}},
+        datasets: [{
+            label: '# Quantité Vendue',
+            data: {{quantiteProdVendu|raw}},
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+
+      title: {
+        display: true,
+        text: 'Statistiques de vente de produits'    
+    },
+      
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+
+<script>
+const ct = document.getElementById('myCharting').getContext('2d');
+const myCharting = new Chart(ct, {
+    type: 'pie',
+    data: {
+        labels: ['First Class', 'Second Class', 'Third Class'],
+        datasets: [{
+            label: '# billets vendus',
+            data: [{{count_firstClass}}, {{count_SecondClass}}, {{count_thirdClass}}],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+       title: {
+        display: true,
+        text: 'Distributions de billets vendus par catégorie'    
+    },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+
 
  {% endblock %}

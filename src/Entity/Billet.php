@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -19,6 +20,7 @@ class Billet
      * @ORM\Column(name="IDBillet", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("api:billet")
      */
     private $idbillet;
 
@@ -26,6 +28,7 @@ class Billet
      * @var string
      *
      * @ORM\Column(name="categorieBillet", type="string", length=255, nullable=false)
+     * @Groups("api:billet")
      */
     private $categoriebillet;
 
@@ -35,6 +38,7 @@ class Billet
      * @Assert\Type(type="integer")
      * @Assert\GreaterThan(0 , message="Le Champ Nombre De Place Doit Etre Supérieur ou égale à 0.")
      * @ORM\Column(name="nb_place", type="integer", nullable=false)
+     * @Groups("api:billet")
      */
     private $nbPlace;
 
@@ -42,6 +46,7 @@ class Billet
      * @var \DateTime
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @Groups("api:billet")
      */
     private $createdOn = 'current_timestamp()';
 
@@ -49,6 +54,7 @@ class Billet
      * @var bool
      *
      * @ORM\Column(name="archived", type="boolean", nullable=false)
+     * @Groups("api:billet")
      */
     private $archived;
 
@@ -56,6 +62,7 @@ class Billet
      * @var int
      *
      * @ORM\Column(name="idReservation", type="integer", nullable=false)
+     * @Groups("api:billet")
      */
     private $idreservation;
 
@@ -63,6 +70,7 @@ class Billet
      * @var int
      *
      * @ORM\Column(name="idClient", type="integer", nullable=false)
+     * @Groups("api:billet")
      */
     private $idclient;
 

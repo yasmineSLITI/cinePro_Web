@@ -8,6 +8,7 @@ use App\Entity\Followingproduit;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class FollowingproduitController extends AbstractController
 {
@@ -46,6 +47,7 @@ class FollowingproduitController extends AbstractController
         ]);
     }
 
+
     /**
      * @route("/produit/removeFromWishList/{idProduit}/{idClient}", name="removeFromWishList")
      */
@@ -66,5 +68,44 @@ class FollowingproduitController extends AbstractController
             'code' => 200,
             'message' => "Produit removed"
         ]);
+    }
+
+    //////////////////////////Mobile////////////////////////////////////////////
+
+
+    /**
+     * @Route("/produit/AddToWishListM/{idProduit}/{idClient}",name="addToWishListMobile")
+     */
+    public function addMobile($idProduit, $idClient, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $FP = new Followingproduit();
+        $produit = $this->getDoctrine()->getRepository(Produit::class)->find($idProduit);
+        $client = $this->getDoctrine()->getRepository(Client::class)->find($idClient);
+        $FP->setProduit($produit)
+            ->setClient($client);
+        $em->persist($FP);
+        $em->flush();
+        $jsonFollowingProduit = $Normalizer->normalize($FP, 'json', ['groups' => 'followingProduit']);
+        return new Response(json_encode($jsonFollowingProduit));
+    }
+
+    /**
+     * @route("/produit/removeFromWishListM/{idProduit}/{idClient}", name="removeFromWishListMobile")
+     */
+
+    public function deleteMobile($idProduit, $idClient, NormalizerInterface $Normalizer)
+    {
+
+        $repo = $this->getDoctrine()->getRepository(Followingproduit::class);
+        $produit = $this->getDoctrine()->getRepository(Produit::class)->find($idProduit);
+        $client = $this->getDoctrine()->getRepository(Client::class)->find($idClient);
+        $FP = $repo->findOneBy(array('produit' => $produit, 'client' => $client));
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($FP);
+        $em->flush();
+        $jsonFollowingProduit = $Normalizer->normalize($FP, 'json', ['groups' => 'followingProduit']);
+        return new Response(json_encode($jsonFollowingProduit));
     }
 }

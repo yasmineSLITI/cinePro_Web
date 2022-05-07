@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Client
@@ -20,6 +21,7 @@ class Client
      * @ORM\Column(name="idClient", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("clients")
      */
     private $idclient;
 
@@ -27,6 +29,7 @@ class Client
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255, nullable=false)
+     * @Groups("clients")
      */
     private $nom;
 
@@ -34,6 +37,7 @@ class Client
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=255, nullable=false)
+     * @Groups("clients")
      */
     private $prenom;
 
@@ -41,6 +45,7 @@ class Client
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=250, nullable=false)
+     * @Groups("clients")
      */
     private $email;
 
@@ -48,6 +53,7 @@ class Client
      * @var \DateTime|null
      *
      * @ORM\Column(name="DateNaiss", type="date", nullable=true, options={"default"="NULL"})
+     * @Groups("clients")
      */
     private $datenaiss = 'NULL';
 
@@ -55,6 +61,7 @@ class Client
      * @var string
      *
      * @ORM\Column(name="role", type="string", length=255, nullable=false)
+     * @Groups("clients")
      */
     private $role;
 
@@ -65,11 +72,13 @@ class Client
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="userName", referencedColumnName="userName")
      * })
+     * @Groups("clients")
      */
     private $username;
 
     /**
      * @ORM\OneToMany(targetEntity=Followingproduit::class, mappedBy="client")
+     * @Groups("clients")
      */
     private $followings;
 

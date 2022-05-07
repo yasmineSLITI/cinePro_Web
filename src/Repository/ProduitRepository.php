@@ -111,4 +111,36 @@ class ProduitRepository extends ServiceEntityRepository
 
         return $query->getQuery()->getResult();
     }
+
+    public function QuantiteVenduProduit($value): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+
+            'SELECT SUM(Panier.quantite) 
+            FROM App\Entity\Produit Produit, App\Entity\Panier Panier 
+            WHERE Produit.idproduit LIKE Panier.idproduit AND Panier.statuspanier =:status
+            GROUP BY Produit.idproduit'
+        )->setParameter('status', $value);
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
+
+    public function DesignationProduitVendu($value): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+
+            'SELECT Produit.designation 
+            FROM App\Entity\Produit Produit, App\Entity\Panier Panier 
+            WHERE Produit.idproduit LIKE Panier.idproduit AND Panier.statuspanier =:status
+            GROUP BY Produit.idproduit'
+        )->setParameter('status', $value);
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
 }

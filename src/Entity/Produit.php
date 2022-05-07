@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -27,6 +28,7 @@ class Produit
      * @ORM\Column(name="IDProduit", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("api:produit")
      */
     private $idproduit;
 
@@ -35,6 +37,7 @@ class Produit
      *
      * @ORM\Column(name="Designation", type="string", length=255, nullable=false,unique=true)
      * @Assert\NotBlank(message="Le Champ Désignation est obligatoire")
+     * @Groups("api:produit")
      */
     private $designation;
 
@@ -43,6 +46,7 @@ class Produit
      *
      * @ORM\Column(name="Description", type="text", length=65535, nullable=false)
      * @Assert\NotBlank(message="Le Champ Déscription est obligatoire")
+     * @Groups("api:produit")
      */
     private $description;
 
@@ -51,6 +55,7 @@ class Produit
      *
      * @ORM\Column(name="Image", type="string", length=255, nullable=true, options={"default"="NULL"})
      * @Assert\NotBlank(message="Le Champ Image est obligatoire")
+     * @Groups("api:produit")
      */
     private $image = 'NULL';
 
@@ -61,6 +66,7 @@ class Produit
      * @Assert\NotBlank(message="Le Champ Quantité En Stock est obligatoire")
      * @Assert\Type(type="integer")
      * @Assert\GreaterThan(-1 , message="La Quantité En Stock Doit Etre Supérieur ou égale à Zéro.")
+     * @Groups("api:produit")
      */
     private $quantiteenstock;
 
@@ -75,6 +81,7 @@ class Produit
      *     match=true,
      *     message="Le Champ Déscription Ne Peut contenir Que Des Caractéres Alphanumériques"
      * )
+     * @Groups("api:produit")
      */
     private $prixachatunit;
 
@@ -84,6 +91,7 @@ class Produit
      * @ORM\Column(name="prixVenteUnit", type="float", precision=10, scale=0, nullable=false)
      * @Assert\NotBlank(message="Le Champ Prix Vente Unitaire est obligatoire")
      * * @Assert\GreaterThan(0 , message="Le Prix De Vente unitaire Doit Etre Supérieur à Zéro.")
+     * @Groups("api:produit")
      */
     private $prixventeunit;
 
@@ -91,11 +99,13 @@ class Produit
      * @var bool|null
      *
      * @ORM\Column(name="StatusStock", type="boolean", nullable=true, options={"default"="NULL"})
+     * @Groups("api:produit")
      */
     private $statusstock = 'NULL';
 
     /**
      * @ORM\OneToMany(targetEntity=Followingproduit::class, mappedBy="produit")
+     * @Groups("api:produit")
      */
     private $followings;
 

@@ -5,13 +5,13 @@ namespace App\Controller;
 use DateTime;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Knp\Snappy\Pdf;
 use App\Data\CSVData;
 use App\Form\CSVType;
 use App\Entity\Client;
 use App\Entity\Produit;
 use App\Data\SearchData;
 use App\Form\SearchForm;
-use Knp\Snappy\Pdf;
 use App\Form\ProduitType;
 use App\Form\SearchProductType;
 use App\Services\QrcodeService;
@@ -21,6 +21,7 @@ use App\Repository\ClientRepository;
 use App\Repository\ProduitRepository;
 use Doctrine\Persistence\ObjectManager;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -28,22 +29,21 @@ use App\Repository\FollowingproduitRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Serializer\Encoder\CsvEncoder;
 
 class ProduitController extends AbstractController
 {
+
     /**
      * @Route("/produit", name="affichage_Produits")
      */
     public function index(ProduitRepository $repo, Request $request, PaginatorInterface $paginator)
     {
-
-        //data = $form->getData()
-        //$qrcodeService->qrcode($data['name'])
         $donnees = $repo->findAll();
         $Products = $paginator->paginate(
             $donnees,
@@ -61,6 +61,7 @@ class ProduitController extends AbstractController
 
         );
     }
+
 
     /**
      * @Route("/imprimer", name="impression_Produits")
@@ -116,6 +117,7 @@ class ProduitController extends AbstractController
         $produit = new Produit();
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
+        
 
         if (($form->isSubmitted()) && ($form->isValid())) {
             $file = $request->files->get('produit')['image'];
@@ -129,9 +131,7 @@ class ProduitController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
             $produit->setImage($fileName);
-
             $em->persist($produit);
-
             $em->flush();
             $this->addFlash('success', 'Produit ajouté avec succès');
 
@@ -141,8 +141,6 @@ class ProduitController extends AbstractController
             'produitForm' => $form->createView()
         ]);
     }
-
-
 
 
     /**
@@ -190,6 +188,7 @@ class ProduitController extends AbstractController
             'produitForm' => $form->createView()
         ]);
     }
+
     /**
      * @route("/produit/supprimer/{id}", name="supprimerProduit")
      */
@@ -213,6 +212,8 @@ class ProduitController extends AbstractController
         return $this->redirectToRoute("affichage_Produits");
     }
 
+
+
     /**
      * @route("/produit/details/{id}", name="detailsProduit")
      */
@@ -226,6 +227,7 @@ class ProduitController extends AbstractController
             'produit' => $produit
         ]);
     }
+
 
 
     /**
@@ -273,21 +275,6 @@ class ProduitController extends AbstractController
         return $this->render('/produit/front_office/details.html.twig', [
             'produit' => $product
         ]);
-    }
-
-
-
-    /**
-     * @return boolean
-     */
-
-    public function isFollowed($idProduit, $idClient): bool
-    {
-        $repo = $this->getDoctrine()->getRepository(Followingproduit::class);
-        $p = $repo->findOneBy(array('idproduit' => $idProduit, 'idclient' => $idClient));
-
-        if ($p) return true;
-        else return false;
     }
 
     /**

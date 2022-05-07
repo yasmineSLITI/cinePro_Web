@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\FollowingproduitRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\FollowingproduitRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=FollowingproduitRepository::class)
@@ -16,20 +17,23 @@ class Followingproduit
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("followingProduit")
      */
-    private $id;
+    public $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Produit::class, inversedBy="followings")
      * @ORM\JoinColumn(name="IDProduit", referencedColumnName="IDProduit")
+     * @Groups("followingProduit")
      */
-    private $produit;
+    public $produit;
 
     /**
      * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="followings")
      * @ORM\JoinColumn(name="idClient", referencedColumnName="idClient")
+     * @Groups("followingProduit")
      */
-    private $client;
+    public $client;
 
     public function getId(): ?int
     {

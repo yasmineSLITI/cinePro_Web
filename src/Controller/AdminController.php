@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\BilletRepository;
+use App\Repository\PanierRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\FollowingproduitRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,8 +17,12 @@ class AdminController extends AbstractController
      * @Route("/stats",name="stats")
      */
 
-    public function statistiques(ProduitRepository $repo, FollowingproduitRepository $followRepo, BilletRepository $billetRepo)
+    public function statistiques(ProduitRepository $repo, FollowingproduitRepository $followRepo, BilletRepository $billetRepo, PanierRepository $repoPanier)
     {
+        $count_firstClass = 0;
+        $count_secondClass = 0;
+        $count_thirdClass = 0;
+
         $billet_januaryCount = 0;
         $billet_febuaryCount = 0;
         $billet_marchCount = 0;
@@ -32,6 +37,17 @@ class AdminController extends AbstractController
         $billet_decemberCount = 0;
 
         $billets = $billetRepo->findAll();
+        foreach ($billets as $b) {
+            if ($b->getCategoriebillet() == 'First Class') {
+                $count_firstClass++;
+            } else if ($b->getCategoriebillet() == 'Second Class') {
+                $count_secondClass++;
+            } else if ($b->getCategoriebillet() == 'Third Class') {
+                $count_thirdClass++;
+            }
+        }
+
+
         foreach ($billets as $b) {
             $createdOn = $b->getCreatedOn();
             $day_CreatedOn = (int)$createdOn->format("n");
@@ -61,9 +77,10 @@ class AdminController extends AbstractController
                 $billet_decemberCount++;
             }
         }
-        
+
 
         $produits = $repo->findAll();
+        $paniers = $repoPanier->findAll();
         //les donnée pour la pie chart des produits en stock et epuisé
         $produitEnStock_Count = 0;
         $produitOutOfStock_Count = 0;
@@ -79,6 +96,10 @@ class AdminController extends AbstractController
 
         $prodDesignation = [];
         $followings = [];
+        $quantiteVendu = [];
+
+        $quantiteVendu[] = $repo->QuantiteVenduProduit(1);
+        $designationProduitVendu[] = $repo->DesignationProduitVendu(1);
 
         foreach ($produits as $p) {
             if ($p->getQuantiteenstock() == 0) {
@@ -86,13 +107,27 @@ class AdminController extends AbstractController
                 $followings[] = $followRepo->count(['produit' => $p]);
             }
         }
+        $quantiteProdVendu = [];
+        foreach ($quantiteVendu[0] as $q) {
+            $quantiteProdVendu[] = $q[1];
+        }
+        $designationProdVendu = [];
+        foreach ($designationProduitVendu[0] as $q) {
+            $designationProdVendu[] = $q['designation'];
+        }
+
 
         return $this->render('admin/stats2.html.twig', [
             'Produits' => $produits,
+            'count_firstClass' => $count_firstClass,
+            'count_SecondClass' => $count_secondClass,
+            'count_thirdClass' => $count_thirdClass,
             'produitEnStock_Count' => json_encode($produitEnStock_Count),
             'produitOutOfStock_Count' => json_encode($produitOutOfStock_Count),
             'prodDesignation' => json_encode($prodDesignation),
             'followings' => json_encode($followings),
+            'quantiteProdVendu' => json_encode($quantiteProdVendu),
+            'designationProdVendu' => json_encode($designationProdVendu),
             'billet_januaryCount' => json_encode(
                 $billet_januaryCount
             ),
