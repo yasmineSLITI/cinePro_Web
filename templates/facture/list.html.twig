@@ -1,0 +1,75 @@
+{% extends 'baseBackOffice.html.twig'%}
+{% block backContainer %}
+{% form_theme formSearch 'bootstrap_4_layout.html.twig' %}
+<div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Liste des Factures</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                  
+                       {{form_start(formSearch)}}
+
+                      {{form_row(formSearch.q)}}
+                      {{form_end(formSearch)}}
+
+                   
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0" style="height: 300px;">
+                <table class="table table-head-fixed text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Référence Facture</th>
+                      <th>Total</th>
+                      <th>Date de payement</th>
+                      <th></th>
+                       <th><a href={{ path('Tri') }} >  Trier</a> </th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                   {% for f in facture %}
+                   <tr>
+                  
+                   <td>{{f.idFacture}}</td>
+                    <td>{{f.Total }} DT</td>
+                <td>{{f.DateCreation|date()}}</td>
+
+                <td> <a href="{{ path('deleteF',{'id':f.idFacture}) }}" class="btn btn-sm btn-danger">  <i class="fas fa-trash"></i> Supprimer</a> </td>
+
+                    
+                   
+         
+
+               </tr>
+             {% endfor %}
+             
+                 
+                   
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-footer">
+                  <div class="text-right">
+                    
+                    
+                     <a href="{{path('viderFacture')}}" class="btn btn-sm btn-danger float-left">
+                      <i class="fas fa-trash"></i> Vider
+                    </a>
+                  </div>
+                </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        {{  knp_pagination_render(facture) }}" 
+        </div>
+
+{% endblock %}
+
+
