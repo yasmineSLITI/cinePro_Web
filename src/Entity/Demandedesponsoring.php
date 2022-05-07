@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Demandedesponsoring
@@ -19,6 +20,7 @@ class Demandedesponsoring
      * @ORM\Column(name="idDemande", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("demande")
      */
     private $iddemande;
 
@@ -27,6 +29,7 @@ class Demandedesponsoring
      * 
      * @ORM\ManyToOne(targetEntity="App\Entity\Evenement", inversedBy="demande")
      * @ORM\JoinColumns({
+     *  @Groups("event")
      *   @ORM\JoinColumn(name="IdEv", referencedColumnName="IdEv")
      * })
      */
@@ -48,6 +51,7 @@ class Demandedesponsoring
      * @ORM\Column(name="etatAccept", type="string", length=255, nullable=false, options={"default"="'En attente'"})
      * @Assert\NotNull(message = "Ce champ ne peut pas etre vide! Veuillez le remplir.")
      *  @Assert\NotBlank(message = "Il parait que vous-avez oubliée de remplir le champ du nom !")
+     * @Groups("demande")
      */
     private $etataccept ='En attente' ;
 
@@ -55,6 +59,7 @@ class Demandedesponsoring
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=false)
+     * @Groups("demande")
      */
     private $description;
 
@@ -62,6 +67,7 @@ class Demandedesponsoring
      * @var string
      *
      * @ORM\Column(name="paquet", type="string", length=255, nullable=false)
+     * @Groups("demande")
      */
     private $paquet ;
     public function __construct()

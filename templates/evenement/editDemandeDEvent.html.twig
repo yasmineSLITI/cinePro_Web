@@ -1,8 +1,11 @@
 {% extends 'baseFrontOffice.html.twig'%}
     
     {% block frontContainer %} 
+
         {% block body %} 
-            <h1>Modifier vtre demande d'ajout d'un evenement </h1>
+            
+            <h1>Modifier votre demande d'ajout d'un evenement </h1>
+            <a href="{{ path("affiche")}}" class="btn btn-dark">Lister mes demande</a>
             {{form_start (form)}}
             <div class "form-group">
                 <label for ="">Nom de l'evenement :</label>
@@ -28,17 +31,3 @@
             
         {% endblock %}
     {% endblock %} 
-
-
-
-
-{#{% extends 'baseBackOffice.html.twig'%}
-{%block title%}Modifier la salle {% endblock %}
-    {% block backContainer %}
-        <section id="salleAff" class="content-wrapper align-items-center">
-            <div class = "content">
-                {{form (form)}}
-                <button type="submit" class= "btn-enregistrement">Modifier salle</button>
-            <INPUT TYPE="reset" NAME="nom" VALUE=" Annuler ">
-                </div>
-            {% endblock %} #}
