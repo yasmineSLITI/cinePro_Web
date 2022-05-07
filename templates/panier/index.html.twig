@@ -1,0 +1,109 @@
+{% extends 'baseFrontOffice.html.twig'%}
+{% block frontContainer %}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Liste des achats</h1>
+          </div>
+          
+          
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      
+      <section class="content">
+
+      <!-- Default box -->
+      <div class="card card-solid">
+        <div class="card-body pb-0">
+          <div class="row d-flex align-items-stretch">
+          {% for l in liste %}
+            <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
+              <div class="card bg-light">
+                <div class="card-header text-muted border-bottom-0">
+                  Souvenirs JCC
+                </div>
+                <div class="card-body pt-0">
+                  <div class="row">
+                    <div class="col-7">
+                      <h2 class="lead"><b>{{l.idproduit.designation}}</b></h2>
+                      <p class="text-muted text-sm"><b>Apropos du produit: </b>  {{l.idproduit.description}} </p>
+                      <ul class="ml-4 mb-0 fa-ul text-muted">
+                        <li class="small"><span class="fa-li"><i class="fas fa-credit-card"></i></span> Prix: {{l.idproduit.prixventeunit}}DT</li>
+                        <li class="small"><span class="fa-li"><i class="fas fa-hourglass"></i></span> Quantité: {{l.Quantite}}
+                    </div>
+                    <div class="col-5 text-center">
+                      <img src="{{asset('uploads/' ~ l.idproduit.image)}}" alt="" class="img-circle img-fluid">
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <div class="text-right">
+                    
+                    <a href="{{path('delete', {'id1' : l.idpanier })}}" class="btn btn-outline-danger">
+                      <i class="fas fa-trash"></i> Supprimer
+                    </a>
+                     <a href="{{path('updatePanier', {'id' : l.idpanier })}}" class="btn btn-outline-secondary float-left">
+                      <i class="fas fa-edit"></i> modifier QT
+                    </a>
+                  </div>
+               
+                </div>
+             
+
+              </div>
+            </div>
+     <div class="card-footer">
+                  <div class="text-right">
+                    
+                    <a href="{{path('valider', {'id' : l.idpanier})}}" class="btn btn-sm btn-info">
+                      <i class="fas  fa-check"></i> Valider panier
+                    </a>
+                     <a href="{{path('vider')}}" class="btn btn-sm btn-danger float-left">
+                      <i class="fas fa-trash"></i> Vider panier
+                    </a>
+                  </div>
+                </div>
+
+            {% endfor %}
+             <div class="card-footer">
+                  <div class="text-right">
+                    
+                   
+                  </div>
+                </div>
+                
+                 
+              
+
+            <div class="card-footer">
+          <nav aria-label="Contacts Page Navigation">
+            <ul class="pagination justify-content-center m-0">
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item"><a class="page-link" href="#">4</a></li>
+              <li class="page-item"><a class="page-link" href="#">5</a></li>
+              <li class="page-item"><a class="page-link" href="#">6</a></li>
+              <li class="page-item"><a class="page-link" href="#">7</a></li>
+              <li class="page-item"><a class="page-link" href="#">8</a></li>
+            </ul>
+          </nav>
+        </div>
+
+    </section>
+    <!-- /.content -->
+  </div>
+
+
+
+{% endblock %}
