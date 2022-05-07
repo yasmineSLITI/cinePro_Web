@@ -10,7 +10,7 @@ use App\Entity\Presse;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use MercurySeries\FlashyBundle\FlashyNotifier;
-
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use App\Repository\PublicationRepository;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -103,6 +103,28 @@ class AdminpubController extends AbstractController
         
         
     }
+   /**
+     * @Route("/allPubs/json", name="allPubs")
+     */
+    public function allPubs(NormalizerInterface $normalizer): Response
+    {
+        $pubs  = $this->getDoctrine()->getRepository(Publication::class)->findAll();
+        $jsonContent = $normalizer->normalize($pubs, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($jsonContent));
+    }
+    
+     /**
+     * @Route("/deletePubsJson/{id}", name="deletePubsJson")
+     */
+    public function deleteJSON(Request $request, NormalizerInterface $normalizer, $id): Response
+    {
 
+        $em = $this->getDoctrine()->getManager();
+        $pub = $em->getRepository(Publication::class)->find($id);
+        $em->remove($pub);
+        $em->flush();
+        $jsonContent = $normalizer->normalize($pub, 'json', ['groups' => 'post:read']);
+        return new Response("pub deleted successfully" . json_encode($jsonContent));
+    }
       
 }

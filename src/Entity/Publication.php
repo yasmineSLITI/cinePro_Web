@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\DateTimeType;
 use App\Repository\PublicationRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Presse;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Publication
@@ -22,6 +23,7 @@ class Publication
      * @ORM\Column(name="idPub", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $idpub;
 
@@ -29,6 +31,7 @@ class Publication
      * @var string
      *@Assert\NotBlank(message="Le titre de la publication est requise, veuillez l'ajouter pour continuer")
      * @ORM\Column(name="titre", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $titre;
 
@@ -36,6 +39,7 @@ class Publication
      * @var string
      *@Assert\NotBlank(message="L'image de la publication est requise, veuillez l'ajouter pour continuer")
      * @ORM\Column(name="imgPub", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $imgpub;
 
@@ -43,6 +47,7 @@ class Publication
      * @var string|null
      *@Assert\NotBlank(message="La description de la publication est requise, veuillez l'ajouter pour continuer")
      * @ORM\Column(name="txtPub", type="string", length=255, nullable=true, options={"default"="NULL"})
+     * @Groups("post:read")
      */
     private $txtpub;
 
@@ -50,6 +55,7 @@ class Publication
      * @var \DateTime
      *
      * @ORM\Column(name="dateCreationPub", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @Groups("post:read")
      */
     private $datecreationpub ;
      /**
@@ -67,6 +73,7 @@ public function setDatecreationpub(\DateTimeInterface $datecreationpub): self
      * @var bool|null
      *
      * @ORM\Column(name="archive", type="boolean", nullable=true)
+     * @Groups("post:read")
      */
     private $archive = '0';
 
@@ -77,6 +84,7 @@ public function setDatecreationpub(\DateTimeInterface $datecreationpub): self
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idPresse", referencedColumnName="id")
      * })
+     * @Groups("post:read")
      */
     private $idpresse =1 ;
 

@@ -58,5 +58,22 @@ class PublicationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findOneBySomeField()
+    {
+        $qb  = $this->_em->createQueryBuilder();
+        $qb2 = $qb;
+        $qb2->select('s.idpub')
+                ->from('App\Entity\Signale', 'ms');
+        
+            $qb  = $this->_em->createQueryBuilder();
+            $qb->delete('App\Entity\Publication', 's')
+                
+                ->where($qb->expr()->In('s.idpub', $qb2->getDQL())
+            );
+            $query  = $qb->getQuery();
+            return $query->getResult();
+        
+    }
 }
 

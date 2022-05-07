@@ -7,12 +7,11 @@
 <meta name='robots' content='noindex, follow' />
 
 <title>session Client - Cinepro</title>
-<link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+<link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}>
   <!-- IonIcons -->
   <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/adminlte.min.css">
-  
+  <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}>
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 <meta property="og:locale" content="en_US" />
@@ -60,7 +59,6 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
     width: auto;
     text-align: left;
 }
-
 .blog-btn .preview_btn {
   display: inline-block;
   font-size: 14px;
@@ -133,31 +131,9 @@ img {
 .blog-details h4 {
     margin: 30px 0;
 }
-
 .testimonial {
     display: none;
-}		
-.header_s{
-    min-height: 100vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(dist/img/jcc.jpg) center/cover no-repeat fixed;
-    display: flex;
-    flex-direction: column;
-    justify-content: stretch;
-    }
-
-.navbar{
-    background: rgba(35, 35, 35, 0.492);
-    padding: 1.2rem;
-}
-
-.footer_s{
-    background: #2b2b2b;
-    color: #fff;
-    text-align: center;
-    padding: 2rem 0;
-}
-
-</style>
+}		</style>
 <noscript><style id="rocket-lazyload-nojs-css">.rll-youtube-player, [data-lazy-src]{display:none !important;}</style></noscript></head>
 <body class="error404 wp-custom-logo">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" width="0" height="0" focusable="false" role="none" style="visibility: hidden; position: absolute; left: -9999px; overflow: hidden;"><defs><filter id="wp-duotone-dark-grayscale"><feColorMatrix color-interpolation-filters="sRGB" type="matrix" values=" .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 " /><feComponentTransfer color-interpolation-filters="sRGB"><feFuncR type="table" tableValues="0 0.49803921568627" /><feFuncG type="table" tableValues="0 0.49803921568627" /><feFuncB type="table" tableValues="0 0.49803921568627" /><feFuncA type="table" tableValues="1 1" /></feComponentTransfer><feComposite in2="SourceGraphic" operator="in" /></filter></defs></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" width="0" height="0" focusable="false" role="none" style="visibility: hidden; position: absolute; left: -9999px; overflow: hidden;"><defs><filter id="wp-duotone-grayscale"><feColorMatrix color-interpolation-filters="sRGB" type="matrix" values=" .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 " /><feComponentTransfer color-interpolation-filters="sRGB"><feFuncR type="table" tableValues="0 1" /><feFuncG type="table" tableValues="0 1" /><feFuncB type="table" tableValues="0 1" /><feFuncA type="table" tableValues="1 1" /></feComponentTransfer><feComposite in2="SourceGraphic" operator="in" /></filter></defs></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" width="0" height="0" focusable="false" role="none" style="visibility: hidden; position: absolute; left: -9999px; overflow: hidden;"><defs><filter id="wp-duotone-purple-yellow"><feColorMatrix color-interpolation-filters="sRGB" type="matrix" values=" .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 " /><feComponentTransfer color-interpolation-filters="sRGB"><feFuncR type="table" tableValues="0.54901960784314 0.98823529411765" /><feFuncG type="table" tableValues="0 1" /><feFuncB type="table" tableValues="0.71764705882353 0.25490196078431" /><feFuncA type="table" tableValues="1 1" /></feComponentTransfer><feComposite in2="SourceGraphic" operator="in" /></filter></defs></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" width="0" height="0" focusable="false" role="none" style="visibility: hidden; position: absolute; left: -9999px; overflow: hidden;"><defs><filter id="wp-duotone-blue-red"><feColorMatrix color-interpolation-filters="sRGB" type="matrix" values=" .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 " /><feComponentTransfer color-interpolation-filters="sRGB"><feFuncR type="table" tableValues="0 1" /><feFuncG type="table" tableValues="0 0.27843137254902" /><feFuncB type="table" tableValues="0.5921568627451 0.27843137254902" /><feFuncA type="table" tableValues="1 1" /></feComponentTransfer><feComposite in2="SourceGraphic" operator="in" /></filter></defs></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" width="0" height="0" focusable="false" role="none" style="visibility: hidden; position: absolute; left: -9999px; overflow: hidden;"><defs><filter id="wp-duotone-midnight"><feColorMatrix color-interpolation-filters="sRGB" type="matrix" values=" .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 " /><feComponentTransfer color-interpolation-filters="sRGB"><feFuncR type="table" tableValues="0 0" /><feFuncG type="table" tableValues="0 0.64705882352941" /><feFuncB type="table" tableValues="0 1" /><feFuncA type="table" tableValues="1 1" /></feComponentTransfer><feComposite in2="SourceGraphic" operator="in" /></filter></defs></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" width="0" height="0" focusable="false" role="none" style="visibility: hidden; position: absolute; left: -9999px; overflow: hidden;"><defs><filter id="wp-duotone-magenta-yellow"><feColorMatrix color-interpolation-filters="sRGB" type="matrix" values=" .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 " /><feComponentTransfer color-interpolation-filters="sRGB"><feFuncR type="table" tableValues="0.78039215686275 1" /><feFuncG type="table" tableValues="0 0.94901960784314" /><feFuncB type="table" tableValues="0.35294117647059 0.47058823529412" /><feFuncA type="table" tableValues="1 1" /></feComponentTransfer><feComposite in2="SourceGraphic" operator="in" /></filter></defs></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" width="0" height="0" focusable="false" role="none" style="visibility: hidden; position: absolute; left: -9999px; overflow: hidden;"><defs><filter id="wp-duotone-purple-green"><feColorMatrix color-interpolation-filters="sRGB" type="matrix" values=" .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 " /><feComponentTransfer color-interpolation-filters="sRGB"><feFuncR type="table" tableValues="0.65098039215686 0.40392156862745" /><feFuncG type="table" tableValues="0 1" /><feFuncB type="table" tableValues="0.44705882352941 0.4" /><feFuncA type="table" tableValues="1 1" /></feComponentTransfer><feComposite in2="SourceGraphic" operator="in" /></filter></defs></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" width="0" height="0" focusable="false" role="none" style="visibility: hidden; position: absolute; left: -9999px; overflow: hidden;"><defs><filter id="wp-duotone-blue-orange"><feColorMatrix color-interpolation-filters="sRGB" type="matrix" values=" .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 " /><feComponentTransfer color-interpolation-filters="sRGB"><feFuncR type="table" tableValues="0.098039215686275 1" /><feFuncG type="table" tableValues="0 0.66274509803922" /><feFuncB type="table" tableValues="0.84705882352941 0.41960784313725" /><feFuncA type="table" tableValues="1 1" /></feComponentTransfer><feComposite in2="SourceGraphic" operator="in" /></filter></defs></svg>
@@ -172,27 +148,26 @@ img {
 </div>
 
 
-<header class="header_s">
-  <nav class = "navbar">
+<header class="header ">
 <div class="container">
+<div class="row">
 <div class="col-lg-3">
-<div class="header__logo">
+  <div class="header__logo">
 
-
+    <img src="{{ asset('dist/img/logo.png') }}"  alt="AdminLTE.IO" height="60" width="60">
+    </div>
 </div>
-</div>
-
+<div class="col-lg-9">
 <div class="header__nav">
 <nav>
-  
+<div class="menu-main-container">
 <ul id="menu-main" class="menu">
-<li id="menu-item-203" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-203"><a href="{{path('publicationClient')}}" style="color:rgb(185, 118, 25);">Fil d'actualité</a></li>
-
-<li id="menu-item-208" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-208"><a href="*"style="color:rgb(185, 118, 25);">Liste des films</a></li>
-<li id="menu-item-204" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-204"><a href="*"style="color:rgb(185, 118, 25);">souvenirs& shops</a></li>
-<li id="menu-item-204" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-204"><a href="*"style="color:rgb(185, 118, 25);">Gérer profil</a></li>
+<li id="menu-item-203" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-203"><a href="{{path('publicationClient')}}" style="color:red;">Fil d'actualité</a></li>
+<li id="menu-item-208" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-208"><a href="*"style="color:red;">Liste des films</a></li>
+<li id="menu-item-204" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-204"><a href="*" style="color:red;">souvenirs& shops</a></li>
+<li id="menu-item-204" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-204"><a href="*"style="color:red;">Gérer profil</a></li>
 <li id="menu-item-204" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-204">
-            <a href="*" style="color:rgb(185, 118, 25);">
+            <a href="*" style="color:red;">
 
               <i class="nav-icon fas fa-sign-out-alt"></i>
               
@@ -202,26 +177,25 @@ img {
 </ul></div> </nav>
 <div class="header__btn">
 
-
 </div>
 </div>
-
+</div>
+</div>
 <div class="canvas__open"><i class="fa fa-bars"></i></div>
 </div>
-
-</nav>
 </header>
 
 <section class="blog blog-page spad">
-<div class="container" style="min-height: 250.06px;">
-
+<div class="content-wrapper" style="min-height: 250.06px;">
+<div class="row">
 {% block frontContainer %}
 
 {% endblock %}
 </div>
+</div>
 </section>
 
-<footer class="footer_s" >
+<footer class="footer" id="footerSection">
 <div class="footer__content">
 <div class="container">
 
@@ -229,7 +203,7 @@ img {
 <div class="footer__copyright">
 <div class="container">
 <div class="footer__copyright__text">
-<p style="color:rgb(185, 118, 25); text-align : center;">Copyright © 2022-2023 Cinepro. <br> All rights reserved. <br> Privacy Policy.</p>
+<p style="color:red; text-align : center;">Copyright © 2022-2023 Cinepro. All rights reserved. Privacy Policy</p>
 </div>
 </div>
 </div>

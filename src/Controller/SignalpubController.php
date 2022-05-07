@@ -37,9 +37,9 @@ class SignalpubController extends AbstractController
             foreach ($somme as $sum){
            
 
-                if ($sum >4 ) {
+                if ($sum >=4 ) {
                     
-                    $som = $this->getDoctrine()->getRepository(Signale::class)->findOneBySomeField();
+                    $som = $this->getDoctrine()->getRepository(Publication::class)->findOneBySomeField();
                     
                     
     

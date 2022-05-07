@@ -16,24 +16,10 @@ body{
     line-height: 1.4;
     color: var(--dark);
 }
-img{
-    width: 100%;
-    display: block;
-}
-.container{
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 0 1.2rem;
-}
+
 
 /* header */
-header{
-    min-height: 100vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(dist/img/jcc.jpg) center/cover no-repeat fixed;
-    display: flex;
-    flex-direction: column;
-    justify-content: stretch;
-}
+
 
 .navbar{
     background: rgba(0, 0, 0, 0.6);

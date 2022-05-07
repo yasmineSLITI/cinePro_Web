@@ -11,7 +11,7 @@ use App\Form\PublicationType;
 use App\Entity\Publication;
 use App\Entity\Presse;
 use MercurySeries\FlashyBundle\FlashyNotifier;
-
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use App\Repository\PublicationRepository;
 use Symfony\Component\HttpFoundation\File\UploadFile;
 use Knp\Component\Pager\PaginatorInterface;
@@ -19,7 +19,7 @@ use Knp\Component\Pager\PaginatorInterface;
 class PressepubController extends AbstractController
 {
    /**
-     * @Route("/presse", name="appPresse")
+     * @Route("/presse/p", name="appPresse")
      */
 
     public function publication1(Request $request): Response
@@ -29,7 +29,7 @@ class PressepubController extends AbstractController
         
         return $this->render('pressepub/index.html.twig', [
             
-            'publications'=> $pub,
+            
         ]);
     }
     /**
@@ -171,7 +171,66 @@ class PressepubController extends AbstractController
 
         
     }
-
     
+    //-----------------------------JSON------------------------------
 
+    /**
+     * @Route("/allPubs/json", name="allPubs")
+     */
+    public function allPubs(NormalizerInterface $normalizer): Response
+    {
+        $pubs  = $this->getDoctrine()->getRepository(Publication::class)->findAll();
+        $jsonContent = $normalizer->normalize($pubs, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($jsonContent));
+    }
+
+ /**
+     * @Route("/addPubJson/{id}", name="addPubJson")
+     */
+    public function addPubsJson(Request $request, NormalizerInterface $normalizer, $id): Response
+    {
+       
+        $em = $this->getDoctrine()->getManager();
+        $pub = new Publication();
+        $pub->setIdpresse($this->getDoctrine()->getRepository(Presse::class)->find($id));
+        $pub->setTitre($request->get('titre'));
+        $pub->setTxtpub($request->get('txtpub'));
+        $pub->setImgpub($request->get('imgpub'));
+        
+        
+        
+        $em->persist($pub);
+        $em->flush();
+        $jsonContent = $normalizer->normalize($pub, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($jsonContent));
+    }
+
+     /**
+     * @Route("/deletePubsJson/{id}", name="deletePubsJson")
+     */
+    public function deleteJSON(Request $request, NormalizerInterface $normalizer, $id): Response
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $pub = $em->getRepository(Publication::class)->find($id);
+        $em->remove($pub);
+        $em->flush();
+        $jsonContent = $normalizer->normalize($pub, 'json', ['groups' => 'post:read']);
+        return new Response("pub deleted successfully" . json_encode($jsonContent));
+    }
+
+     /**
+     * @Route("/editPubJson/{id}", name="editPubJson")
+     */
+    public function editPubJson($id, Request $request, NormalizerInterface $normalizer, PublicationRepository $rep): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $pub = $rep->find($id);
+        $pub->setTitre($request->get('titre'));
+        $pub->setTxtpub($request->get('txtpub'));
+        $pub->setImgpub($request->get('imgpub'));
+        $em->flush();
+        $jsonContent = $normalizer->normalize($pub, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($jsonContent));
+    }
 }
