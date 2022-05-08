@@ -1,11 +1,14 @@
 web_profiler:
-<<<<<<< HEAD
+
     toolbar: true
     intercept_redirects: true
-=======
+
     toolbar: false
     intercept_redirects: false
->>>>>>> salmafinal
+
+    toolbar: false
+    intercept_redirects: false
+
 
 framework:
     profiler: { collect: false }

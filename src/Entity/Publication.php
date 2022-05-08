@@ -3,12 +3,17 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\DateTimeType;
+use App\Repository\PublicationRepository;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Presse;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Publication
  *
  * @ORM\Table(name="publication", indexes={@ORM\Index(name="FK512", columns={"idPresse"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass = PublicationRepository::class)
  */
 class Publication
 {
@@ -18,50 +23,70 @@ class Publication
      * @ORM\Column(name="idPub", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $idpub;
 
     /**
      * @var string
-     *
+     *@Assert\NotBlank(message="Le titre de la publication est requise, veuillez l'ajouter pour continuer")
      * @ORM\Column(name="titre", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $titre;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="imgPub", type="string", length=255, nullable=true, options={"default"="NULL"})
+     * @var string
+     *@Assert\NotBlank(message="L'image de la publication est requise, veuillez l'ajouter pour continuer")
+     * @ORM\Column(name="imgPub", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
-    private $imgpub = 'NULL';
+    private $imgpub;
 
     /**
      * @var string|null
-     *
+     *@Assert\NotBlank(message="La description de la publication est requise, veuillez l'ajouter pour continuer")
      * @ORM\Column(name="txtPub", type="string", length=255, nullable=true, options={"default"="NULL"})
+     * @Groups("post:read")
      */
-    private $txtpub = 'NULL';
+    private $txtpub;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="dateCreationPub", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @Groups("post:read")
      */
-    private $datecreationpub = 'current_timestamp()';
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idPresse", type="integer", nullable=false)
-     */
-    private $idpresse;
+    private $datecreationpub ;
+     /**
+ * @ORM\PreUpdate
+ * @throws \Exception
+ */
+public function setDatecreationpub(\DateTimeInterface $datecreationpub): self
+{
+    $date = new \DateTime();
+    $this->datecreationpub = $date->getDatecreationpub();
+    return $this;
+} 
 
     /**
      * @var bool|null
      *
      * @ORM\Column(name="archive", type="boolean", nullable=true)
+     * @Groups("post:read")
      */
     private $archive = '0';
+
+    /**
+     * @var \Presse
+     *
+     * @ORM\ManyToOne(targetEntity="Presse")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idPresse", referencedColumnName="id")
+     * })
+     * @Groups("post:read")
+     */
+    private $idpresse =1 ;
 
     public function getIdpub(): ?int
     {
@@ -85,7 +110,7 @@ class Publication
         return $this->imgpub;
     }
 
-    public function setImgpub(?string $imgpub): self
+    public function setImgpub(string $imgpub): self
     {
         $this->imgpub = $imgpub;
 
@@ -109,24 +134,7 @@ class Publication
         return $this->datecreationpub;
     }
 
-    public function setDatecreationpub(\DateTimeInterface $datecreationpub): self
-    {
-        $this->datecreationpub = $datecreationpub;
-
-        return $this;
-    }
-
-    public function getIdpresse(): ?int
-    {
-        return $this->idpresse;
-    }
-
-    public function setIdpresse(int $idpresse): self
-    {
-        $this->idpresse = $idpresse;
-
-        return $this;
-    }
+    
 
     public function getArchive(): ?bool
     {
@@ -136,6 +144,18 @@ class Publication
     public function setArchive(?bool $archive): self
     {
         $this->archive = $archive;
+
+        return $this;
+    }
+
+    public function getIdpresse(): ?Presse
+    {
+        return $this->idpresse;
+    }
+
+    public function setIdpresse(?Presse $idpresse): self
+    {
+        $this->idpresse = $idpresse;
 
         return $this;
     }

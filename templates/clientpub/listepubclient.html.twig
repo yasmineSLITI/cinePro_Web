@@ -1,0 +1,59 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+{% block frontContainer %}
+
+<link rel="stylesheet" href="{{ asset('dist/css/publication/pub.css') }}">
+<link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+<section class = "design" id = "design">
+  <div class = "container">
+    <div style="position: relative; float: right;">
+        <a class="btn btn-app bg-secondary"href="{{path('publicationArchive')}}" >
+          
+          <i class="fas fa-inbox"></i> publications archivées
+          </a></div>
+          
+          
+   </br>
+  
+  
+
+ 
+    <div class = "title">
+      <h2>Publications & Articles </h2>
+      <p>par différents partenaires de presse </p>
+    </div>
+
+    <div class = "design-content">
+      {% for pub in publications %} 
+      <div class = "design-item">
+        <div class = "design-img">
+          <img src = "{{ asset('uploads/' ~ pub.imgpub) |imagine_filter('pubfiltre')}}" alt = "">
+          
+         
+        </div>
+        <div class = "blog-text">
+          <span>Ecrit le {{pub.datecreationpub | date('d/m/y')}} à {{pub.datecreationpub | date('H:i')}}</span>
+          <h2>{{pub.titre}}</h2>
+          
+          <div><a href = "{{ path ('detailC',{'id':pub.idpub})}}">Lire la suite</a>
+          <a href = "{{ path ('app_signalpub',{'idp':pub.idpub})}}">signaler</a>
+
+        </div>
+        </div>
+      </div>
+     {% endfor %}
+
+    </div>
+    {{ knp_pagination_render(publications) }}
+
+  </div>
+
+</section>
+
+    <script src="//code.jquery.com/jquery.js"></script>
+    <!-- Load Flashy default JavaScript -->
+    <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+    <!-- Include Flashy default partial -->
+    {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+
+{% endblock %}

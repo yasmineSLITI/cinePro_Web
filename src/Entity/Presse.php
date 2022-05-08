@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PublicationRepository;
 
 /**
  * Presse
@@ -22,34 +23,25 @@ class Presse
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="userName", type="string", length=255, nullable=false)
-     */
-    private $username;
-
-    /**
      * @var bool
      *
      * @ORM\Column(name="badgeAttribue", type="boolean", nullable=false)
      */
     private $badgeattribue = '0';
 
+    /**
+     * @var \Compte
+     *
+     * @ORM\ManyToOne(targetEntity="Compte")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="userName", referencedColumnName="userName")
+     * })
+     */
+    private $username;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
     }
 
     public function getBadgeattribue(): ?bool
@@ -64,5 +56,24 @@ class Presse
         return $this;
     }
 
+    public function getUsername(): ?Compte
+    {
+        return $this->username;
+    }
+
+    public function setUsername(?Compte $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+    public function __toString() {
+        return (string) $this->getId();
+
+    }
+    
+
+
+    
 
 }

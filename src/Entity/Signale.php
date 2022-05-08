@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SignalRepository;
 
 /**
  * Signale
  *
- * @ORM\Table(name="signale", indexes={@ORM\Index(name="FK520", columns={"idPub"}), @ORM\Index(name="FK517", columns={"idClient"})})
- * @ORM\Entity
+ * @ORM\Table(name="signale", indexes={@ORM\Index(name="FK517", columns={"idClient"}), @ORM\Index(name="FK520", columns={"idPub"})})
+  * @ORM\Entity(repositoryClass = SignalRepository::class)
+
  */
 class Signale
 {
@@ -24,51 +26,33 @@ class Signale
     /**
      * @var int
      *
-     * @ORM\Column(name="idClient", type="integer", nullable=false)
+     * @ORM\Column(name="nbreSignal", type="integer", nullable=false)
+     */
+    private $nbresignal = '1';
+
+    /**
+     * @var \Client
+     *
+     * @ORM\ManyToOne(targetEntity="Client")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idClient", referencedColumnName="idC")
+     * })
      */
     private $idclient;
 
     /**
-     * @var int
+     * @var \Publication
      *
-     * @ORM\Column(name="idPub", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Publication")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idPub", referencedColumnName="idPub")
+     * })
      */
     private $idpub;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="nbreSignal", type="integer", nullable=false)
-     */
-    private $nbresignal = '0';
 
     public function getIdsignal(): ?int
     {
         return $this->idsignal;
-    }
-
-    public function getIdclient(): ?int
-    {
-        return $this->idclient;
-    }
-
-    public function setIdclient(int $idclient): self
-    {
-        $this->idclient = $idclient;
-
-        return $this;
-    }
-
-    public function getIdpub(): ?int
-    {
-        return $this->idpub;
-    }
-
-    public function setIdpub(int $idpub): self
-    {
-        $this->idpub = $idpub;
-
-        return $this;
     }
 
     public function getNbresignal(): ?int
@@ -79,6 +63,30 @@ class Signale
     public function setNbresignal(int $nbresignal): self
     {
         $this->nbresignal = $nbresignal;
+
+        return $this;
+    }
+
+    public function getIdclient(): ?Client
+    {
+        return $this->idclient;
+    }
+
+    public function setIdclient(?Client $idclient): self
+    {
+        $this->idclient = $idclient;
+
+        return $this;
+    }
+
+    public function getIdpub(): ?Publication
+    {
+        return $this->idpub;
+    }
+
+    public function setIdpub(?Publication $idpub): self
+    {
+        $this->idpub = $idpub;
 
         return $this;
     }
