@@ -42,7 +42,7 @@ class SouvernirsController extends AbstractController
     }
 
     
- /**
+    /**
      * @Route("/addPanier/{id}", name="addPanier")
      */
     public function addPanier($id)

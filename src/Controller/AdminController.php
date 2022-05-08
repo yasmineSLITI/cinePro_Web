@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Produit;
 use App\Repository\BilletRepository;
 use App\Repository\PanierRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\FollowingproduitRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminController extends AbstractController
@@ -165,5 +167,62 @@ class AdminController extends AbstractController
                 $billet_decemberCount
             )
         ]);
+    }
+
+    /**
+     * @Route("/stats/InStockProducts",name="statsInStockProducts")
+     */
+
+    public function getInStockProduit(NormalizerInterface $Normalizer)
+    {
+        $repo = $this->getDoctrine()->getRepository(Produit::class);
+        $produits = $repo->findAll();
+        $produitEnStock_Count = 0;
+        foreach ($produits as $p) {
+
+            if ($p->getQuantiteenstock() > 0) {
+                $produitEnStock_Count++;
+            }
+        }
+
+        $jsonContent  = $Normalizer->normalize($produitEnStock_Count, 'json');
+
+        return new Response(
+            json_encode($jsonContent),
+            200,
+            [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json'
+            ]
+        );
+    }
+
+
+    /**
+     * @Route("/stats/OutOfStockProducts",name="statsOutOfStockProducts")
+     */
+
+    public function getOutOfStockProduit(NormalizerInterface $Normalizer)
+    {
+        $repo = $this->getDoctrine()->getRepository(Produit::class);
+        $produits = $repo->findAll();
+        $produitOutOfStock_Count = 0;
+        foreach ($produits as $p) {
+
+            if ($p->getQuantiteenstock() == 0) {
+                $produitOutOfStock_Count++;
+            }
+        }
+
+        $jsonContent  = $Normalizer->normalize($produitOutOfStock_Count, 'json');
+
+        return new Response(
+            json_encode($jsonContent),
+            200,
+            [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json'
+            ]
+        );
     }
 }

@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\PublicationType;
 use App\Entity\Publication;
 use App\Entity\Presse;
-use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use App\Repository\PublicationRepository;
 use Symfony\Component\HttpFoundation\File\UploadFile;
@@ -18,19 +17,16 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class PressepubController extends AbstractController
 {
-   /**
+    /**
      * @Route("/presse/p", name="appPresse")
      */
 
     public function publication1(Request $request): Response
     {
-        
-        
-        
-        return $this->render('pressepub/index.html.twig', [
-            
-            
-        ]);
+
+
+
+        return $this->render('pressepub/index.html.twig', []);
     }
     /**
      * @Route("/presse/listepub", name="publicationPresse")
@@ -41,41 +37,40 @@ class PressepubController extends AbstractController
         $donnees = $this->getDoctrine()->getRepository(Publication::class)->findAll();
         $pub = $paginator->paginate(
             $donnees,
-            $request->query->getInt('page',1),
+            $request->query->getInt('page', 1),
             3
         );
-        
+
         return $this->render('pressepub/listepub.html.twig', [
-            
-            'publications'=> $pub,
+
+            'publications' => $pub,
         ]);
     }
 
     /**
      * @Route("/presse/ajouter/{id}", name="app_presse")
      */
-    public function new(Request $request, $id, FlashyNotifier $flashy): Response
-    
+    public function new(Request $request, $id): Response
+
     {
 
         $Publication = new Publication();
-        
+
 
         $form = $this->createForm(PublicationType::class, $Publication);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $Publication->setIdpresse($this->getDoctrine()->getRepository(Presse::class)->find($id));
-            $file =$form->get('imgpub')->getData();         
-            $fileName = md5(uniqid()).'.'.$file->guessExtension(); 
-         $file->move($this->getParameter('images_directory'), $fileName); 
-         $Publication->setImgpub($fileName); 
-        
-          
+            $file = $form->get('imgpub')->getData();
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move($this->getParameter('images_directory'), $fileName);
+            $Publication->setImgpub($fileName);
+
+
             $entityManager = $this->getDoctrine()->getManager();
 
             $entityManager->persist($Publication);
             $entityManager->flush();
-            $flashy->success(' votre publication a été ajoutée avec succée');
 
 
             return $this->redirectToRoute('publicationPresse');
@@ -90,13 +85,13 @@ class PressepubController extends AbstractController
     /**
      * @Route("/presse/listepub/supprimer/{id}", name="supprimerPub")
      */
-    public function Supprimer($id,PublicationRepository $repo, FlashyNotifier $flashy){
+    public function Supprimer($id, PublicationRepository $repo)
+    {
         //$repo=$this->getDoctrine()->getRepository(Film::class);
-        $pub =$repo->find($id);
-        $em=$this->getDoctrine()->getManager();
+        $pub = $repo->find($id);
+        $em = $this->getDoctrine()->getManager();
         $em->remove($pub);
         $em->flush();
-        $flashy->info('votre publication est supprimée ');
 
         //$this->addFlash('message','Film Supprimé avec succés');
         return $this->redirectToRoute('publicationPresse');
@@ -105,18 +100,17 @@ class PressepubController extends AbstractController
     /**
      * @Route("/modifier/{id}", name="modifierPub")
      */
-    public function Modifier($id,PublicationRepository $repo, Request $request , FlashyNotifier $flashy){
-       
-        
+    public function Modifier($id, PublicationRepository $repo, Request $request)
+    {
 
-        
-        $pub =$repo->find($id);
+
+        $pub = $repo->find($id);
         $imageName = $pub->getImgpub();
         $form = $this->createForm(PublicationType::class, $pub);
         #$form->handleRequest($request);
         $form->submit($request->request->get($form->getName()), false);
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $file = $request->files->get('publication')['imgpub'];
             if ($file != null) {
                 $uploads_directory = $this->getParameter('images_directory');
@@ -135,9 +129,8 @@ class PressepubController extends AbstractController
             $em->persist($pub);
 
             $em->flush();
-            $flashy->success('votre publication a été modifier avec succée');
 
-            
+
             return $this->redirectToRoute("publicationPresse");
         }
 
@@ -150,26 +143,19 @@ class PressepubController extends AbstractController
     /**
      * @Route("/archiver/{id}", name="archiverPub")
      */
-    public function archiver($id,PublicationRepository $repo, Request $request , FlashyNotifier $flashy){
-       
-        
+    public function archiver($id, PublicationRepository $repo, Request $request)
+    {
 
-        
-        $pub =$repo->find($id);
+        $pub = $repo->find($id);
         $pub->setArchive(1);
 
-            $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
-            $em->persist($pub);
+        $em->persist($pub);
 
-            $em->flush();
-            $flashy->success('votre publication a été archivé avec succée');
+        $em->flush();
 
-            
-            return $this->redirectToRoute("publicationPresse");
-        
-
-        
+        return $this->redirectToRoute("publicationPresse");
     }
     //-----------------------------JSON------------------------------
 
@@ -183,28 +169,28 @@ class PressepubController extends AbstractController
         return new Response(json_encode($jsonContent));
     }
 
- /**
+    /**
      * @Route("/addPubJson/{id}", name="addPubJson")
      */
     public function addPubsJson(Request $request, NormalizerInterface $normalizer, $id): Response
     {
-       
+
         $em = $this->getDoctrine()->getManager();
         $pub = new Publication();
         $pub->setIdpresse($this->getDoctrine()->getRepository(Presse::class)->find($id));
         $pub->setTitre($request->get('titre'));
         $pub->setTxtpub($request->get('txtpub'));
         $pub->setImgpub($request->get('imgpub'));
-        
-        
-        
+
+
+
         $em->persist($pub);
         $em->flush();
         $jsonContent = $normalizer->normalize($pub, 'json', ['groups' => 'post:read']);
         return new Response(json_encode($jsonContent));
     }
 
-     /**
+    /**
      * @Route("/deletePubsJson/{id}", name="deletePubsJson")
      */
     public function deleteJSON(Request $request, NormalizerInterface $normalizer, $id): Response
@@ -218,7 +204,7 @@ class PressepubController extends AbstractController
         return new Response("pub deleted successfully" . json_encode($jsonContent));
     }
 
-     /**
+    /**
      * @Route("/editPubJson/{id}", name="editPubJson")
      */
     public function editPubJson($id, Request $request, NormalizerInterface $normalizer, PublicationRepository $rep): Response
@@ -232,5 +218,4 @@ class PressepubController extends AbstractController
         $jsonContent = $normalizer->normalize($pub, 'json', ['groups' => 'post:read']);
         return new Response(json_encode($jsonContent));
     }
-    
 }

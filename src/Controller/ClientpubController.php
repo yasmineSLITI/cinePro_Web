@@ -26,40 +26,39 @@ class ClientpubController extends AbstractController
             'controller_name' => 'ClientpubController',
         ]);
     }
-/**
+    /**
      * @Route("/client1", name="publicationClient")
      */
-    public function publication(Request $request, PaginatorInterface $paginator): Response
+    public function publication(Request $request, PaginatorInterface $paginator, PublicationRepository $publicationRepo): Response
     {
-        $donnees = $this->getDoctrine()->getRepository(Publication::class)->findByArch();
+        $donnees = $publicationRepo->findByArch();
         $p = $paginator->paginate(
             $donnees,
-            $request->query->getInt('page',1),
+            $request->query->getInt('page', 1),
             6
         );
-        
-        return $this->render('clientPub/listePubClient.html.twig', [
-            
-            'publications'=> $p,
-        ]);
 
+        return $this->render('clientPub/listePubClient.html.twig', [
+
+            'publications' => $p,
+        ]);
     }
 
     /**
      * @Route("/clientarchive", name="publicationArchive")
      */
-    public function publicationArchive(Request $request, PaginatorInterface $paginator): Response
+    public function publicationArchive(Request $request, PaginatorInterface $paginator, PublicationRepository $publicationRepo): Response
     {
-        $donnees = $this->getDoctrine()->getRepository(Publication::class)->findByArchive();
+        $donnees = $publicationRepo->findByArchive();
         $pub = $paginator->paginate(
             $donnees,
-            $request->query->getInt('page',1),
+            $request->query->getInt('page', 1),
             4
         );
-        
+
         return $this->render('clientPub/pubarchive.html.twig', [
-            
-            'pub'=> $pub,
+
+            'pub' => $pub,
         ]);
     }
 
@@ -68,21 +67,18 @@ class ClientpubController extends AbstractController
 
 
     /**
-     * @Route("/{id}", name="detailC")
+     * @Route("/details/{id}", name="detailC")
      */
     public function detail($id): Response
     {
         $detail = $this->getDoctrine()->getRepository(Publication::class)->find($id);
-         
-       
+
+
         return $this->render('clientpub/detailclient.html.twig', [
-            
-            'details'=> $detail,
-           
+
+            'details' => $detail,
+
 
         ]);
     }
-
-   
-    
 }

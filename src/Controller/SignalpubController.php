@@ -21,40 +21,29 @@ class SignalpubController extends AbstractController
     /**
      * @Route("/signalpub/{idp}", name="app_signalpub")
      */
-    public function ajout($idp, FlashyNotifier $flashy): Response
+    public function ajout($idp, SignalRepository $SignaleRepo): Response
     {
         $signal = new Signale();
-        
-            $signal->setIdpub($this->getDoctrine()->getRepository(Publication::class)->find($idp));
-            $signal->setIdclient($this->getDoctrine()->getRepository(Client::class)->find(4));
 
-            $somme = $this->getDoctrine()->getRepository(Signale::class)->sumSig();
-            $entityManager = $this->getDoctrine()->getManager();
-            
-            $entityManager->persist($signal);
-            $entityManager->flush();
-            
-            foreach ($somme as $sum){
-           
+        $signal->setIdpub($this->getDoctrine()->getRepository(Publication::class)->find($idp));
+        $signal->setIdclient($this->getDoctrine()->getRepository(Client::class)->find(4));
 
-                if ($sum >=4 ) {
-                    
-                    $som = $this->getDoctrine()->getRepository(Publication::class)->findOneBySomeField();
-                    
-                    
-    
-                }
-           }
-            
-           $flashy->error(' la publication a été signalée');
+        $somme = $SignaleRepo->sumSig();
+        $entityManager = $this->getDoctrine()->getManager();
 
-       
-            return $this->redirectToRoute('publicationClient');
-        
+        $entityManager->persist($signal);
+        $entityManager->flush();
 
-        
+        foreach ($somme as $sum) {
+
+
+            if ($sum >= 4) {
+
+                $som = $SignaleRepo->findOneBySomeField();
+            }
+        }
+
+        return $this->redirectToRoute('publicationClient');
     }
-/*hhhhhhh*/
-    
-
+    /*hhhhhhh*/
 }

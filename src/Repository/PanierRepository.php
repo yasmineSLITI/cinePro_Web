@@ -56,6 +56,7 @@ class PanierRepository extends ServiceEntityRepository
           ;
         return $query->getResult();
     }
+    
     public function getQt(){
         $entityManager=$this->getEntityManager();
         $query=$entityManager

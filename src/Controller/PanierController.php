@@ -34,90 +34,85 @@ class PanierController extends AbstractController
      * @Route("/read", name="read")
      */
     public function read()
-    { 
-        $listec=$this ->getDoctrine()->
-        getRepository(Panier::class)
-        ->findAll();
+    {
+        $listec = $this->getDoctrine()->getRepository(Panier::class)
+            ->findAll();
         return $this->render('panier/index.html.twig', [
-            'controller_name' => 'PanierController','liste'=>$listec
-        ]); 
-        
+            'controller_name' => 'PanierController', 'liste' => $listec
+        ]);
     }
-      /**
+    /**
      * @Route("/delete/{id1}", name="delete" ,requirements={"id1" = "<code>/\d/+</code>"}, defaults={"id1" = 1})
      */
-    public function delete($id1){
-        $listesup=$this ->getDoctrine()->
-        getRepository(Panier::class)
-        ->findOneBy(array('idpanier' => $id1));
-        $em=$this ->getDoctrine()->
-        getManager();
-        $em -> remove ($listesup);
-        $em -> flush();
+    public function delete($id1)
+    {
+        $listesup = $this->getDoctrine()->getRepository(Panier::class)
+            ->findOneBy(array('idpanier' => $id1));
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($listesup);
+        $em->flush();
         return $this->redirectToRoute("read");
     }
     /**
      * @Route("/vider", name="vider")
      */
-    public function vider(){
-        $listesup=$this ->getDoctrine()->
-        getRepository(Panier::class)
-        ->viderPnier();
-        
+    public function vider(PanierRepository $panierRepo)
+    {
+        $listesup = $panierRepo->viderPnier();
+
         return $this->redirectToRoute("read");
     }
-    
-  /**
+
+    /**
      * @Route("/valider/{id}", name="valider")
      */
-    public function valider($id){
+    public function valider($id, ProduitRepository $produitRepo, PanierRepository $panierRepo)
+    {
         $idpanier = $this->getDoctrine()->getRepository(Panier::class)->find($id);
         $client = new Client();
-        $role=$client->getRole() ;
-        $prix=$this->getDoctrine()->getRepository(Produit::class)->getPrix();
-        $qt=$this->getDoctrine()->getRepository(Panier::class)->getQt();
+        $role = $client->getRole();
+        $prix = $produitRepo->getPrix();
+        $qt = $panierRepo->getQt();
         //dd($prix);
-       if($role=="etudiant"){
-        $fact = new Facture();
-        $fact->setTotal($prix*$qt*0.2) ;
-        $fact->setDatecreation(new \DateTime('now')) ;
-        $fact->setIdpanier($idpanier) ;
-       
-    
-      
+        if ($role == "etudiant") {
+            $fact = new Facture();
+            $fact->setTotal($prix * $qt * 0.2);
+            $fact->setDatecreation(new \DateTime('now'));
+            $fact->setIdpanier($idpanier);
+
+
+
             $em = $this->getDoctrine()->getManager();
-           
+
             $em->persist($fact);
             $em->flush();
-       }
-       else{
-        $fact = new Facture();
-        $fact->setTotal($prix*$qt) ;
-        $fact->setDatecreation(new \DateTime('now')) ;
-        $fact->setIdpanier($idpanier) ;
-       
-    
-      
+        } else {
+            $fact = new Facture();
+            $fact->setTotal($prix * $qt);
+            $fact->setDatecreation(new \DateTime('now'));
+            $fact->setIdpanier($idpanier);
+
+
+
             $em = $this->getDoctrine()->getManager();
             //$student->setMoyenne(0);
             $em->persist($fact);
             $em->flush();
-       }
-        
-            
-            $listec = $this->getDoctrine()->getRepository(Facture::class)->findAll();
-        return $this->render('facture/factur.html.twig', ["ff" => $listec
+        }
+
+
+        $listec = $this->getDoctrine()->getRepository(Facture::class)->findAll();
+        return $this->render('facture/factur.html.twig', [
+            "ff" => $listec
         ]);
-        
-         
     }
-     /**
+    /**
      * @Route("/updatePanier/{id}", name="updatePanier")
      */
     public function updatePanier(Request $request, $id)
     {
         $panier = $this->getDoctrine()->getRepository(Panier::class)->find($id);
-        $form = $this->createForm(PanierType::class,$panier);
+        $form = $this->createForm(PanierType::class, $panier);
         $form->add("Modifier", SubmitType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
@@ -128,62 +123,55 @@ class PanierController extends AbstractController
         return $this->render("panier/update.html.twig", array('form' => $form->createView()));
     }
 
- /**
+    /**
      * @Route("/ajouterfacture/new/{id}", name="ajouterfacture")
      */
-    public function ajouterfacture(Request $request , NormalizerInterface $Normalizer, $id){
+    public function ajouterfacture(Request $request, NormalizerInterface $Normalizer, $id, ProduitRepository $produitRepo, PanierRepository $panierRepo)
+    {
         $idpanier = $this->getDoctrine()->getRepository(Panier::class)->find($id);
         $client = new Client();
-        $role=$client->getRole() ;
-        $prix=$this->getDoctrine()->getRepository(Produit::class)->getPrix();
-        $qt=$this->getDoctrine()->getRepository(Panier::class)->getQt();
+        $role = $client->getRole();
+        $prix = $produitRepo->getPrix();
+        $qt = $panierRepo->getQt();
         //dd($prix);
-       if($role=="etudiant"){
-        $fact = new Facture();
-        $fact->setTotal($prix*$qt*0.2) ;
-        $fact->setDatecreation(new \DateTime('now')) ;
-        $fact->setIdpanier($idpanier) ;
-       
-    
-      
+        if ($role == "etudiant") {
+            $fact = new Facture();
+            $fact->setTotal($prix * $qt * 0.2);
+            $fact->setDatecreation(new \DateTime('now'));
+            $fact->setIdpanier($idpanier);
+
+
+
             $em = $this->getDoctrine()->getManager();
-           
+
             $em->persist($fact);
             $em->flush();
-       }
-       else{
-        $fact = new Facture();
-        $fact->setTotal($prix*$qt) ;
-        $fact->setDatecreation(new \DateTime('now')) ;
-        $fact->setIdpanier($idpanier) ;
-       
-    
-      
+        } else {
+            $fact = new Facture();
+            $fact->setTotal($prix * $qt);
+            $fact->setDatecreation(new \DateTime('now'));
+            $fact->setIdpanier($idpanier);
+
+
+
             $em = $this->getDoctrine()->getManager();
             //$student->setMoyenne(0);
             $em->persist($fact);
             $em->flush();
-       }
-        
-            
-       $jsonContent = $Normalizer->normalize($fact,'json',['groups'=>'post:read']);
-       return new Response (json_encode($jsonContent));
-        
-         
+        }
+
+
+        $jsonContent = $Normalizer->normalize($fact, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($jsonContent));
     }
     /**
      * @Route("/ListePanier", name="ListePanier")
      */
     public function ListePanier(NormalizerInterface $Normalizer)
-    { 
-        $listec=$this ->getDoctrine()->
-        getRepository(Panier::class)
-        ->findAll();
-        $jsonContent = $Normalizer->normalize( $listec,'json',['groups'=>'post:read']);
-        return new Response (json_encode($jsonContent));
-         
-        
+    {
+        $listec = $this->getDoctrine()->getRepository(Panier::class)
+            ->findAll();
+        $jsonContent = $Normalizer->normalize($listec, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($jsonContent));
     }
-
-
 }

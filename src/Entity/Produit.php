@@ -3,13 +3,22 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Produit
  *
  * @ORM\Table(name="produit")
- * @ORM\Entity(repositoryClass=ProduitRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\ProduitRepository")
+ * @ORM\Table(name="produit",indexes={@ORM\Index(columns={"Designation","Description"},flags={"fulltext"})})
+ * @UniqueEntity(
+ *     fields={"designation"},
+ *     message="Un Produit Ayant Cette Désignation est déja existant."
+ * )
  */
 class Produit
 {
@@ -19,13 +28,16 @@ class Produit
      * @ORM\Column(name="IDProduit", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("api:produit")
      */
     private $idproduit;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="Designation", type="string", length=255, nullable=false)
+     * @ORM\Column(name="Designation", type="string", length=255, nullable=false,unique=true)
+     * @Assert\NotBlank(message="Le Champ Désignation est obligatoire")
+     * @Groups("api:produit")
      */
     private $designation;
 
@@ -33,20 +45,28 @@ class Produit
      * @var string
      *
      * @ORM\Column(name="Description", type="text", length=65535, nullable=false)
+     * @Assert\NotBlank(message="Le Champ Déscription est obligatoire")
+     * @Groups("api:produit")
      */
     private $description;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Image", type="string", length=255, nullable=true)
+     * @ORM\Column(name="Image", type="string", length=255, nullable=true, options={"default"="NULL"})
+     * @Assert\NotBlank(message="Le Champ Image est obligatoire")
+     * @Groups("api:produit")
      */
-    private $image;
+    private $image = 'NULL';
 
     /**
      * @var int
      *
      * @ORM\Column(name="QuantiteEnStock", type="integer", nullable=false)
+     * @Assert\NotBlank(message="Le Champ Quantité En Stock est obligatoire")
+     * @Assert\Type(type="integer")
+     * @Assert\GreaterThan(-1 , message="La Quantité En Stock Doit Etre Supérieur ou égale à Zéro.")
+     * @Groups("api:produit")
      */
     private $quantiteenstock;
 
@@ -54,6 +74,14 @@ class Produit
      * @var float
      *
      * @ORM\Column(name="prixAchatUnit", type="float", precision=10, scale=0, nullable=false)
+     * @Assert\NotBlank(message="Le Champ Prix Achat Unitaire est obligatoire")
+     * @Assert\GreaterThan(0 , message="Le Prix D'Achat unitaire Doit Etre Supérieur à Zéro.")
+     * @Assert\Regex(
+     *     pattern="/([0-9]*[.])?[0-9]+/",
+     *     match=true,
+     *     message="Le Champ Déscription Ne Peut contenir Que Des Caractéres Alphanumériques"
+     * )
+     * @Groups("api:produit")
      */
     private $prixachatunit;
 
@@ -61,19 +89,42 @@ class Produit
      * @var float
      *
      * @ORM\Column(name="prixVenteUnit", type="float", precision=10, scale=0, nullable=false)
+     * @Assert\NotBlank(message="Le Champ Prix Vente Unitaire est obligatoire")
+     * * @Assert\GreaterThan(0 , message="Le Prix De Vente unitaire Doit Etre Supérieur à Zéro.")
+     * @Groups("api:produit")
      */
     private $prixventeunit;
 
     /**
      * @var bool|null
      *
-     * @ORM\Column(name="StatusStock", type="boolean", nullable=true)
+     * @ORM\Column(name="StatusStock", type="boolean", nullable=true, options={"default"="NULL"})
+     * @Groups("api:produit")
      */
-    private $statusstock;
+    private $statusstock = 'NULL';
+
+    /**
+     * @ORM\OneToMany(targetEntity=Followingproduit::class, mappedBy="produit")
+     * @Groups("api:produit")
+     */
+    private $followings;
+
+    public function __construct()
+    {
+        $this->followings = new ArrayCollection();
+    }
+
 
     public function getIdproduit(): ?int
     {
         return $this->idproduit;
+    }
+
+    public function setIdproduit(int $idproduit): self
+    {
+        $this->idproduit = $idproduit;
+
+        return $this;
     }
 
     public function getDesignation(): ?string
@@ -81,7 +132,7 @@ class Produit
         return $this->designation;
     }
 
-    public function setDesignation(string $designation): self
+    public function setDesignation(string $designation = null): self
     {
         $this->designation = $designation;
 
@@ -93,7 +144,7 @@ class Produit
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(string $description = null): self
     {
         $this->description = $description;
 
@@ -105,7 +156,7 @@ class Produit
         return $this->image;
     }
 
-    public function setImage(?string $image): self
+    public function setImage(?string $image = null): self
     {
         $this->image = $image;
 
@@ -117,7 +168,7 @@ class Produit
         return $this->quantiteenstock;
     }
 
-    public function setQuantiteenstock(int $quantiteenstock): self
+    public function setQuantiteenstock(int $quantiteenstock = null): self
     {
         $this->quantiteenstock = $quantiteenstock;
 
@@ -129,7 +180,7 @@ class Produit
         return $this->prixachatunit;
     }
 
-    public function setPrixachatunit(float $prixachatunit): self
+    public function setPrixachatunit(float $prixachatunit = null): self
     {
         $this->prixachatunit = $prixachatunit;
 
@@ -141,7 +192,7 @@ class Produit
         return $this->prixventeunit;
     }
 
-    public function setPrixventeunit(float $prixventeunit): self
+    public function setPrixventeunit(float $prixventeunit = null): self
     {
         $this->prixventeunit = $prixventeunit;
 
@@ -153,14 +204,72 @@ class Produit
         return $this->statusstock;
     }
 
-    public function setStatusstock(?bool $statusstock): self
+    public function setStatusstock(?bool $statusstock = null): self
     {
         $this->statusstock = $statusstock;
 
         return $this;
     }
-public function _toString(){
-    return (string)$this->id;
-}
 
+    /**
+     * @return Collection<int, Followingproduit>
+     */
+    public function getFollowings(): Collection
+    {
+        return $this->followings;
+    }
+
+    public function addFollowing(Followingproduit $following): self
+    {
+        if (!$this->followings->contains($following)) {
+            $this->followings[] = $following;
+            $following->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollowing(Followingproduit $following): self
+    {
+        if ($this->followings->removeElement($following)) {
+            // set the owning side to null (unless already changed)
+            if ($following->getProduit() === $this) {
+                $following->setProduit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+
+    public function isFollowedByUser($client): bool
+    {
+
+        foreach ($this->followings as $following) {
+            if ($following->getClient() === $client) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return boolean
+     */
+
+    public function isLikedByUser($idClient): bool
+    {
+
+        foreach ($this->followings as $following) {
+            if ($following->getClient()->getIdClient() === $idClient) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

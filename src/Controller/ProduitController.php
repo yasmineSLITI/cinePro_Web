@@ -9,6 +9,7 @@ use Knp\Snappy\Pdf;
 use App\Data\CSVData;
 use App\Form\CSVType;
 use App\Entity\Client;
+use App\Entity\Panier;
 use App\Entity\Produit;
 use App\Data\SearchData;
 use App\Form\SearchForm;
@@ -117,7 +118,7 @@ class ProduitController extends AbstractController
         $produit = new Produit();
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
-        
+
 
         if (($form->isSubmitted()) && ($form->isValid())) {
             $file = $request->files->get('produit')['image'];
@@ -254,9 +255,12 @@ class ProduitController extends AbstractController
         }
 
         $followRepo->count(['client' => $client]);
+        $listePanier = $this->getDoctrine()->getRepository(Panier::class)
+            ->findAll();
 
         return $this->render('/produit/front_office/index.html.twig', array(
             'listFollowedProduit' => $listFollowedProduit,
+            'listePanier' => $listePanier,
             'products' => $Products,
             'countFollowings' => $followRepo,
             'formSearch' => $formSearch->createView()
@@ -441,5 +445,29 @@ class ProduitController extends AbstractController
 
         $this->addFlash('success', 'Fichier .csv importé avec succès');
         return $this->redirectToRoute("affichage_Produits");
+    }
+
+    /**
+     * @Route("/addToCart/{id}", name="addToCart")
+     */
+    public function addPanier($id)
+    {
+        $idprd = $this->getDoctrine()->getRepository(Produit::class)->find($id);
+        $panier = new Panier();
+        $client = new Client();
+        $panier->setNompanier("Disponible");
+        $panier->setStatuspanier(0);
+        $panier->setQuantite(1);
+        $panier->setIdproduit($idprd);
+        $panier->setIdclient(1);
+        $panier->setIdbillet(0);
+
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($panier);
+        $em->flush();
+        $this->addFlash('success', 'Votre Produit a été ajouté au panier avec succés!');
+        return $this->redirectToRoute("affichageProduitFront");
     }
 }

@@ -23,51 +23,50 @@ class AdminpubController extends AbstractController
     public function publication(Request $request, PaginatorInterface $paginator): Response
     {
         $donnees = $this->getDoctrine()->getRepository(Publication::class)->findAll();
-         
+
         $pub = $paginator->paginate(
             $donnees,
-            $request->query->getInt('page',1),
+            $request->query->getInt('page', 1),
             4
         );
         return $this->render('adminPub/publication.html.twig', [
-            
-            'publications'=> $pub,
+
+            'publications' => $pub,
         ]);
     }
-     /**
+    /**
      * @Route("/publication/{id}", name="detail")
      */
     public function detail($id): Response
     {
         $detail = $this->getDoctrine()->getRepository(Publication::class)->find($id);
-         
-       
+
+
         return $this->render('adminPub/detail.html.twig', [
-            
-            'details'=> $detail,
-           
+
+            'details' => $detail,
+
 
         ]);
     }
     /**
      * @Route("/publication/supprimer/{id}", name="supprimerPubAdmin")
      */
-    public function Supprimer($id,PublicationRepository $repo, FlashyNotifier $flashy){
+    public function Supprimer($id, PublicationRepository $repo)
+    {
         //$repo=$this->getDoctrine()->getRepository(Film::class);
-        $pub =$repo->find($id);
-        $em=$this->getDoctrine()->getManager();
+        $pub = $repo->find($id);
+        $em = $this->getDoctrine()->getManager();
         $em->remove($pub);
         $em->flush();
-        $flashy->info('la publication est supprimée ');
-
-        //$this->addFlash('message','Film Supprimé avec succés');
+        $this->addFlash('message', 'Film Supprimé avec succés');
         return $this->redirectToRoute('publicationAdmin');
     }
 
     /**
      * @Route("/pdf", name="pubpdf")
      */
-    public function pubpdf(): Response
+    public function pubpdf()
     {
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
@@ -76,17 +75,17 @@ class AdminpubController extends AbstractController
         $dompdf = new Dompdf($pdfOptions);
         $pub = $this->getDoctrine()->getRepository(Publication::class)->findAll();
 
-       
+
 
         // Retrieve the HTML generated in our twig file
         $html = $this->renderView('adminpub/pubpdf.html.twig', [
-            
-            'pub'=> $pub,
+
+            'pub' => $pub,
         ]);
-        
+
         // Load HTML to Dompdf
         $dompdf->loadHtml($html);
-        
+
         // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
         $dompdf->setPaper('A4', 'portrait');
 
@@ -97,13 +96,8 @@ class AdminpubController extends AbstractController
         $dompdf->stream("mypdf.pdf", [
             "Attachment" => true
         ]);
-
-       
-       
-        
-        
     }
-   /**
+    /**
      * @Route("/allPubs/json", name="allPubs")
      */
     public function allPubs(NormalizerInterface $normalizer): Response
@@ -112,8 +106,8 @@ class AdminpubController extends AbstractController
         $jsonContent = $normalizer->normalize($pubs, 'json', ['groups' => 'post:read']);
         return new Response(json_encode($jsonContent));
     }
-    
-     /**
+
+    /**
      * @Route("/deletePubsJson/{id}", name="deletePubsJson")
      */
     public function deleteJSON(Request $request, NormalizerInterface $normalizer, $id): Response
@@ -126,5 +120,4 @@ class AdminpubController extends AbstractController
         $jsonContent = $normalizer->normalize($pub, 'json', ['groups' => 'post:read']);
         return new Response("pub deleted successfully" . json_encode($jsonContent));
     }
-      
 }
