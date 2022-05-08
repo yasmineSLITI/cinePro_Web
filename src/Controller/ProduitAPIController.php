@@ -301,4 +301,6 @@ class ProduitAPIController extends AbstractController
             ]
         );
     }
+
+    
 }

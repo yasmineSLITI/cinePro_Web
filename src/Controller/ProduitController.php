@@ -43,6 +43,8 @@ class ProduitController extends AbstractController
     /**
      * @Route("/produit", name="affichage_Produits")
      */
+
+
     public function index(ProduitRepository $repo, Request $request, PaginatorInterface $paginator)
     {
         $donnees = $repo->findAll();
