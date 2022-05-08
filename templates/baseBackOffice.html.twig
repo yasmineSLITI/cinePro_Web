@@ -31,7 +31,7 @@
 
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo" height="60" width="60">
+    <img class="animation__shake" src="{{ asset('dist/img/logo.png') }}" alt="logo" height="60" width="60">
   </div>
 
   <!-- Navbar -->
@@ -121,7 +121,7 @@
                with font-awesome or any other icon font library -->
 
                <li class="nav-item">
-            <a href="pages/kanban.html" class="nav-link">
+            <a href="/stat" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -178,7 +178,7 @@
           </li>
           
           <li class="nav-item">
-            <a href="pages/kanban.html" class="nav-link">
+            <a href="/evenement" class="nav-link">
               <i class="nav-icon fas fa-calendar-check"></i>
               <p>
                 Evénements
@@ -196,7 +196,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="pages/kanban.html" class="nav-link">
+            <a href="/salles" class="nav-link">
         
               <i class="nav-icon fas fa-building"></i>
               
@@ -283,7 +283,8 @@
 <script src="{{ asset('plugins/jquery-knob/jquery.knob.min.js') }}"></script>
 <!-- daterangepicker -->
 <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
-<script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
+<script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}">
+</script>
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 <!-- Summernote -->

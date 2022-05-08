@@ -150,10 +150,11 @@ img {
 
 <header class="header ">
 <div class="container">
+<div class="row">
 <div class="col-lg-3">
 <div class="header__logo">
 
-<img src="{{ asset('dist/img/logo.png') }}"  alt="AdminLTE.IO" height="60" width="60">
+<img src="dist/img/logo.png"  alt="AdminLTE.IO" class="img-size-50 mr-9 img-circle">
 </div>
 </div>
 <div class="col-lg-9">
@@ -161,10 +162,11 @@ img {
 <nav>
 <div class="menu-main-container">
 <ul id="menu-main" class="menu">
-  <li id="menu-item-203" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-203"><a href="{{path('publicationClient')}}" style="color:red;">Fil d'actualité</a></li>
-
-<li id="menu-item-208" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-208"><a href="{{path('yosr')}}"style="color:red;">Liste des films</a></li>
-<li id="menu-item-204" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-204"><a href="{{path('affichageProduitFront')}}"style="color:red;">souvenirs& shops</a></li>
+<li id="menu-item-203" 
+class="menu-item menu-item-type-post_type menu-item-object-page 
+menu-item-home menu-item-203"><a href="/evenementspons" 
+style="color:red;">Liste des evenements</a></li>
+<li id="menu-item-203" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-203"><a href="/mesdemandes" style="color:red;">Mes demandes </a></li>
 <li id="menu-item-204" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-204"><a href="*"style="color:red;">Gérer profil</a></li>
 <li id="menu-item-204" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-204">
             <a href="*" style="color:red;">
@@ -183,14 +185,15 @@ img {
 </div>
 <div class="canvas__open"><i class="fa fa-bars"></i></div>
 </div>
-</header>
+</header> 
 
-<section class="blog blog-page spad" >
-<div class="container" style="min-height: 250.06px;">
+<section class="blog blog-page spad">
 
+<div class="row">
 {% block frontContainer %}
 
 {% endblock %}
+</div>
 </div>
 </section>
 

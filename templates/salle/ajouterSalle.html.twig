@@ -1,0 +1,23 @@
+{% extends 'baseBackOffice.html.twig'%}
+    {% block backContainer %} 
+
+        {% block body %} 
+            <h1>Ajouter Salle</h1>
+            {{form_start (form)}}
+            <div class "form-group">
+                {{ form_row (form.nomsalle , {'label' : "Nom de la salle :"})}}
+            </div>
+            <div class "form-group">
+                {{ form_row (form.capacite , {'label' : "La capacité de la salle :"})}}
+            </div>
+            <div class "form-group"> 
+                {{ form_row (form.datedemaintenance , {'label' : "Sa date de maintenance :"})}}
+            </div>
+            <div> 
+            <button type="submit" class= "btn btn-dark">Ajouter salle</button>
+           {# <INPUT href ="" TYPE="reset" NAME="nom" VALUE=" Annuler" class= "btn btn-dark">#}
+            <a href="{{ path("listeS")}}" class="btn btn-dark" type="reset">Annuler</a>
+            </div>
+            {{form_end (form)}}
+        {% endblock %}
+    {% endblock %} 

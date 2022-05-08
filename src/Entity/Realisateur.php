@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Realisateur
@@ -19,7 +21,7 @@ class Realisateur
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $numrea;
+    private $numrea = 1;
 
     /**
      * @var int
@@ -34,6 +36,19 @@ class Realisateur
      * @ORM\Column(name="NomOrg", type="string", length=255, nullable=false)
      */
     private $nomorg;
+
+    /**
+     * @var Evenement
+     * @ORM\OneToMany(targetEntity="App\Entity\Evenement", mappedBy = "numrea")
+     * @Groups("event")
+     */
+
+    private $evenement ;
+    public function __construct()
+    {
+        $this->evenement=new ArrayCollection();
+    }
+    
 
     public function getNumrea(): ?int
     {
@@ -60,6 +75,17 @@ class Realisateur
     public function setNomorg(string $nomorg): self
     {
         $this->nomorg = $nomorg;
+
+        return $this;
+    }
+    public function getEvenement(): ?Evenement
+    {
+        return $this->evenement;
+    }
+
+    public function setEvenement(Evenement $evenement): self
+    {
+        $this->evenement = $evenement;
 
         return $this;
     }

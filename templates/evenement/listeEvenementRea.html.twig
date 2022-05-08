@@ -1,0 +1,62 @@
+{% extends 'RealisateurBackOffice.html.twig' %}
+
+    {% block backContainer %}
+      <div class="container text-center">
+    <h1>Liste des vos evenements</h1> 
+    <a href = "{{path("ajouterEvent")}}" class ="btn btn-dark">Demander evenement</a>
+
+<table class ="content-table">
+    <thead>
+    <tr>
+    <th >Nom de l'evenement</th>
+    <th>Montant demandé</th>
+    <th>Description</th>
+    <th>Durée</th>
+    <th>Etat d'acceptation</th>
+    
+    <th>Montant demandé</th>
+    
+    <th>Progret de sponsoring</th>
+    
+    
+    </tr>  
+    </thead>
+    <tbody>
+        
+    <tr {% for e in eve %}>
+        
+        <td>  {{e.nomev}} </td>
+        <td>{{e.montant}} </td>
+        <td>  {{e.description}} </td>
+        <td>{{e.duree}} min</td>
+       <td> {{e.etat}} </td>
+       <td>{{e.montant}} </td>
+        <td>{{e.progret}} </td>
+       
+        <td {% if e.etat =='En attente' %}>
+           
+        </td {% endif %}>
+    </tr {% endfor %}>
+    </tbody>
+  </table>
+ {{ knp_pagination_render(
+      eve,
+      '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig',
+      {
+          'queryParam1': 'param1 value',
+          'queryParam2': 'param2 value'
+      },
+      {
+          'viewParam1': 'param1 value',
+          'viewParam2': 'param2 value'
+      },
+      {
+        'align': 'center',
+        'size': 'large',
+        'rounded': true,
+        }
+  ) }} 
+      </div>
+{% endblock %} 
+
+

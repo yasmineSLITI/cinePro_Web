@@ -1,0 +1,146 @@
+{% extends 'baseBackOffice.html.twig'%}
+
+    {% block backContainer %}
+        <style>
+            
+            .content-table{
+                border-collapse: collapse;
+                margin: 25px 0;
+                font-size: 0.9em;
+                min-width: 400px;
+                border-radius: 5px 5px 0 0;
+                overflow: scroll;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+                text-align: center;
+                margin-left: auto;
+    margin-right: auto;
+              }
+              
+              .content-table thead tr {
+                background-color: #D10000;
+                color: #ffffff;
+                text-align: left;
+                font-weight: bold;
+              }
+              
+              .content-table th,
+              .content-table td {
+                padding: 12px 15px;
+              }
+              
+              .content-table tbody tr {
+                border-bottom: 1px solid #dddddd;
+              }
+              
+              .content-table tbody tr:nth-of-type(even) {
+                background-color: #f3f3f3;
+              }
+              
+              .content-table tbody tr:last-of-type {
+                border-bottom: 2px solid #D10000;
+              }
+              
+              .content-table tbody tr.active-row {
+                font-weight: bold;
+                color: #D10000;
+                
+              }
+              .heads{
+            position: sticky;
+              }
+              
+                
+              }
+        </style>
+   
+        <header class = "heads">   
+    <h1>Liste des salles</h1> 
+    
+   {% if form is defined %}
+        {{ form_start (form)}}
+        <div class ="form-row align-items-end">
+          <div class="col">
+            {{form_row(form.nom)}}
+          </div>
+          <div class="col">
+            <div class="form-group">
+            </div>
+          </div>
+        </div>
+        {{ form_end (form) }}
+    {% endif %}
+       {#<link href="affiche.css">#} 
+        
+       <a href= "{{ path('ajouterS') }}" class="btn btn-dark" align = "left" >Ajouter</a>
+       <a href= "{{ path('calendrier') }}"  class="btn btn-dark" align = "left" >Voir calendrier</a>
+       
+       </header>
+    <section>
+
+<table class ="content-table" >
+    <tr>
+    <thead>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Capacité</th>
+    <th>Date de maintenance</th>
+    <th>Maintenance</th>
+    <th>Disponibilité</th>
+        
+    </tr>  
+    </thead>
+    <tbody id="myTable">
+        
+    <tr {% for s in salle %}>
+        <td> {{s.idsa}} </td>
+        <td> {{s.nomSalle}} </td>
+        <td> {{s.capacite}} </td>
+        <td> {{s.datedemaintenance |date('d-m-Y')}} </td>
+       {#{% if s.datedemaintenance %} #} 
+            {% if s.enmaintenance == 0 %}
+                <td> Maitenue </td>  
+            {% else  %}
+              <td>
+                <a href="{{ path("maintenir",{"id":s.idSa})}}" class = "btn btn-dark">Maintenues</a>
+              </td>
+              {% endif %}
+        <td> {{s.disponible}} </td>
+        
+        
+        <td>
+        <a href="{{ path("supprimerS",{"id":s.idSa}) }}"><img src = "../dist/img/poubelle.png" width="20" height="30"></a>
+        <a href="{{ path("modiferS",{"id":s.idSa}) }}"><img src = "../dist/img/edit.png" width="20" height="30"></a>
+        {% if s.disponible == "Disponible" and s.enmaintenance == 0 %}
+        <a href="{{ path("reserver" , {"id":s.idSa})}}"><img src = "../dist/img/reserver.png"></a>
+        {% endif %}
+        </td>
+       {# <td><a href="{{ path("modifierS",{"id":s.idSa}) }}">Modifier</a></td>#}
+    </tr {% endfor %}>
+    </tbody>
+  </table>
+  
+    {{ knp_pagination_render(
+      salle,
+      '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig',
+      {
+          'queryParam1': 'param1 value',
+          'queryParam2': 'param2 value'
+      },
+      {
+          'viewParam1': 'param1 value',
+          'viewParam2': 'param2 value'
+      },
+      {
+        'align': 'center',
+        'size': 'large',
+        'rounded': true,
+        }
+  ) }} 
+ 
+   
+    </section>
+    <footer class = "ftr">
+        
+    
+  </footer>
+{% endblock %} 

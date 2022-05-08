@@ -1,0 +1,122 @@
+{% extends 'sponsFrontOffice.html.twig'%}
+
+    {% block frontContainer %}
+      
+        <style>
+            .content-table{
+                border-collapse: collapse;
+                margin: 25px 0;
+                font-size: 0.9em;
+                min-width: 400px;
+                border-radius: 5px 5px 0 0;
+                overflow: scroll;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+                text-align: center;
+                margin-left: auto;
+    margin-right: auto;
+              }
+              
+              .content-table thead tr {
+                background-color: #0F5298;
+                color: #ffffff;
+                text-align: left;
+                font-weight: bold;
+              }
+              
+              .content-table th,
+              .content-table td {
+                padding: 12px 15px;
+              }
+              
+              .content-table tbody tr {
+                border-bottom: 1px solid #dddddd;
+              }
+              
+              .content-table tbody tr:nth-of-type(even) {
+                background-color: #D7F0E9;
+              }
+              
+              .content-table tbody tr:last-of-type {
+                border-bottom: 2px solid #0F5298;
+              }
+              
+              .content-table tbody tr.active-row {
+                font-weight: bold;
+                color: #0F5298;
+                
+              }
+              
+                
+              .navigation{
+                  align : center;
+              }
+    </style>
+    
+   
+      <header>
+    <h1>Liste des evenements</h1> 
+    
+      </header>
+      <section>
+<table class ="content-table">
+    <thead>
+    <tr>
+    <th >Nom de l'evenement</th>
+    <th>Nom de réalisateur</th>
+    <th>Description</th>
+    <th>Durée</th>
+    <th>Etat d'acceptation</th>
+    
+    <th>Montant proposé</th>
+    
+    <th>Progret de sponsoring</th>
+    
+    
+    </tr>  
+    </thead>
+    <tbody>
+        
+    <tr {% for e in eve %}>
+        {% if e.etat == "Accepté" %}
+        <td>  {{e.nomev}} </td>
+        <td>{{e.numrea.nomorg}} </td>
+        <td>  {{e.description}} </td>
+        <td>{{e.duree}} min</td>
+       <td> {{e.etat}} </td>
+       <td>{{e.montant}} </td>
+        <td>{{e.progret}} </td>
+       
+        <td>
+          
+            <a href="{{ path("envoyerD",{"num":e.idev} )}}"><img src = "../dist/img/spons.png" width="35" height="30"></a>
+            
+        
+        </td>
+        {% endif %}
+    </tr {% endfor %}>
+    </tbody>
+  </table>
+  {{ knp_pagination_render(
+      eve,
+      '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig',
+      {
+          'queryParam1': 'param1 value',
+          'queryParam2': 'param2 value'
+      },
+      {
+          'viewParam1': 'param1 value',
+          'viewParam2': 'param2 value'
+      },
+      {
+        'align': 'center',
+        'size': 'large',
+        'rounded': true,
+        }
+  ) }}
+    
+  </section>
+  <footer class = "ftr">
+        
+    
+  </footer>
+{% endblock %} 

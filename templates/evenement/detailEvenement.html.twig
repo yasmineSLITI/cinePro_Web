@@ -1,0 +1,52 @@
+{% extends 'baseBackOffice.html.twig'%}
+    {% block backContainer %}
+        <style>
+            table{
+                padding-top: 7em;
+            }
+            tr {
+                background: hsl(0deg 0% 100%);
+                box-shadow: 0 0 2em hsl(231deg 62% 94%);
+                padding: 1em;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5em;
+                border-radius: 20px;
+                color: hsl(0deg 0% 30%);
+                input {
+                    outline: none;
+                    border: none;
+                    &::placeholder {
+                        color: hsl(0deg 0% 0%);
+                        font-size: 0.9em;
+                    }
+                }
+                ion-icon {
+                    color: hsl(0deg 0% 30%);
+                    margin-bottom: -.2em;
+                }
+                .show-hide {
+                    margin-right: -5em;
+                }
+            }
+        </style>
+        
+       <table class = "liste" align="center">
+           <tr>
+            <th>Detail de l'evenement : {{eve.nomev}}</th>
+           
+            <th>Description : {{eve.description}}</th> 
+           
+            <th>Durée en minute : {{eve.duree}} min</th>
+           
+            <th>Montant proposé : {{eve.montant}}</th>
+           
+            <th>Son progret de sponsoring :  <progress max ="100" value ="{{eve.progret}}" >  
+                {{eve.progret}} %</progress> </th>
+           </tr>
+            </table>
+            <div align = "center">
+       <a href="{{ path("listerD_idev",{"id":eve.idev}) }}" class="btn btn-dark">Demande de sponsoring</a>
+       <a href="{{ path("listerEv") }}" class="btn btn-dark">Liste des événement</a>
+            </div> 
+    {% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'baseBackOffice.html.twig' %}
+    {% block backContainer %}
+    {% block styleheet %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" 
+        integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" 
+        referrerpolicy="no-referrer" />
+    {% endblock %}
+{% block body %}
+    <h1>Demande de sponsoring</h1>
+    <canvas id="demandes" width="400" height="100"></canvas>
+    {% block js %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js" 
+        integrity="sha512-G8JE1Xbr0egZE5gNGyUm1fF764iHVfRXshIoUWCTPAbKkkItp/6qal5YAHXrxEu4HNfPTQs6HOu3D5vCGS1j3w==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {% endblock %}
+
+    <script>
+        let demandes =  document.querySelector("#demandes")
+        let demandeGrf = new Chart(demandes , {
+            type : "pie",
+            data:{
+                labels : ["Acceptée" , "En attente" , "Refusée"],
+                datasets:[{
+                    label : "Demandes de sponsoring acceptées",
+                    data: [{{accepted |raw}} , {{ waiting |raw }} , {{rejected |raw}}],
+                    backgroundColor : ["#FF968A" , "#E0F8F5" , "#8FCACA"]
+                }]
+            }
+        })
+    </script>
+{% endblock %}
+{% endblock %}
+    
