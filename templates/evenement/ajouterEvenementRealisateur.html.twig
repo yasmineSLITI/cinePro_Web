@@ -1,7 +1,8 @@
 {% extends 'baseFrontOffice.html.twig'%}
-    {% block frontContainer %} 
-
-            <h2>Enrechir le festival en proposant un évenement</h2>
+    {% block frontContainer %}
+        <h2>Enrechir le festival en proposant un évenement</h2>
+        <a href="{{ path("affiche") }}" class="btn btn-dark">Lister mes demande</a>
+        
             {{form_start (form)}}
             {{form_errors (form)}}
             <div class "form-group">

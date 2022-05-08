@@ -96,7 +96,23 @@
     </tr {% endfor %}>
     </tbody>
   </table>
-  {{knp_pagination_render(eve)}}
+  {{ knp_pagination_render(
+      eve,
+      '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig',
+      {
+          'queryParam1': 'param1 value',
+          'queryParam2': 'param2 value'
+      },
+      {
+          'viewParam1': 'param1 value',
+          'viewParam2': 'param2 value'
+      },
+      {
+        'align': 'center',
+        'size': 'large',
+        'rounded': true,
+        }
+  ) }}
     
   </section>
   <footer class = "ftr">
