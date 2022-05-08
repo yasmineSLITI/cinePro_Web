@@ -9,7 +9,7 @@ use App\Entity\Publication;
 use App\Entity\Presse;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
-use MercurySeries\FlashyBundle\FlashyNotifier;
+
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use App\Repository\PublicationRepository;
 use Dompdf\Dompdf;

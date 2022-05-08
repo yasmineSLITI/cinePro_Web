@@ -3,13 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Film
  *
  * @ORM\Table(name="film", indexes={@ORM\Index(name="FK400", columns={"NumRea"})})
- * @ORM\Entity(repositoryClass="App\Repository\FilmRepository")
+ * @ORM\Entity
  */
 class Film
 {
@@ -19,15 +19,13 @@ class Film
      * @ORM\Column(name="idF", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @Groups("films")
      */
     private $idf;
 
     /**
      * @var string
-     *
+     *@Assert\Length(min=5,max=255)
      * @ORM\Column(name="nomF", type="string", length=255, nullable=false)
-     * @Groups("films")
      */
     private $nomf;
 
@@ -35,7 +33,7 @@ class Film
      * @var string
      *
      * @ORM\Column(name="Genre", type="string", length=255, nullable=false)
-     * @Groups("films")
+     * @Assert\NotNull(message="ne doit étre pas null")
      */
     private $genre;
 
@@ -43,7 +41,6 @@ class Film
      * @var bool
      *
      * @ORM\Column(name="Archive", type="boolean", nullable=false)
-     * @Groups("films")
      */
     private $archive = '0';
 
@@ -51,23 +48,23 @@ class Film
      * @var string
      *
      * @ORM\Column(name="EtatAcc", type="string", length=255, nullable=false, options={"default"="'en attente'"})
-     * @Groups("films")
      */
     private $etatacc = '\'en attente\'';
 
     /**
      * @var string
      *
+     
      * @ORM\Column(name="Image", type="string", length=255, nullable=false)
-     * @Groups("films")
      */
     private $image;
 
     /**
      * @var string
-     *
+     * @Assert\Length(min=10,max=255)
+     *@Assert\NotBlank(message="Doit étre remplis")
      * @ORM\Column(name="Description", type="string", length=255, nullable=false)
-     * @Groups("films")
+     * 
      */
     private $description;
 
@@ -75,15 +72,14 @@ class Film
      * @var \DateTime
      *
      * @ORM\Column(name="dateDispo", type="datetime", nullable=false, options={"default"="current_timestamp()"})
-     * @Groups("films")
      */
-    private $datedispo = 'current_timestamp()';
+    private $datedispo;
 
     /**
      * @var int
      *
      * @ORM\Column(name="duree", type="integer", nullable=false)
-     * @Groups("films")
+     * @Assert\Range(min=45,max=250)
      */
     private $duree;
 
@@ -94,7 +90,6 @@ class Film
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="NumRea", referencedColumnName="NumRea")
      * })
-     * @Groups("films")
      */
     private $numrea;
 
@@ -174,18 +169,20 @@ class Film
 
         return $this;
     }
+    
 
-    public function getDatedispo(): ?\DateTimeInterface
+    public function getDatedispo(): ?\dateTimeInterface
     {
         return $this->datedispo;
     }
 
+  
     public function setDatedispo(\DateTimeInterface $datedispo): self
     {
-        $this->datedispo = $datedispo;
-
+        $date = new \DateTime();
+        $this->datedispo = $date->getDatedispo();
         return $this;
-    }
+    } 
 
     public function getDuree(): ?int
     {
@@ -210,4 +207,8 @@ class Film
 
         return $this;
     }
+    public function __toString() {
+        return $this->idf;
+    }
+
 }

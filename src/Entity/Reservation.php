@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Reservation
  *
@@ -25,36 +25,52 @@ class Reservation
      * @var string
      *
      * @ORM\Column(name="Categorie", type="string", length=255, nullable=false)
+     *
+     * 
+     * @Assert\Choice({"Film", "Evénement"})
+     *
+     *
+     * 
      */
+    
     private $categorie;
 
     /**
      * @var int
      *
      * @ORM\Column(name="NbPlace", type="integer", nullable=false)
+     
+     * @Assert\Positive(
+     * message="le nombre de place doit etre positive"
+     * )
      */
+    
     private $nbplace;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="DateDeb", type="string", length=255, nullable=true, options={"default"="'20-02-2022'"})
+     * @ORM\Column(name="DateDeb", type="string", length=255, nullable=true, options={"default"=""})
+     * 
+     * 
+     * @Assert\NotNull(message="ne doit étre pas null")
      */
-    private $datedeb = '\'20-02-2022\'';
+    private $datedeb = '';
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="DateFin", type="string", length=255, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="DateFin", type="string", length=255, nullable=true, options={"default"=""})
+     * * @Assert\NotNull(message="ne doit étre pas null")
      */
-    private $datefin = 'NULL';
+    private $datefin = '';
 
     /**
      * @var \Evenement
      *
      * @ORM\ManyToOne(targetEntity="Evenement")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idEv", referencedColumnName="IdEv")
+     *   @ORM\JoinColumn(name="idEv", referencedColumnName="IdEv",nullable=true)
      * })
      */
     private $idev;
@@ -100,7 +116,7 @@ class Reservation
     {
         return $this->nbplace;
     }
-
+    
     public function setNbplace(int $nbplace): self
     {
         $this->nbplace = $nbplace;

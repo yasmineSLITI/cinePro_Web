@@ -1,4 +1,5 @@
 web_profiler:
+<<<<<<< HEAD
 
     toolbar: true
     intercept_redirects: true
@@ -10,5 +11,10 @@ web_profiler:
     intercept_redirects: false
 
 
+=======
+    toolbar: false
+    intercept_redirects: false
+
+>>>>>>> yosraa
 framework:
     profiler: { collect: false }

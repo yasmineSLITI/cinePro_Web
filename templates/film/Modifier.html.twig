@@ -1,0 +1,42 @@
+{% extends 'baseBackOffice.html.twig' %}
+{% block backContainer %}
+<link rel="stylesheet" href="{{ asset('dist/css/film/filmAdmin.css') }}">
+<section class="content">
+<div class="container ">
+<h1>Modifier Film </h1>
+{{ form_start(form,{'attr':{'novalidate':'novalidate' }}) }}
+ <form class="form-horizontal" role="form">
+
+
+                                            
+                                            <div class="form-group">
+                                                <label class="col-2 col-form-label">Etat :</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form.etatacc, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(form.etatacc, { 'attr': {'class': 'form-control'} }) }}
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-2 col-form-label" >Archive:</label>
+                                                <div class="col-10">
+                                                   
+                                                    {{ form_widget(form.archive, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(form.archive, { 'attr': {'class': 'form-control'} }) }}
+                                                </div>
+                                            </div>
+                                             
+                                           
+                                            
+                                          
+                                     
+                                            <div class="form-group text-center">
+                                            <div class="card-tools"><button class="btn btn-danger"  style="width: 50%">{{ button_label|default('Modifier') }}</button></div>
+                                            </div>
+                                        </div>
+                                           
+</div>
+
+    </section>
+    {{ form_end(form) }}
+{% endblock %}

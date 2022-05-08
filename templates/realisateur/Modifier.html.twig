@@ -1,0 +1,64 @@
+{% extends 'RealisateurBackOffice.html.twig' %}
+{% block backContainer %}
+<link rel="stylesheet" href="{{ asset('dist/css/film/filmAdmin.css') }}">
+<section class="content">
+<div class="container ">
+<h1>Modifier la demande: </h1>
+{{ form_start(form,{'attr':{'novalidate':'novalidate' }}) }}
+ <form class="form-horizontal" role="form">
+          <div class="form-group">
+                                                <label class="col-2 col-form-label">Nom:</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form.nomf, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(form.nomf, { 'attr': {'class': 'form-control'} }) }}
+
+                                                </div>
+
+                                            
+                                            <div class="form-group">
+                                                <label class="col-2 col-form-label">Genre:</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form.genre, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(form.genre, { 'attr': {'class': 'form-control'} }) }}
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-2 col-form-label" >Description:</label>
+                                                <div class="col-10">
+                                                   
+                                                    {{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(form.description, { 'attr': {'class': 'form-control'} }) }}
+                                                </div>
+                                            </div>
+                                             <div class="form-group">
+                                                <label class="col-2 col-form-label" >Image:</label>
+                                                <div class="col-10">
+                                                   
+                                                    {{ form_widget(form.image, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(form.image, { 'attr': {'class': 'form-control'} }) }}
+                                                </div>
+                                                 <div class="form-group">
+                                                <label class="col-2 col-form-label" >Durée:</label>
+                                                <div class="col-10">
+                                                   
+                                                    {{ form_widget(form.duree, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(form.duree, { 'attr': {'class': 'form-control'} }) }}
+                                                </div>
+                                                
+                                            </div>
+                                             
+                                           
+                                            
+                                          
+                                     
+                                            <div class="form-group text-center">
+                                            <div class="card-tools"><button class="btn btn-danger"  style="width: 50%">{{ button_label|default('Modifier') }}</button></div>
+                                            </div>
+                                        </div>
+                                           
+</div>
+
+    </section>
+    {{ form_end(form) }}
+{% endblock %}

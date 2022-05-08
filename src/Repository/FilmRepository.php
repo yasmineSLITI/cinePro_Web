@@ -3,9 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Film;
+use App\Entity\Avis;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,40 +20,16 @@ class FilmRepository extends ServiceEntityRepository
         parent::__construct($registry, Film::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function add(Film $entity, bool $flush = true): void
-    {
-        $this->_em->persist($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
-
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function remove(Film $entity, bool $flush = true): void
-    {
-        $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
-
     // /**
     //  * @return Film[] Returns an array of Film objects
     //  */
     /*
     public function findByExampleField($value)
     {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.exampleField = :val')
             ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
+            ->orderBy('c.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
@@ -63,14 +38,35 @@ class FilmRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Film
+    public function findOneBySomeField($value): ?Comment
     {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
     */
+  
+   
+    public function findAllMoy()
+    {
+      
+       
+            return $this->createQueryBuilder('s')
+                
+                ->innerJoin('App\Entity\Avis', 'avis', 'WITH', 'avis.idf = s.idf')
+                ->where('s.archive=false')
+                ->groupBy('s.idf')
+                 ->orderBy('avis.moyenneavis', 'ASC')
+                 ->setMaxResults(5)
+                ->getQuery()
+                ->getResult()
+            ;
+        
+        
+    }
+    
+
 }

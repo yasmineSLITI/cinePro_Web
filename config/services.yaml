@@ -7,6 +7,7 @@ parameters:
 
   uploads_directory: "%kernel.project_dir%/public/uploads"
   images_directory: '%kernel.project_dir%/public/uploads'
+  image_directory: '%kernel.project_dir%/public/image' 
 
 services:
   # default configuration for services in *this* file
@@ -35,6 +36,4 @@ services:
 
         
 
-
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+  

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Avis
  *
- * @ORM\Table(name="avis", indexes={@ORM\Index(name="FK306", columns={"idC"}), @ORM\Index(name="FK307", columns={"idF"})})
+ * @ORM\Table(name="avis", indexes={@ORM\Index(name="FK307", columns={"idF"}), @ORM\Index(name="FK306", columns={"idC"})})
  * @ORM\Entity
  */
 class Avis
@@ -55,7 +55,6 @@ class Avis
      * @ORM\Column(name="MoyenneAvis", type="float", precision=10, scale=0, nullable=false)
      */
     private $moyenneavis = '0';
-   
 
     public function getIdavis(): ?int
     {
@@ -120,6 +119,9 @@ class Avis
         $this->moyenneavis = $moyenneavis;
 
         return $this;
+    }
+    public function __toString() {
+        return $this->idavis;
     }
 
 
