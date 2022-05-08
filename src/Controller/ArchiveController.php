@@ -25,6 +25,7 @@ class ArchiveController extends AbstractController
             $request->query->getInt('page',1),
             3
         );
+        //bonjour
         return $this->render('archive/archive.html.twig',
     ['film'=>$film]);
     
