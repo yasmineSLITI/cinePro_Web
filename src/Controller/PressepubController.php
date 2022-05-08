@@ -171,7 +171,6 @@ class PressepubController extends AbstractController
 
         
     }
-    
     //-----------------------------JSON------------------------------
 
     /**
@@ -233,4 +232,5 @@ class PressepubController extends AbstractController
         $jsonContent = $normalizer->normalize($pub, 'json', ['groups' => 'post:read']);
         return new Response(json_encode($jsonContent));
     }
+    
 }
