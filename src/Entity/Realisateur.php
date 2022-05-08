@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Realisateur
@@ -39,6 +40,7 @@ class Realisateur
     /**
      * @var Evenement
      * @ORM\OneToMany(targetEntity="App\Entity\Evenement", mappedBy = "numrea")
+     * @Groups("event")
      */
 
     private $evenement ;

@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Sponsor
@@ -40,14 +41,14 @@ class Sponsor
      * @var \App\Entity\Demandedesponsoring 
      * @ORM\OneToMany(targetEntity="App\Entity\Realisateur",
      * mappedBy="idsp", cascade={"persist"}, orphanRemoval=true)
-     * 
+     * @Groups("demande")
      */
     private $demande;
     /**
      * @var \App\Entity\Evenement
      * @ORM\OneToMany(targetEntity="App\Entity\Evenement",
      * mappedBy="idsp", cascade={"persist"}, orphanRemoval=true)
-     * 
+     * @Groups("event")
      */
     private $idev;
 

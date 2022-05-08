@@ -11,17 +11,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\SalleRepository;
 use DateTime;
-use Doctrine\DBAL\Types\DateType;
-use Symfony\Component\Form\Extension\Core\Type\DateType as TypeDateType;
+use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeImmutableToDateTimeTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class SalleController extends Controller
 {
 
-
+///////////////////////////////////////////////////////// Calendrier ///////////////////////////////////////////////////
 
      /**
      * @Route("/cd_sa", name="calendrier")
@@ -49,9 +49,7 @@ class SalleController extends Controller
     }
         
     
-
-    // calender
-    //salle
+    /////////////////////////////////////////////////////// CRUD salle pour admin ////////////////////////////////////////////////
 
 
 
@@ -71,13 +69,7 @@ class SalleController extends Controller
             $mois_salle = date('m',strtotime($s->getDatedemaintenance()->format('d-m-Y')));
             $x=$mois_sys-$mois_salle;
             $y=$s->getDatedemaintenance();
-            $diff=$y->diff(new DateTime());
-            //$i=0;
-            //echo($s->getNomsalle());
-            //dd(date('m',strtotime($y->format('d-m-Y'))) =='01');
             
-            //dd(86400*183);
-           // echo(' * ');
            if(strtotime("now")-strtotime($y->format('d-m-Y'))>=(86400*183)){
             $s->setEnmaintenance(true);
             //$s->setDatedemaintenance(new DateTime("now"));
@@ -96,25 +88,16 @@ class SalleController extends Controller
             }
             
         $salles=$this->get('knp_paginator')->paginate(
-            $recherche, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            5 /*limit per page*/ 
+            $recherche,
+            $request->query->getInt('page', 1),
+            5
         );
         $salles->setCustomParameters([
-            'align' => 'center', # center|right (for template: twitter_bootstrap_v4_pagination and foundation_v6_pagination)
-             # small|large (for template: twitter_bootstrap_v4_pagination)
+            'align' => 'center',
             'style' => 'bottom',
             'span_class' => 'whatever',
         ]);
-        $time = new \DateTime();
-        //$time=$time->format('d-m-Y');
-        //dd($time);
-        //echo $time->format('d-m-Y');
-        /*$recherche1=$recherche1->getDatedemaintenance()->diff($time);
-        $che1=$recherche1->getDatedemaintenance();
-        $diff=date_diff($time ,$che1);
-        $recherche1=$recherche1->format('d-m-Y');
-        dd($diff);*/
+        
         return $this->render("salle/afficherSalle.html.twig",
         ['form' => $form->createView(),'salle'=>$salles]); 
     }
@@ -153,12 +136,12 @@ class SalleController extends Controller
     $form->handleRequest($request);
     if($form->isSubmitted() && $form->isValid()) 
     {
-         $salle = $form->getData();
-         if($salle->getDisponible() == 'Disponible' && $salle->getEnmaintenance()==false){
+        $salle = $form->getData();
          $entityManager = $this->getDoctrine()->getManager(); 
-         $entityManager->flush();
-         return $this->redirectToRoute('listeS'); }
+         $entityManager->flush($salle);
+         return $this->redirectToRoute('listeS'); 
      } 
+     
      return $this->render('salle/modifierSalle.html.twig',['form'=> $form->createView()]);
   } 
 
@@ -190,6 +173,9 @@ public function maitenir($id , SalleRepository $rep){
     return $this->redirectToRoute('listeS');
 
 }
+
+
+/////////////////////////////////////////////////////////// Réservation YOSR ///////////////////////////////////////////////////
 /**
  * @Route("/reserver/{id}",name ="reserver")
  */
@@ -201,4 +187,137 @@ public function reserver($id , SalleRepository $rep){
     return $this->redirectToRoute('listeS');
 
 }
+/**
+ * @Route("/liberer/{id}",name ="reserver")
+ */
+public function liberer($id , SalleRepository $rep){
+    $s=$rep->find($id);
+    
+    $s->setDisponible('Disponible');
+    $this->getDoctrine()->getManager()->flush();
+    return $this->redirectToRoute('listeS');
+
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////// CODENAME ONE //////////////////////////////////////////////////////////////////////////
+
+
+
+/**
+     * @Route("/salleJSON", name="affichageJSON")
+     */
+    public function afficheJSON(NormalizerInterface $ner) :Response {
+        $repo = $this->getDoctrine()->getRepository(Salle :: class);
+        $salle = $repo->findAll();
+        $qb = $this->getDoctrine()->getManager()->createQuery('select s from App\Entity\Salle s');
+        $salle = $qb->getArrayResult();
+        $response = new Response(json_encode($salle));
+        return $response;
+     }
+ 
+     /**
+      * @Route("/ajouterSalleJSON/new",name="ajoutJSON")
+      */
+    public function ajouterJSON(Request $req , NormalizerInterface $nrm) : Response{
+        $em = $this->getDoctrine()->getManager();
+        $salle = new Salle();
+        $salle->setNomsalle($req->get('nomsalle'));
+        $salle->setCapacite($req->get('capacite'));
+        $salle->setDatedemaintenance(new DateTime());
+       $em->persist($salle);
+        $em->flush();
+        $qb = $this->getDoctrine()->getManager()->createQuery('select s from App\Entity\Salle s where s.idsa = :v1')->setParameter('v1',$salle->getIdsa());
+        $salle = $qb->getArrayResult();
+        $response = new Response(json_encode($salle));
+        return $response;
+     }
+      /**
+   *  
+   * @Route("/reserverSalleJSON/{id}", name="reserverJSON")
+   */ 
+   public function reserverJSON(Request $req , NormalizerInterface $nrm,$id) {
+       $em=$this->getDoctrine()->getManager();
+       $salle=$em->getRepository(Salle :: class)->find($id);
+       if($salle->getEnmaintenance()==false){
+        if($salle->getDisponible()=="Disponible")
+           $salle->setDisponible("Non disponible");
+       }
+       $em->flush();
+       $qb = $this->getDoctrine()->getManager()->createQuery('select s from App\Entity\Salle s where s.idsa = :v1')->setParameter('v1',$salle->getIdsa());
+        $salle = $qb->getArrayResult();
+        $response = new Response(json_encode($salle));
+        return $response;
+   } 
+      /**
+   *  
+   * @Route("/libererSalleJSON/{id}", name="libererJSON")
+   */ 
+   public function libererJSON(Request $req , NormalizerInterface $nrm,$id) {
+    $em=$this->getDoctrine()->getManager();
+    $salle=$em->getRepository(Salle :: class)->find($id);
+    if($salle->getEnmaintenance()==false){
+     if($salle->getDisponible()=="Non disponible")
+        $salle->setDisponible("Disponible");}
+    $em->flush();
+    $qb = $this->getDoctrine()->getManager()->createQuery('select s from App\Entity\Salle s where s.idsa = :v1')->setParameter('v1',$salle->getIdsa());
+        $salle = $qb->getArrayResult();
+        $response = new Response(json_encode($salle));
+        return $response;
+   } 
+      /**
+   *  
+   * @Route("/modifierSalleJSON/{id}", name="modiferJSON")
+   */ 
+   public function modifierJSON(Request $req , NormalizerInterface $nrm,$id) {
+       $em=$this->getDoctrine()->getManager();
+       $salle=$em->getRepository(Salle :: class)->find($id);
+       $salle->setNomsalle($req->get('nomsalle'));
+       $salle->setCapacite($req->get('capacite'));
+       $salle->setEnmaintenance($req->get('enmaintenance'));
+       $salle->setDatedemaintenance(new DateTime());
+       if($salle->getEnmaintenance()==true){
+           $salle->setDisponible("Non disponible");
+       }
+       else if($salle->getEnmaintenance()==false){
+        $salle->setDisponible("Disponible");
+       }
+       $em->flush();
+       $qb = $this->getDoctrine()->getManager()->createQuery('select s from App\Entity\Salle s where s.idsa = :v1')->setParameter('v1',$salle->getIdsa());
+        $salle = $qb->getArrayResult();
+        $response = new Response(json_encode($salle));
+        return $response;
+   } 
+ 
+ 
+   /**
+  * @Route("/supprimerSalleJSON/{id}",name="supprimerJSON")
+  */
+ 
+   public function supprimerJSON(Request $req,NormalizerInterface $nrm ,$id){
+    $em=$this->getDoctrine()->getManager();
+    $salle=$em->getRepository(Salle::class)->find($id);
+    $em->remove($salle);
+    $em->flush();
+    $qb = $this->getDoctrine()->getManager()->createQuery('select s from App\Entity\Salle s where s.idsa = :v1')->setParameter('v1',$salle->getIdsa());
+        $salle = $qb->getArrayResult();
+        $response = new Response(json_encode($salle));
+        return $response;
+ }
+ /**
+  * @Route("/rechercherSalleJSON/{id}",name="rechercherJSON")
+  */
+  public function salleResearchJSON (Request $req ,NormalizerInterface $nrm , $id){
+      $em=$this->getDoctrine()->getManager();
+      $salle =$em->getRepository(Salle :: class)->findBy(['nomsalle'=>$id]);
+      $qb = $this->getDoctrine()->getManager()->createQuery('select s from App\Entity\Salle s where s.nomsalle = :v1')->setParameter('v1',$id);
+        $salle = $qb->getArrayResult();
+        $response = new Response(json_encode($salle));
+        return $response;
+  }
+}
+
+

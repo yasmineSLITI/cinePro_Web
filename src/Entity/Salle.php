@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -15,32 +16,31 @@ class Salle
 {
     /**
      * @var int
-     *
      * @ORM\Column(name="idSa", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     *@Groups("salle")
      */
     private $idsa;
 
     /**
      * @var int
-     *
      * @ORM\Column(name="capacite", type="integer", nullable=false)
-     *  
+     * @Groups("salle")
      */
     private $capacite;
 
     /**
      * @var \DateTime
-     *
      * @ORM\Column(name="dateDeMaintenance", type="date", nullable=false)
+     *@Groups("salle")
      */
     private $datedemaintenance;
 
     /**
      * @var bool
-     *
      * @ORM\Column(name="enMaintenance", type="boolean", nullable=false)
+     *@Groups("salle")
      */
     private $enmaintenance = '0';
 
@@ -49,16 +49,17 @@ class Salle
      *
      * @ORM\Column(name="nomSalle", type="string", length=255, nullable=false)
      * @Assert\NotNull(message = "Ce champ ne peut pas etre vide! Veuillez le remplir.")
-     *  @Assert\NotBlank(message = "Il parait que vous-avez oubliée de remplir le champ du nom !")
+     * @Assert\NotBlank(message = "Il parait que vous-avez oubliée de remplir le champ du nom !")
+     *@Groups("salle")
      */
     private $nomsalle;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="disponible", type="string", length=255, nullable=false, options={"default"="'En maintenance'"})
+     *@Groups("salle")
      */
-    private $disponible = '\'Disponible\'';
+    private $disponible = 'Disponible';
 
     public function getIdsa(): ?int
     {
