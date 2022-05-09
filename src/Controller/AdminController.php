@@ -16,7 +16,7 @@ class AdminController extends AbstractController
 {
 
     /**
-     * @Route("/statistiques",name="statsonons")
+     * @Route("/statis",name="statis")
      */
 
     public function statistiques(ProduitRepository $repo, FollowingproduitRepository $followRepo, BilletRepository $billetRepo, PanierRepository $repoPanier)

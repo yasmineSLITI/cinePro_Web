@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+
 use App\Repository\PanierRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -61,7 +62,7 @@ class Panier
      */
     private $idproduit;
 
-   /**
+    /**
      * @var int
      *
      * @ORM\Column(name="idclient", type="integer", nullable=false)
@@ -118,7 +119,7 @@ class Panier
         return $this;
     }
 
-    public function getIdproduit(): ?Produit
+    public function getIdproduit()
     {
         return $this->idproduit;
     }
@@ -153,6 +154,4 @@ class Panier
 
         return $this;
     }
-
-
 }

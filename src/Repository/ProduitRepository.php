@@ -118,7 +118,7 @@ class ProduitRepository extends ServiceEntityRepository
 
         $query = $entityManager->createQuery(
 
-            'SELECT SUM(Panier.quantite) 
+           'SELECT SUM(Panier.quantite) 
             FROM App\Entity\Produit Produit, App\Entity\Panier Panier 
             WHERE Produit.idproduit LIKE Panier.idproduit AND Panier.statuspanier =:status
             GROUP BY Produit.idproduit'
@@ -143,11 +143,11 @@ class ProduitRepository extends ServiceEntityRepository
         // returns an array of Product objects
         return $query->getResult();
     }
-    public function getPrix(){
-        $entityManager=$this->getEntityManager();
-        $query=$entityManager
-            ->createQuery("Select p.prixventeunit  FROM APP\Entity\Produit p,APP\Entity\Panier pa where p.idproduit= pa.idproduit ")
-          ;
+    public function getPrix()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager
+            ->createQuery("Select p.prixventeunit  FROM APP\Entity\Produit p,APP\Entity\Panier pa where p.idproduit= pa.idproduit ");
         return $query->getSingleScalarResult();
     }
 }
