@@ -1,0 +1,45 @@
+{% extends 'baseBackOffice.html.twig' %}
+{% block backContainer %}
+    
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idclient</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Email</th>
+                <th>Datenaiss</th>
+                <th>Role</th>
+                <th>Username</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for client in clients %}
+            <tr>
+                <td>{{ client.idclient }}</td>
+                <td>{{ client.nom }}</td>
+                <td>{{ client.prenom }}</td>
+                <td>{{ client.email }}</td>
+                <td>{{ client.datenaiss ? client.datenaiss|date('Y-m-d') : '' }}</td>
+                <td>{{ client.role }}</td>
+                <td>{{ client.username }}</td>
+                <td>
+                    <a href="{{ path('app_client_show', {'idclient': client.idclient}) }}"><button type="button" class="btn btn-secondary mb-2">Détails</button></a>
+                    <a href="{{ path('app_client_edit', {'idclient': client.idclient}) }}"><button type="button" class="btn btn-primary mb-2">Modifier</button></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+<th>{{ knp_pagination_render(clients) }}
+                </th>
+
+    <center><a href="{{ path('app_client_new') }}"><button type="button" class="btn btn-primary mb-2">Ajouter un client</button></a></center>
+{% endblock %}

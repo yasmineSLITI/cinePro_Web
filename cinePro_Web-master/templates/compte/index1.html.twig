@@ -1,0 +1,43 @@
+{% extends 'baseBackOffice.html.twig' %}
+{% block backContainer %}
+     <center><h1>Liste des Réalisateurs</h1></center>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Mail</th>
+                <th>Password</th>
+                <th>Roles</th>
+                <th>Image</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for compte in comptes %}
+            <tr>
+                <td>{{ compte.username }}</td>
+                <td>{{ compte.nom }}</td>
+                <td>{{ compte.prenom }}</td>
+                <td>{{ compte.mail }}</td>
+                <td>{{ compte.password }}</td>
+                <td>{{ compte.roles ? compte.roles|json_encode : '' }}</td>
+                <td>{{ compte.image }}</td>
+                <td>
+                    <a href="{{ path('app_compte_show', {'username': compte.username}) }}"><button type="button" class="btn btn-secondary mb-2">Détails</button></a>
+                    <a href="{{ path('app_compte_edit', {'username': compte.username}) }}"><button type="button" class="btn btn-primary mb-2">Modifier</button></a>
+                    <a href="{{ path('app_compte_delete', {'username': compte.username}) }}"<button type="button" class="btn btn-danger mb-2">Désactiver</button></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

@@ -1,89 +1,62 @@
 {% extends 'baseBackOffice.html.twig' %}
+
+
+
 {% block backContainer %}
-<script>
+     <center><h1>Liste des comptes</h1></center>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
         $(document).ready(function(){
-            $('#search').keyup(function(){
-                search_table($(this).val());
-            });
-            function search_table(value){
-                $('#tableac tbody tr').each(function(){
-                    var found = 'false';
-                    $(this).each(function(){
-                        if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
-                        {
-                            found = 'true';
-                        }
-                    });
-                    if(found == 'true')
-                    {
-                        $(this).show();
-
-                    }
-                    else
-                    {
-                        $(this).hide();
-
-                    }
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#rech tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
-            }
+            });
         });
     </script>
-    <center><h1>Liste des comptes</h1></center>
-<div class="table-responsive">
-
-<script src="{{ asset('admin/js/jquery.min.js') }}"></script>
-<input type="text" id="search" class="form-control form-control-no-border mr-sm-2" placeholder="chercher Compte">
-<table class="table table-bordered dataTable" id="tableac" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-
-    {#  <table class="table">#}
+    <input class="form-control" id="myInput" type="text" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search"><br><br>
     
+      
+    <table class="table">
         <thead>
             <tr>
-
-
                 <th>Username</th>
                 <th>Nom</th>
                 <th>Prenom</th>
                 <th>Mail</th>
-                <th>password</th>
-                <th>Role</th>
+                <th>Password</th>
+                <th>Roles</th>
                 <th>Image</th>
                 <th>actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="rech">
         {% for compte in comptes %}
             <tr>
                 <td>{{ compte.username }}</td>
-                <td>{{ compte.Nom }}</td>
-                <td>{{ compte.Prenom }}</td>
+                <td>{{ compte.nom }}</td>
+                <td>{{ compte.prenom }}</td>
                 <td>{{ compte.mail }}</td>
                 <td>{{ compte.password }}</td>
-                <td>{{ compte.role }}</td>
-                <td><img height='90px' src="{{ asset('uploads/'~compte.image) }}"/></td>
+                <td>{{ compte.roles ? compte.roles|json_encode : '' }}</td>
+                <td>{{ compte.image }}</td>
                 <td>
-                    <a href="{{ path('app_compte_show', {'username': compte.username}) }}"><button type="button" class="btn btn-primary mb-2">Détails</button></a>
-                    <a href="{{ path('app_compte_delete', {'username': compte.username}) }}"><button type="button" class="btn btn-danger mb-2">Supprimer</button></a>
+                    <a href="{{ path('app_compte_show', {'username': compte.username}) }}"><button type="button" class="btn btn-secondary mb-2">Détails</button></a>
                     
+                    <a href="{{ path('app_compte_delete', {'username': compte.username}) }}"<button type="button" class="btn btn-danger mb-2">Désactiver</button></a>
                 </td>
             </tr>
-        
-
-                {% endfor %}
-                <div class="nk-pagination nk-pagination-center">
-                    {{ knp_pagination_render(comptes) }}
-                </div>
-
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
         </tbody>
-</table>
-</div>
-<script type="text/javascript">
-        function imprimer_page(){
-            window.print();
-        }
-</script>
-    <form>
-        <input id="impression" class="js-programmatic-set-val btn btn-outline-primary mr-1 mb-1s" name="impression" type="button" onclick="imprimer_page()" value="Print this page" />
-    </form>
-{% endblock %}
+        
+    </table>
+    
 
+    
+{% endblock %}

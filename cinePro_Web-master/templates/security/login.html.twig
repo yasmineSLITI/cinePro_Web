@@ -1,49 +1,72 @@
-{% extends 'login.html.twig' %}
+{% extends 'base.html.twig' %}
 {% block frontContainer %}
-<section>
-<div class="container">
+ 
 
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+<body class="skin-default card-no-border">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">Elite admin</p>
         </div>
-    {% endif %}
-<body>
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <section id="wrapper">
+        <div class="login-register" style="background-image:url(../assets/images/background/login-register.jpg);">
+            <div class="login-box card">
+                            <img src="{{ asset('admin/assets/images/isomat-logo-login.png') }}" class="light-logo" alt="homepage" />
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+                <div class="card-body">
+                    <form class="form-horizontal form-material" method="post" id="loginform" action="{{ path('app_login') }}">
+                        <h3 class="text-center m-b-20">S'identifier</h3>
+                          {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+                        <div class="form-group ">
+                            <div class="col-xs-12">
+                                            <input class="form-control" name="email" value="{{ last_username }}" type="text" required="" placeholder="E-mail"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <input class="form-control" type="password" name="password" required="" placeholder="Mot de passe"> </div>
+                        </div>
+                        <div class="form-group">
 
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-    #}
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                   </div>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="d-flex no-block align-items-center">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                        <label class="custom-control-label" for="customCheck1">Se souvenir de moi</label>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <div class="col-xs-12 p-b-20">
+                                <button class="btn btn-block btn-lg btn-info btn-rounded" type="submit">Connexion</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
+    </section>
+    
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
    
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-    <a href="{{ path('app_forgot_password_request') }}">Forgot Password ?</a>
-    <br></br>
-    <h4>You need an account ?</h4>
-    <br></br>
-    <a class="btn btn-lg btn-primary" href="{{ path('app_client_new') }}">Sign Up</a>
+    
 </body>
-</form>
-</div>
-</section>
+
 {% endblock %}

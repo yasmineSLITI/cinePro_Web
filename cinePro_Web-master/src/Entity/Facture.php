@@ -82,10 +82,6 @@ class Facture
 
         return $this;
     }
-    public function __construct()
-    {
-        $this->dateCreation=new \DateTime();
-    }
 
 
 }

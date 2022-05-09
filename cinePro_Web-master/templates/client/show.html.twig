@@ -1,0 +1,47 @@
+{% extends 'baseBackOffice.html.twig' %}
+
+
+{% block backContainer %}
+    <center><h1>Client N°: {{ client.idclient }}</h1></center>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Idclient</th>
+                <td>{{ client.idclient }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ client.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ client.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ client.email }}</td>
+            </tr>
+            <tr>
+                <th>Datenaiss</th>
+                <td>{{ client.datenaiss ? client.datenaiss|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Role</th>
+                <td>{{ client.role }}</td>
+
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{ client.username }}</td>
+                
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_client_index') }}"><button type="button" class="btn btn-secondary mb-2">Retour</button></a></a>
+
+    <a href="{{ path('app_client_edit', {'idclient': client.idclient}) }}"><button type="button" class="btn btn-primary mb-2">Modifier</button></a></a>
+
+    {{ include('client/_delete_form.html.twig') }}
+{% endblock %}

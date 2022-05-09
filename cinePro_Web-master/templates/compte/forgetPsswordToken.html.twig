@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+{% block frontContainer %}
+ 
+
+<body class="skin-default card-no-border">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">Mot de passe oublié</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <section id="wrapper">
+        <div class="login-register" style="background-image:url(../assets/images/background/login-register.jpg);">
+            <div class="login-box card">
+                            <img src="{{ asset('admin/assets/images/isomat-logo-login.png') }}" class="light-logo" alt="homepage" />
+
+                <div class="card-body">
+                    <form class="form-horizontal form-material" method="post" id="loginform" action="{{ path('forgetPsswordToken',{'token':token}) }}">
+                        <h3 class="text-center m-b-20">S'identifier</h3>
+                         
+                        <div class="form-group ">
+                            <div class="col-xs-12">
+                             <input class="form-control" id="password" name="password" value="" type="password" required="" placeholder="Mot de pase">
+                             </div>
+                             <div class="col-xs-12">
+                             <input class="form-control" id="cpassword" name="cpassword" value="" type="password" required="" placeholder="cofirmer Mot de pase">
+                             </div>
+                        </div>
+                       
+                
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                               
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <div class="col-xs-12 p-b-20">
+                                <button class="btn btn-block btn-lg btn-info btn-rounded" type="submit">valider</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+   
+    
+</body>
+<script type="text/javascript">
+
+{{parent()}}
+
+$(document).ready(function(){
+
+$('#loginform').submit(function(e){
+if($('#password').val()!=$('#cpassword').val())
+{
+    alert('les deux mot de passe ne sont passe identique');
+    e.preventDefault();
+}
+
+});
+
+});
+
+</script>
+
+{% endblock %}

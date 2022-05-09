@@ -1,0 +1,52 @@
+{% extends 'baseBackOffice.html.twig' %}
+{% block backContainer %}
+  <center><h1> Espace Administrateur </h1></center>  
+<section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div  class="form-control" style="height: 45rem; margin-top: 5rem;">
+                   
+                        <div class="card-body">
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Username</th>
+                <td>AdminLTE123</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>Amine</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>Zitoun</td>
+            </tr>
+            <tr>
+                <th>Mail</th>
+                <td>salemzitoun.medamine@esprit.tn</td>
+            </tr>
+            <tr>
+                <th>Mot de passe </th>
+                <td>azertyazerty</td>
+            </tr>
+            
+            <tr>
+                <th>Role</th>
+                <td>Admin</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <center><a href="{{ path('app_compte_index') }}"><button type="button" class="btn btn-dark mb-2">Retourner</button></a></center>
+
+    
+    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+    </section>
+     
+{% endblock %}

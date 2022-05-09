@@ -20,7 +20,7 @@ class Billet
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idbillet;
-    
+
     /**
      * @var string
      *
@@ -40,7 +40,7 @@ class Billet
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false)
      */
-    private $createdOn;
+    private $createdOn ;
 
     /**
      * @var bool
@@ -138,10 +138,6 @@ class Billet
         $this->idclient = $idclient;
 
         return $this;
-    }
-    public function __construct()
-    {
-        $this->createdOn=new \DateTime();
     }
 
 

@@ -150,7 +150,6 @@ img {
 </div>
 
 
-
 <header class="header ">
 <div class="container">
 <div class="row">
@@ -167,8 +166,14 @@ img {
 <ul id="menu-main" class="menu">
 <li id="menu-item-203" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-203"><a href="*" style="color:red;">Fil d'actualité</a></li>
 <li id="menu-item-208" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-208"><a href="*"style="color:red;">Liste des films</a></li>
-<li id="menu-item-204" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-204"><a href="*"style="color:red;">souvenirs & shops</a></li>
-<li id="menu-item-204" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-204"><a href="app_compte_edit1"style="color:red;">Gérer profil</a></li>
+<li id="menu-item-204" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-204"><a href="*"style="color:red;">souvenirs& shops</a></li>
+<li id="menu-item-204" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-204"><a href="{{ path('app_compte_edit', {'username': 'compte.username'}) }}" style="color:red;">Gérer profil</a></li>
+{% if not app.user %}
+<li id="menu-item-204" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-204"><a href="{{ path('app_login') }}" style="color:red;">Connexion</a></li>
+{% else %}
+<li id="menu-item-204" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-204"><a href="{{ path('app_logout') }}" style="color:red;">Déconnexion</a></li>
+{% endif %}
+
 <li id="menu-item-204" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-204">
             <a href="*" style="color:red;">
 
@@ -178,33 +183,6 @@ img {
           </li>
 
 </ul></div> </nav>
-
-<div class="carousel-item active">
-                    <img class="w-100" src="{{ asset('dist/img/jccimg.png')}}" alt="Image">
-                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                        <div class="p-3" style="max-width: 900px;">
-                            <h3 class="text-white mb-3 d-none d-sm-block">Cutpete</h3>
-                            <h1 class="display-3 text-white mb-3">Hotel,restaurat et voyage</h1>
-                            <h5 class="text-white mb-3 d-none d-sm-block">le seul en TUNISIE</h5>
-
-                        </div>
-                    </div>
-                </div>
-
-                
-           
-            <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
-                <div class="btn btn-primary rounded" style="width: 45px; height: 45px;">
-                    <span class="carousel-control-prev-icon mb-n2"></span>
-                </div>
-            </a>
-            <a class="carousel-control-next" href="#header-carousel" data-slide="next">
-                <div class="btn btn-primary rounded" style="width: 45px; height: 45px;">
-                    <span class="carousel-control-next-icon mb-n2"></span>
-                </div>
-            </a>
-        </div>
-    </div>
 <div class="header__btn">
 
 </div>
@@ -224,8 +202,6 @@ img {
 </div>
 </div>
 </section>
-{% block corp %}
-{% endblock %}
 
 <footer class="footer" id="footerSection">
 <div class="footer__content">

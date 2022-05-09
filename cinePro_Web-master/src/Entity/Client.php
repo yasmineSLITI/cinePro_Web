@@ -1,8 +1,9 @@
 <?php
-
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Node\Expr\Cast\String_;
 
 /**
  * Client
@@ -38,14 +39,14 @@ class Client
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=250, nullable=false)
+     * @ORM\Column(name="mail", type="string", length=250, nullable=false)
      */
     private $email;
 
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="DateNaiss", type="date", nullable=true)
+     * @ORM\Column(name="DateNaiss", type="date", nullable=false)
      */
     private $datenaiss;
 
@@ -56,13 +57,11 @@ class Client
      */
     private $role;
 
-    /**
-     * @var \Compte
+   
+/**
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Compte")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="userName", referencedColumnName="userName")
-     * })
+     * @ORM\Column(name="userName", type="string", length=255, nullable=false)
      */
     private $username;
 
@@ -106,8 +105,8 @@ class Client
 
         return $this;
     }
-
-    public function getDatenaiss(): ?\DateTimeInterface
+    
+    public function getDatenaiss() : ?\DateTimeInterface
     {
         return $this->datenaiss;
     }
@@ -130,19 +129,17 @@ class Client
 
         return $this;
     }
-
-    
-
-    public function setUsername(?Compte $username): self
+    public function setUsername(string $username): self
     {
         $this->username = $username;
 
         return $this;
     }
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
 
     
-
-    
-
 
 }

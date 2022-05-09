@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class CompteType extends AbstractType
@@ -15,22 +16,22 @@ class CompteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom')
-            ->add('prenom')
+            
+            ->add('Nom')
+            ->add('Prenom')
             ->add('mail')
-            ->add('password' , PasswordType::class)
-            ->add('confirm_password' , PasswordType::class)
-            ->add('role', ChoiceType::class, array(
-                'label' => 'Role',
-                'choices' => array(
-                    'Client' => 'Client',
-                    'Presse' => 'Presse',
-                    'Sponsor' => 'Sponsor',
-                    'Realisateur' => 'Realisateur',
-                ),
-                'placeholder' => 'Choisir un Role'
-            ))
-            ->add('image', FileType::class)
+            ->add('password', PasswordType::class)
+            ->add('confirm_password', PasswordType::class)
+            ->add('roles',ChoiceType::class,['choices'=> 
+            ['Sponsor'=>'ROLE_SPONSOR','Administrateur'=>'ROLE_ADMIN','presse'=>'ROLE_PRESSE','Realisateur'=>'ROLE_REALISATEUR','Client'=>'ROLE_CLIENT']
+        ,'multiple'=>true,'expanded'=>true,'label'=>'Roles'
+    ])
+            ->add('image', FileType::class,[
+                'label' => "insérer une image",
+                'data_class'=> null,
+                'mapped' => true,
+                'required' => false])
+            ->add('Valider',SubmitType::class )
         ;
     }
 

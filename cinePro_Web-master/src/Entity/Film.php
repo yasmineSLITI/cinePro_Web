@@ -68,7 +68,7 @@ class Film
      *
      * @ORM\Column(name="dateDispo", type="datetime", nullable=false)
      */
-    private $datedispo;
+    private $datedispo ;
 
     /**
      * @var int
@@ -195,10 +195,6 @@ class Film
         $this->numrea = $numrea;
 
         return $this;
-    }
-    public function __construct()
-    {
-        $this->datedispo=new \DateTime();
     }
 
 

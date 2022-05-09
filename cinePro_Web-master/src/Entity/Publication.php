@@ -139,9 +139,6 @@ class Publication
 
         return $this;
     }
-    public function __construct()
-    {
-        $this->datecreationpub=new \DateTime();
-    }
+
 
 }
