@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * Reservation
  *
@@ -18,6 +20,7 @@ class Reservation
      * @ORM\Column(name="idRes", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $idres;
 
@@ -28,11 +31,12 @@ class Reservation
      *
      * 
      * @Assert\Choice({"Film", "Evénement"})
+     * @Groups("post:read")
      *
      *
      * 
      */
-    
+
     private $categorie;
 
     /**
@@ -43,8 +47,9 @@ class Reservation
      * @Assert\Positive(
      * message="le nombre de place doit etre positive"
      * )
+     *  @Groups("post:read")
      */
-    
+
     private $nbplace;
 
     /**
@@ -54,6 +59,7 @@ class Reservation
      * 
      * 
      * @Assert\NotNull(message="ne doit étre pas null")
+     * @Groups("post:read")
      */
     private $datedeb = '';
 
@@ -62,6 +68,7 @@ class Reservation
      *
      * @ORM\Column(name="DateFin", type="string", length=255, nullable=true, options={"default"=""})
      * * @Assert\NotNull(message="ne doit étre pas null")
+     * @Groups("post:read")
      */
     private $datefin = '';
 
@@ -72,6 +79,7 @@ class Reservation
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idEv", referencedColumnName="IdEv",nullable=true)
      * })
+     * @Groups("post:read")
      */
     private $idev;
 
@@ -81,6 +89,7 @@ class Reservation
      * @ORM\ManyToOne(targetEntity="Film")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idF", referencedColumnName="idF")
+     * @Groups("post:read")
      * })
      */
     private $idf;
@@ -91,6 +100,7 @@ class Reservation
      * @ORM\ManyToOne(targetEntity="Salle")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idSa", referencedColumnName="idSa")
+     * @Groups("post:read")
      * })
      */
     private $idsa;
@@ -116,7 +126,7 @@ class Reservation
     {
         return $this->nbplace;
     }
-    
+
     public function setNbplace(int $nbplace): self
     {
         $this->nbplace = $nbplace;
@@ -183,6 +193,4 @@ class Reservation
 
         return $this;
     }
-
-
 }

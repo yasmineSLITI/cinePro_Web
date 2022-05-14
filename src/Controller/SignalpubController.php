@@ -26,21 +26,18 @@ class SignalpubController extends AbstractController
         $signal = new Signale();
 
         $signal->setIdpub($this->getDoctrine()->getRepository(Publication::class)->find($idp));
-        $signal->setIdclient($this->getDoctrine()->getRepository(Client::class)->find(4));
+        $signal->setIdclient($this->getDoctrine()->getRepository(Client::class)->find(1));
 
-        $somme = $SignaleRepo->sumSig();
+        $somme = $SignaleRepo->SommeSignal($idp);
         $entityManager = $this->getDoctrine()->getManager();
 
         $entityManager->persist($signal);
         $entityManager->flush();
 
-        foreach ($somme as $sum) {
-
-
-            if ($sum >= 4) {
-
-                $som = $SignaleRepo->findOneBySomeField();
-            }
+        if ($somme > 4) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($this->getDoctrine()->getRepository(Publication::class)->find($idp));
+            $em->flush();
         }
 
         return $this->redirectToRoute('publicationClient');

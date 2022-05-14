@@ -24,56 +24,67 @@ class PublicationRepository extends ServiceEntityRepository
     // /**
     //  * @return Publication[] Returns an array of Publication objects
     //  */
-    
+
 
     public function findByArchive()
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.archive = :archive')
             ->setParameter('archive', 1)
-            
+
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
     public function findByArch()
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.archive = :archive')
             ->setParameter('archive', 0)
-            
+
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    
+
     public function filterbydate($Date)
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
 
-        $qb->select( 'e' )
-            ->from( 'App\Entity\Publication',  'e' )
+        $qb->select('e')
+            ->from('App\Entity\Publication',  'e')
             ->setParameter('date', $Date)
             ->orderBy('e.datecreationpub', 'ASC')
             ->getQuery()
             ->getResult();
     }
 
-    public function findOneBySomeField()
+    /*public function findOneBynbresignal($value)
     {
         $qb  = $this->_em->createQueryBuilder();
         $qb2 = $qb;
         $qb2->select('s.idpub')
-                ->from('App\Entity\Signale', 'ms');
-        
-            $qb  = $this->_em->createQueryBuilder();
-            $qb->delete('App\Entity\Publication', 's')
-                
-                ->where($qb->expr()->In('s.idpub', $qb2->getDQL())
+            ->from('App\Entity\Signale', 's');
+
+        $qb  = $this->_em->createQueryBuilder();
+        $qb->delete('App\Entity\Publication', 'p')
+
+            ->where(
+                $qb->expr()->In('p.idpub', $qb2->getDQL())
             );
-            $query  = $qb->getQuery();
-            return $query->getResult();
-        
+        $query  = $qb->getQuery();
+        return $query->getResult();
+    }*/
+
+    public function deletePublication($value)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'DELETE FROM publication
+             WHERE publication.idPub  
+             IN (SELECT idPub FROM signal WHERE SUM(nbreSignal)>5 GROUP BY (idPub) )'
+        )->setParameter('', $value);
+
+        // returns an array of Product objects
+        return $query->getResult();
     }
 }
-

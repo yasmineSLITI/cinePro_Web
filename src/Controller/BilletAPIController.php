@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Film;
 use App\Entity\Billet;
 use App\Entity\Client;
 use App\Services\QrcodeService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -221,5 +223,44 @@ class BilletAPIController extends AbstractController
         );
     }
 
-    
+
+    /**
+     * @Route("/billet/archiver", name="api_archiver_billet")
+     */
+
+
+    public function archiver(NormalizerInterface $Normalizer): Response
+    {
+        $BilletRepo = $this->getDoctrine()->getRepository(Billet::class);
+        $listBillet = $BilletRepo->findAll();
+
+        foreach ($listBillet as $billet) {
+
+            //CreatedOn Datetime
+            $createdOn = $billet->getCreatedOn();
+            $day_CreatedOn = (int)$createdOn->format("d");
+
+            //Current Date
+            $now = new DateTime();
+            $nowFormat = $now->format('Y-m-d H:i:s');
+            $currentDate = $now->getTimestamp();
+            $currentDateday = date('d', $currentDate);
+
+            if ($currentDateday - $day_CreatedOn > 7) {
+
+                $billet->setArchived(true);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($billet);
+                $em->flush();
+                return new Response(
+                    "{\"response\": \"{$billet->getIdbillet()} archieved.\"}",
+                    200,
+                    [
+                        'Accept' => 'application/json',
+                        'Content-Type' => 'application/json'
+                    ]
+                );
+            }
+        }
+    }
 }

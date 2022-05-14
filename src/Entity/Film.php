@@ -4,12 +4,14 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Film
  *
  * @ORM\Table(name="film", indexes={@ORM\Index(name="FK400", columns={"NumRea"})})
  * @ORM\Entity
+ * 
  */
 class Film
 {
@@ -19,6 +21,7 @@ class Film
      * @ORM\Column(name="idF", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $idf;
 
@@ -26,6 +29,7 @@ class Film
      * @var string
      *@Assert\Length(min=5,max=255)
      * @ORM\Column(name="nomF", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $nomf;
 
@@ -34,6 +38,7 @@ class Film
      *
      * @ORM\Column(name="Genre", type="string", length=255, nullable=false)
      * @Assert\NotNull(message="ne doit étre pas null")
+     * @Groups("post:read")
      */
     private $genre;
 
@@ -41,6 +46,7 @@ class Film
      * @var bool
      *
      * @ORM\Column(name="Archive", type="boolean", nullable=false)
+     * @Groups("post:read")
      */
     private $archive = '0';
 
@@ -48,6 +54,7 @@ class Film
      * @var string
      *
      * @ORM\Column(name="EtatAcc", type="string", length=255, nullable=false, options={"default"="'en attente'"})
+     * @Groups("post:read")
      */
     private $etatacc = '\'en attente\'';
 
@@ -56,6 +63,7 @@ class Film
      *
      
      * @ORM\Column(name="Image", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $image;
 
@@ -64,6 +72,7 @@ class Film
      * @Assert\Length(min=10,max=255)
      *@Assert\NotBlank(message="Doit étre remplis")
      * @ORM\Column(name="Description", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      * 
      */
     private $description;
@@ -72,6 +81,7 @@ class Film
      * @var \DateTime
      *
      * @ORM\Column(name="dateDispo", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @Groups("post:read")
      */
     private $datedispo;
 
@@ -80,6 +90,7 @@ class Film
      *
      * @ORM\Column(name="duree", type="integer", nullable=false)
      * @Assert\Range(min=45,max=250)
+     * @Groups("post:read")
      */
     private $duree;
 
@@ -89,7 +100,9 @@ class Film
      * @ORM\ManyToOne(targetEntity="Realisateur")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="NumRea", referencedColumnName="NumRea")
+     * 
      * })
+     * @Groups("post:read")
      */
     private $numrea;
 
@@ -169,20 +182,20 @@ class Film
 
         return $this;
     }
-    
+
 
     public function getDatedispo(): ?\dateTimeInterface
     {
         return $this->datedispo;
     }
 
-  
+
     public function setDatedispo(\DateTimeInterface $datedispo): self
     {
         $date = new \DateTime();
         $this->datedispo = $date->getDatedispo();
         return $this;
-    } 
+    }
 
     public function getDuree(): ?int
     {
@@ -207,8 +220,8 @@ class Film
 
         return $this;
     }
-    public function __toString() {
+    public function __toString()
+    {
         return $this->idf;
     }
-
 }

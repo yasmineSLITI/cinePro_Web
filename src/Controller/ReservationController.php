@@ -3,14 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Reservation;
+use App\Entity\Salle;
+use App\Entity\Film;
+use App\Entity\Evenement;
 use App\Form\ReservationType;
 use App\Repository\ReservationRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ReservationController extends AbstractController
 {
@@ -104,5 +108,48 @@ class ReservationController extends AbstractController
         return $this->render('reservation/Modifier.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+    /**
+     * @param ReservationRepository $repo
+     * @return \Symphony\Component\HttpFoundation\Response
+     * @Route("/AfficheRes/json", name="app_Resjson")
+     */
+    public function Affichejson()
+    {
+        $repo = $this->getDoctrine()->getRepository(Film::class);
+        $reservation = $repo->findAll();
+        $qb = $this->getDoctrine()->getManager()->createQuery('select s from App\Entity\Reservation s ');
+        $reservation = $qb->getArrayResult();
+        $response = new Response(json_encode($reservation));
+        return $response;
+    }
+
+
+
+    /**
+     * @Route("reservation/Ajouter/json", name="")
+     */
+    public function addjson(Request $request, NormalizerInterface $Normalizer)
+    {
+        $reservation = new reservation();
+
+
+        $em = $this->getDoctrine()->getManager();
+        $reservation->setCategorie($request->get('categorie'));
+
+        $reservation->setIdev($this->getDoctrine()->getRepository(Evenement::class)->find($request->get('idev')));
+        $reservation->setIdf($this->getDoctrine()->getRepository(Film::class)->find($request->get("idf")));
+        $reservation->setNbplace($request->get('nbplace'));
+        $reservation->setDatedeb($request->get('datedeb'));
+        $reservation->setDatefin($request->get('datefin'));
+        $reservation->setIdsa($this->getDoctrine()->getRepository(Salle::class)->find($request->get('idsa')));
+
+
+        $em->persist($reservation);
+        $em->flush();
+        $qb = $this->getDoctrine()->getManager()->createQuery('select s from App\Entity\Reservation s where s.idres = :v1')->setParameter('v1', $reservation->getIdres());
+        $reservation = $qb->getArrayResult();
+        $response = new Response(json_encode($reservation));
+        return $response;
     }
 }

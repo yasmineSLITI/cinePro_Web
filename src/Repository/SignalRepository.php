@@ -23,17 +23,31 @@ class SignalRepository extends ServiceEntityRepository
     // /**
     //  * @return Publication[] Returns an array of Classeroom objects
     //  */
-    
+
     public function sumSig()
     {
         return $this->createQueryBuilder('s')
             ->select('SUM(s.nbresignal) as somme')
             ->groupBy('s.idpub')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    
+
+    public function SommeSignal($value)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT SUM(Signale.nbresignal) 
+            FROM App\Entity\Signale Signale
+            WHERE Signale.idpub =:status
+            GROUP BY Signale.idpub'
+        )->setParameter('status', $value);
+
+        // returns an array of Product objects
+        return $query->getSingleScalarResult();
+    }
+
 
     /*
     public function findOneBySomeField($value): ?Classeroom
@@ -46,7 +60,4 @@ class SignalRepository extends ServiceEntityRepository
         ;
     }
     */
-
-    
-    
 }

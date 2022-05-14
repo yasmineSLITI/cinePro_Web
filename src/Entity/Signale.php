@@ -9,7 +9,7 @@ use App\Repository\SignalRepository;
  * Signale
  *
  * @ORM\Table(name="signale", indexes={@ORM\Index(name="FK517", columns={"idClient"}), @ORM\Index(name="FK520", columns={"idPub"})})
-  * @ORM\Entity(repositoryClass = SignalRepository::class)
+ * @ORM\Entity(repositoryClass = SignalRepository::class)
 
  */
 class Signale
@@ -35,7 +35,7 @@ class Signale
      *
      * @ORM\ManyToOne(targetEntity="Client")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idClient", referencedColumnName="idC")
+     *   @ORM\JoinColumn(name="idClient", referencedColumnName="idClient")
      * })
      */
     private $idclient;
@@ -67,7 +67,7 @@ class Signale
         return $this;
     }
 
-    public function getIdclient(): ?Client
+    public function getIdclient()
     {
         return $this->idclient;
     }
@@ -79,7 +79,7 @@ class Signale
         return $this;
     }
 
-    public function getIdpub(): ?Publication
+    public function getIdpub()
     {
         return $this->idpub;
     }
@@ -90,6 +90,4 @@ class Signale
 
         return $this;
     }
-
-
 }

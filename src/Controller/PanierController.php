@@ -174,4 +174,16 @@ class PanierController extends AbstractController
         $jsonContent = $Normalizer->normalize($listec, 'json', ['groups' => 'post:read']);
         return new Response(json_encode($jsonContent));
     }
+
+    /**
+     * @Route("/supprimerPanier", name="supprimerPanier")
+     */
+    public function supprimerPanier(NormalizerInterface $Normalizer)
+    {
+        $listesup = $this->getDoctrine()->getRepository(Panier::class)
+            ->viderPnier();
+
+        $jsonContent = $Normalizer->normalize($listesup, 'json', ['groups' => 'post:read']);
+        return new Response("panier supprimé avec succés" . json_encode($jsonContent));
+    }
 }
